@@ -542,6 +542,57 @@ textarea:focus {
     }
 }
 
+/* Setup Wizard */
+#setup-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.setup-container {
+    background-color: var(--bg-secondary);
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px var(--shadow-color);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.setup-container .logo {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.setup-container h1 {
+    color: var(--text-primary);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.setup-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    background-color: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+}
+
+.setup-footer p {
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+}
+
+.setup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 /* Guest Review Styles */
 .guest-review-form {
     max-width: 600px;

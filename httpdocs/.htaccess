@@ -39,3 +39,9 @@ ErrorDocument 500 /index.html
     php_value max_execution_time 300
     php_value max_input_time 300
 </IfModule>
+
+# Fix Authorization header for Windows/Apache
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>

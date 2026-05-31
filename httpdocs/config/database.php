@@ -1,11 +1,10 @@
-# Nexus 4D - Database Configuration
-
-# Database connection settings
-# For production, update these values
-
 <?php
 
 declare(strict_types=1);
+
+// Nexus 4D - Database Configuration
+// Database connection settings
+// For production, update these values
 
 $host = getenv('DB_HOST') ?: 'db';
 $dbname = getenv('DB_NAME') ?: 'nexusData';
@@ -25,7 +24,5 @@ try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (PDOException $e) {
     error_log('Database connection failed: ' . $e->getMessage());
-    http_response_code(503);
-    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
-    exit();
+    throw new Exception('Database connection failed: ' . $e->getMessage());
 }

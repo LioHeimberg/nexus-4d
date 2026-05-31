@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 session_start();
 
 header('Content-Type: application/json');
@@ -14,18 +17,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/auth.php';
-
-$response = ['success' => false, 'message' => ''];
-
 try {
+    require_once __DIR__ . '/../config/database.php';
+    require_once __DIR__ . '/auth.php';
+    
     $input = json_decode(file_get_contents('php://input'), true);
     
     if (!isset($input['email']) || !isset($input['password'])) {
         http_response_code(400);
-        $response['message'] = 'Email and password are required';
-        echo json_encode($response);
+        echo json_encode(['success' => false, 'message' => 'Email and password are required']);
         exit();
     }
     
@@ -38,8 +38,7 @@ try {
     
     if (!$user || !password_verify($password, $user['password_hash'])) {
         http_response_code(401);
-        $response['message'] = 'Invalid email or password';
-        echo json_encode($response);
+        echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
         exit();
     }
     
@@ -51,18 +50,16 @@ try {
     
     unset($user['password_hash']);
     
-    $response = [
+    echo json_encode([
         'success' => true,
         'message' => 'Login successful',
         'user' => $user,
         'token' => $token,
         'expires_at' => $expiresAt
-    ];
-    
-    echo json_encode($response);
+    ]);
     
 } catch (Exception $e) {
     http_response_code(500);
-    $response['message'] = 'Server error: ' . $e->getMessage();
-    echo json_encode($response);
+    error_log('Error in login.php: ' . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => 'Server error: ' . $e->getMessage()]);
 }

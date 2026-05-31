@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-session_start();
-
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
@@ -14,8 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/auth.php';
+require_once __DIR__ . '/auth.php';
+
+$pdo = getPDO();
 
 $response = ['success' => false, 'message' => ''];
 

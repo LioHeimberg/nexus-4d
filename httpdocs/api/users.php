@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-session_start();
-
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, OPTIONS');
@@ -14,12 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/auth.php';
-
-$response = ['success' => false, 'message' => '', 'users' => []];
-
 try {
+    
+    require_once __DIR__ . '/auth.php';
+    
+    $pdo = getPDO();
     $session = requireRoles(['admin', 'boss']);
     
     $stmt = $pdo->prepare('SELECT id, email, role, first_name, last_name, created_at FROM users ORDER BY created_at DESC');
@@ -39,7 +36,12 @@ try {
     echo json_encode($response);
     
 } catch (Exception $e) {
-    http_response_code(500);
-    $response['message'] = 'Server error: ' . $e->getMessage();
-    echo json_encode($response);
+    if ($e->getMessage() === 'Unauthorized' || $e->getMessage() === 'No token provided') {
+        http_response_code(401);
+    } elseif ($e->getMessage() === 'Forbidden') {
+        http_response_code(403);
+    } else {
+        http_response_code(500);
+    }
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }

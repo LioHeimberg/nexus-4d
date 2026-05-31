@@ -6,6 +6,7 @@ services:
       - 8080:80
     environment:
       - ENV=dev
+      - APACHE_MODULES=rewrite headers
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - ./httpdocs:/app:ro

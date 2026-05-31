@@ -9,6 +9,50 @@
 </head>
 <body>
     <div id="app">
+        <!-- Setup Wizard (shown if no admin exists) -->
+        <div id="setup-page" class="page">
+            <div class="setup-container">
+                <div class="logo">
+                    <span class="letter" style="--color: #2e63a8">R</span>
+                    <span class="letter" style="--color: #30a3db">O</span>
+                    <span class="letter" style="--color: #3eb074">K</span>
+                    <span class="letter" style="--color: #ecd057">J</span>
+                    <span class="letter" style="--color: #eb576b">A</span>
+                    <span class="colon">:</span>
+                    <span class="four-d">4D</span>
+                </div>
+                <h1>Setup Wizard</h1>
+                <p class="subtitle">Create your admin account</p>
+                
+                <form id="setup-form" class="setup-form">
+                    <div class="form-group">
+                        <label for="admin-email">E-Mail</label>
+                        <input type="email" id="admin-email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin-password">Passwort</label>
+                        <input type="password" id="admin-password" name="password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin-firstname">Vorname</label>
+                        <input type="text" id="admin-firstname" name="first_name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin-lastname">Nachname</label>
+                        <input type="text" id="admin-lastname" name="last_name" required>
+                    </div>
+                    
+                    <div id="setup-error-message" class="error-message"></div>
+                    
+                    <button type="submit" class="btn-primary">Admin erstellen & Login</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Login Page -->
         <!-- Login Page -->
         <div id="login-page" class="page active">
             <div class="login-container">
@@ -50,6 +94,11 @@
                     <p>© 2025 ROKJA:4D | Wünnewil-Flamatt | Schmitten | Ueberstorf</p>
                 </div>
             </div>
+        </div>
+
+        <!-- Setup Footer -->
+        <div class="setup-footer">
+            <p>© 2025 ROKJA:4D | Wünnewil-Flamatt | Schmitten | Ueberstorf</p>
         </div>
 
         <!-- Dashboard Container (hidden by default) -->

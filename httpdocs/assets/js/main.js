@@ -27,6 +27,34 @@ const ThemeManager = {
 };
 
 const AuthManager = {
+    async setupAdmin(email, password, firstName, lastName) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/setup.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password, first_name: firstName, last_name: lastName })
+            });
+            
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.message || 'Setup failed');
+            }
+            
+            AppState.user = data.user;
+            AppState.token = data.token;
+            
+            localStorage.setItem('nexus4d_token', data.token);
+            localStorage.setItem('nexus4d_user', JSON.stringify(data.user));
+            
+            return data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    
     async login(email, password) {
         try {
             const response = await fetch(`${API_BASE_URL}/login.php`, {
@@ -158,7 +186,10 @@ const ApiClient = {
             
             if (!response.ok) {
                 if (response.status === 401) {
-                    await AuthManager.checkAuth();
+                    const authSuccess = await AuthManager.checkAuth();
+                    if (authSuccess) {
+                        return await this.request(endpoint, options);
+                    }
                     throw new Error(data.message || 'Unauthorized');
                 }
                 throw new Error(data.message || 'Request failed');
@@ -215,13 +246,36 @@ const App = {
         if (await AuthManager.checkAuth()) {
             this.showDashboard();
         } else {
-            this.showLogin();
+            const adminExists = await this.checkAdminExists();
+            if (adminExists) {
+                this.showLogin();
+            } else {
+                this.showSetup();
+            }
         }
         
         this.setupEventListeners();
     },
     
+    async checkAdminExists() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/check_admin.php`);
+            const data = await response.json();
+            return data.admin_exists;
+        } catch (error) {
+            return false;
+        }
+    },
+    
+    async showSetup() {
+        document.getElementById('setup-page').classList.add('active');
+        document.getElementById('login-page').classList.add('hidden');
+        document.getElementById('dashboard').classList.add('hidden');
+        Notification.hide();
+    },
+    
     async showLogin() {
+        document.getElementById('setup-page').classList.add('hidden');
         document.getElementById('login-page').classList.add('active');
         document.getElementById('dashboard').classList.add('hidden');
         Notification.hide();
@@ -344,6 +398,23 @@ const App = {
         document.getElementById('logout-btn').addEventListener('click', async () => {
             await AuthManager.logout();
             this.showLogin();
+        });
+        
+        document.getElementById('setup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+            const firstName = document.getElementById('admin-firstname').value;
+            const lastName = document.getElementById('admin-lastname').value;
+            
+            try {
+                await AuthManager.setupAdmin(email, password, firstName, lastName);
+                this.showDashboard();
+                Notification.hide();
+            } catch (error) {
+                Notification.show(error.message, 'error');
+            }
         });
     },
     

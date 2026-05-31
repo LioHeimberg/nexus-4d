@@ -4,14 +4,14 @@ A web-based management system for JugendTeam members with review tracking, event
 
 ## Features
 
-- 📊 **Dashboard**: Role-specific dashboards for Admin, Boss, and Member accounts
-- 🌙 **Dark Mode**: Toggle between light and dark themes
-- 📝 **Review System**: Track customer feedback with star ratings
-- 📅 **Event Management**: Create, manage, and vote on events
-- 👥 **User Management**: Full control over user accounts
-- 🏪 **Bar Management**: Track Rümli bar locations
-- 📈 **Statistics**: View member performance metrics
-- 👤 **Guest Reviews**: Submit reviews without login
+- **Dashboard**: Role-specific dashboards for Admin, Boss, and Member accounts
+- **Dark Mode**: Toggle between light and dark themes
+- **Review System**: Track customer feedback with star ratings
+- **Event Management**: Create, manage, and vote on events
+- **User Management**: Full control over user accounts
+- **Bar Management**: Track Rümli bar locations
+- **Statistics**: View member performance metrics
+- **Guest Reviews**: Submit reviews without login
 
 ## Quick Start
 
@@ -32,11 +32,6 @@ docker-compose up -d
 # Wait for database initialization
 # Access the app at http://localhost:8080
 ```
-
-### Default Credentials
-
-- **Email**: `admin@nexus4d.ch`
-- **Password**: `admin123`
 
 ## User Roles
 
