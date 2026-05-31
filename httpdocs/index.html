@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus 4D</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>N4D</text></svg>">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Page -->
+        <div id="login-page" class="page active">
+            <div class="login-container">
+                <div class="logo">
+                    <span class="letter" style="--color: #2e63a8">R</span>
+                    <span class="letter" style="--color: #30a3db">O</span>
+                    <span class="letter" style="--color: #3eb074">K</span>
+                    <span class="letter" style="--color: #ecd057">J</span>
+                    <span class="letter" style="--color: #eb576b">A</span>
+                    <span class="colon">:</span>
+                    <span class="four-d">4D</span>
+                </div>
+                <h1>Nexus 4D</h1>
+                <p class="subtitle">Regionale Offene Kinder- und Jugendarbeit</p>
+                
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="email">E-Mail</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Passwort</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    
+                    <div id="error-message" class="error-message"></div>
+                    
+                    <button type="submit" class="btn-primary">Anmelden</button>
+                    
+                    <div class="theme-toggle">
+                        <button type="button" id="theme-toggle" aria-label="Theme umschalten">
+                            <span id="theme-icon">☀</span>
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="footer">
+                    <p>© 2025 ROKJA:4D | Wünnewil-Flamatt | Schmitten | Ueberstorf</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Container (hidden by default) -->
+        <div id="dashboard" class="dashboard hidden">
+            <header class="dashboard-header">
+                <div class="logo">
+                    <span class="letter" style="--color: #2e63a8">R</span>
+                    <span class="letter" style="--color: #30a3db">O</span>
+                    <span class="letter" style="--color: #3eb074">K</span>
+                    <span class="letter" style="--color: #ecd057">J</span>
+                    <span class="letter" style="--color: #eb576b">A</span>
+                    <span class="colon">:</span>
+                    <span class="four-d">4D</span>
+                </div>
+                <nav class="main-nav">
+                    <ul id="nav-menu"></ul>
+                </nav>
+                <div class="header-actions">
+                    <div class="user-info">
+                        <span id="user-name"></span>
+                        <span id="user-role" class="role-badge"></span>
+                    </div>
+                    <button type="button" id="logout-btn" class="btn-secondary">Abmelden</button>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <!-- Dynamic content will be loaded here -->
+                <div id="content-area"></div>
+            </main>
+        </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "enabled_providers": ["heimnet-ai"],
+  "model": "heimnet-ai/qwen/qwen3-coder-next",
+  "small_model": "heimnet-ai/qwen/qwen3-4b-instruct-2507",
+  "default_agent": "plan",
+
+  "permission": {
+    "*": "ask",
+    "read": "allow",
+    "glob": "allow",
+    "grep": "allow",
+    "list": "allow",
+    "edit": "allow",
+    "todowrite": "allow",
+    "task": "allow",
+    "webfetch": "allow",
+    "bash": {
+      "*": "ask",
+      "git *": "allow",
+      "find *": "allow",
+      "grep *": "allow",
+      "php-cs-fixer": "allow",
+      "docker compose *": "allow"
+    }
+  },
+  "provider": {
+    "heimnet-ai": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Heimnet AI",
+      "options": {
+        "baseURL": "http://llm.ai.heimnet.ch/v1"
+      },
+      "models": {
+        "qwen/qwen3-4b-instruct-2507": {
+          "name": "Qwen3 4B Instruct 2507"
+        },
+        "qwen/qwen3-next-80b-a3b-instruct": {
+          "name": "Qwen3 Next 80B A3B Instruct"
+        },
+        "qwen/qwen3-coder-next": {
+          "name": "Qwen3 Coder Next"
+        }
+      }
+    }
+  }
+}

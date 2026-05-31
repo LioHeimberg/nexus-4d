@@ -1,0 +1,67 @@
+services:
+  apache:
+    image: webdevops/php-apache-dev:8.5-alpine
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    environment:
+      - ENV=dev
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - ./httpdocs:/app:ro
+    depends_on:
+      db:
+        condition: service_healthy
+      maildev:
+        condition: service_healthy
+
+  db:
+    image: mariadb
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: root#123
+      MARIADB_DATABASE: nexusData
+      MARIADB_USER: dev
+      MARIADB_PASSWORD: dev#123
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - ./initdb.d:/docker-entrypoint-initdb.d/:ro
+      - db_data:/var/lib/mysql:rw
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8081:8080
+    environment:
+      ADMINER_PLUGINS: config
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+    depends_on:
+      db:
+        condition: service_healthy
+  
+  maildev:
+    image: maildev/maildev
+    restart: unless-stopped
+    ports:
+      - 1080:1080
+      - 1025:1025
+    environment:
+      MAILDEV_WEB_USER: maildev
+      MAILDEV_WEB_PASS: maildev#123
+      MAILDEV_INCOMING_USER: nexus@localhost.localhost
+      MAILDEV_INCOMING_PASS: nexus#123
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+
+volumes:
+  db_data:
