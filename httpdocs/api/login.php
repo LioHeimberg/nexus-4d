@@ -5,7 +5,8 @@ declare(strict_types=1);
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-session_start();
+// Remove session_start() - we're using JWT tokens in localStorage as required
+// session_start();
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');

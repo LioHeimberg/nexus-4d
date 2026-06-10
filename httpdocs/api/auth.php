@@ -5,21 +5,30 @@ declare(strict_types=1);
 function getTokenFromHeader(): string {
     $authorization = '';
     
-    if (function_exists('apache_request_headers')) {
-        $headers = apache_request_headers();
-        $headersLower = array_change_key_case($headers, CASE_LOWER);
-        $authorization = $headersLower['authorization'] ?? '';
+    // Try to get Authorization header from server variables first (most reliable)
+    if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+        $authorization = $_SERVER['HTTP_AUTHORIZATION'];
     }
     
-    if (empty($authorization) && isset($_SERVER['HTTP_AUTHORIZATION'])) {
-        $authorization = $_SERVER['HTTP_AUTHORIZATION'];
+    // Fallback: Try apache_request_headers() if available
+    if (empty($authorization) && function_exists('apache_request_headers')) {
+        $headers = apache_request_headers();
+        if (is_array($headers)) {
+            $headersLower = array_change_key_case($headers, CASE_LOWER);
+            $authorization = $headersLower['authorization'] ?? '';
+        }
+    }
+    
+    // Check for Authorization header in other possible formats
+    if (empty($authorization) && isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+        $authorization = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
     }
     
     if (empty($authorization)) {
         throw new Exception('No token provided');
     }
     
-    if (preg_match('/bearer\s+(.+)$/', $authorization, $matches)) {
+    if (preg_match('/bearer\s+(.+)$/i', $authorization, $matches)) {
         return trim($matches[1]);
     }
     

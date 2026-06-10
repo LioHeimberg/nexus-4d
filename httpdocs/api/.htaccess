@@ -35,8 +35,12 @@ ErrorDocument 500 /index.html
     Header set X-XSS-Protection "1; mode=block"
 </IfModule>
 
-# Fix Authorization header for Windows/Apache
+# Fix Authorization header for Apache
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteRule ^(.*)$ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 </IfModule>
+
+
+
+

@@ -243,13 +243,22 @@ const App = {
     async init() {
         ThemeManager.init();
         
-        if (await AuthManager.checkAuth()) {
+        console.log('Checking auth...');
+        const isAuthenticated = await AuthManager.checkAuth();
+        console.log('Is authenticated:', isAuthenticated);
+        
+        if (isAuthenticated) {
+            console.log('Showing dashboard');
             this.showDashboard();
         } else {
+            console.log('Not authenticated, checking admin');
             const adminExists = await this.checkAdminExists();
+            console.log('Admin exists:', adminExists);
             if (adminExists) {
+                console.log('Showing login');
                 this.showLogin();
             } else {
+                console.log('Showing setup');
                 this.showSetup();
             }
         }
@@ -268,22 +277,40 @@ const App = {
     },
     
     async showSetup() {
+        document.getElementById('setup-page').classList.remove('hidden');
         document.getElementById('setup-page').classList.add('active');
         document.getElementById('login-page').classList.add('hidden');
         document.getElementById('dashboard').classList.add('hidden');
+        document.body.classList.remove('dashboard-active');
         Notification.hide();
     },
     
     async showLogin() {
         document.getElementById('setup-page').classList.add('hidden');
+        document.getElementById('login-page').classList.remove('hidden');
         document.getElementById('login-page').classList.add('active');
         document.getElementById('dashboard').classList.add('hidden');
+        document.body.classList.remove('dashboard-active');
         Notification.hide();
     },
     
     async showDashboard() {
-        document.getElementById('login-page').classList.remove('active');
-        document.getElementById('dashboard').classList.remove('hidden');
+        console.log('showDashboard called');
+        const setupPage = document.getElementById('setup-page');
+        const loginPage = document.getElementById('login-page');
+        const dashboard = document.getElementById('dashboard');
+        console.log('Setup page:', setupPage, 'hidden class:', setupPage.classList.contains('hidden'));
+        console.log('Login page:', loginPage, 'hidden class:', loginPage.classList.contains('hidden'));
+        console.log('Dashboard:', dashboard, 'hidden class:', dashboard.classList.contains('hidden'));
+        
+        setupPage.classList.add('hidden');
+        loginPage.classList.add('hidden');
+        dashboard.classList.remove('hidden');
+        document.body.classList.add('dashboard-active');
+        
+        console.log('After - Setup page hidden:', setupPage.classList.contains('hidden'));
+        console.log('After - Login page hidden:', loginPage.classList.contains('hidden'));
+        console.log('After - Dashboard hidden:', dashboard.classList.contains('hidden'));
         
         const user = AuthManager.getUser();
         document.getElementById('user-name').textContent = `${user.first_name} ${user.last_name}`;

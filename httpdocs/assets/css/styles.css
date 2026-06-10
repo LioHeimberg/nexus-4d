@@ -60,15 +60,19 @@ body {
     line-height: 1.6;
     min-height: 100vh;
     transition: background-color 0.3s, color 0.3s;
+    overflow-x: hidden;
 }
 
-/* Utility Classes */
-.hidden {
-    display: none !important;
+body.dashboard-active {
+    overflow: hidden;
 }
 
 .active {
     display: block !important;
+}
+
+.hidden {
+    display: none !important;
 }
 
 /* Logo */
@@ -173,6 +177,7 @@ body {
     width: 100%;
     max-width: 400px;
     text-align: center;
+    margin: 0 auto;
 }
 
 .login-container .logo {
@@ -559,6 +564,7 @@ textarea:focus {
     width: 100%;
     max-width: 450px;
     text-align: center;
+    margin: 0 auto;
 }
 
 .setup-container .logo {
