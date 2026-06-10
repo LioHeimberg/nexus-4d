@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/auth.php';
+require_once __DIR__ . '/auth.php';
 
 $response = ['success' => false, 'message' => '', 'events' => []];
 

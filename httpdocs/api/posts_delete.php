@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/auth.php';
+require_once __DIR__ . '/auth.php';
 
 $response = ['success' => false, 'message' => ''];
 
@@ -54,7 +54,12 @@ try {
     echo json_encode($response);
     
 } catch (Exception $e) {
-    http_response_code(500);
-    $response['message'] = 'Server error: ' . $e->getMessage();
-    echo json_encode($response);
-}
+        if ($e->getMessage() === 'Unauthorized' || $e->getMessage() === 'No token provided') {
+            http_response_code(401);
+        } elseif ($e->getMessage() === 'Forbidden') {
+            http_response_code(403);
+        } else {
+            http_response_code(500);
+        }
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    }

@@ -15,21 +15,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/auth.php';
+require_once __DIR__ . '/auth.php';
 
 $response = ['success' => false, 'message' => '', 'events' => []];
 
 try {
     $session = requireRoles(['admin', 'boss', 'member']);
     
-    $stmt = $pdo->prepare('SELECT e.id, e.title, e.description, e.event_date, e.location, 
+    $stmt = $pdo->prepare("SELECT e.id, e.title, e.description, e.event_date, e.location, 
         u.first_name, u.last_name,
         (SELECT COUNT(*) FROM event_participation ep WHERE ep.event_id = e.id AND ep.status = 'yes') as yes_count,
         (SELECT COUNT(*) FROM event_participation ep WHERE ep.event_id = e.id AND ep.status = 'maybe') as maybe_count,
         (SELECT COUNT(*) FROM event_participation ep WHERE ep.event_id = e.id AND ep.status = 'no') as no_count
         FROM events e 
         JOIN users u ON e.boss_id = u.id 
-        ORDER BY e.event_date ASC');
+        ORDER BY e.event_date ASC");
     $stmt->execute();
     $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
@@ -57,8 +57,13 @@ try {
     
     echo json_encode($response);
     
-} catch (Exception $e) {
-    http_response_code(500);
-    $response['message'] = 'Server error: ' . $e->getMessage();
-    echo json_encode($response);
-}
+   } catch (Exception $e) {
+        if ($e->getMessage() === 'Unauthorized' || $e->getMessage() === 'No token provided') {
+            http_response_code(401);
+        } elseif ($e->getMessage() === 'Forbidden') {
+            http_response_code(403);
+        } else {
+            http_response_code(500);
+        }
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    }

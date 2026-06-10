@@ -15,12 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/auth.php';
+require_once __DIR__ . '/auth.php';
 
 $response = ['success' => false, 'message' => '', 'members' => []];
 
 try {
-    $stmt = $pdo->prepare('SELECT id, first_name, last_name FROM users WHERE role = 'member' ORDER BY first_name ASC');
+    $stmt = $pdo->prepare("SELECT id, first_name, last_name FROM users WHERE role = 'member' ORDER BY first_name ASC");
     $stmt->execute();
     $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
