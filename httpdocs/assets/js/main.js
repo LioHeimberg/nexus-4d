@@ -948,6 +948,7 @@ const App = {
                         <div>
                             <label for="user-role">Role</label>
                             <select id="user-role" required>
+                                <option value="" disabled selected>Select a role</option>
                                 <option value="member">Member</option>
                                 <option value="boss">Boss</option>
                             </select>
@@ -970,21 +971,31 @@ const App = {
         
         document.body.appendChild(modal);
         
-        modal.querySelector('#add-user-form').addEventListener('submit', async (e) => {
+        const submitBtn = modal.querySelector('button[type="submit"]');
+        submitBtn.addEventListener('click', async (e) => {
             e.preventDefault();
             
-            const email = document.getElementById('user-email').value;
-            const password = document.getElementById('user-password').value;
-            const role = document.getElementById('user-role').value;
-            const firstName = document.getElementById('user-firstname').value;
-            const lastName = document.getElementById('user-lastname').value;
+            const email = modal.querySelector('#user-email').value;
+            const password = modal.querySelector('#user-password').value;
+            const role = modal.querySelector('#user-role').value;
+            const firstName = modal.querySelector('#user-firstname').value;
+            const lastName = modal.querySelector('#user-lastname').value;
+            
+            console.log('Submit clicked, data:', { email, password, role, first_name: firstName, last_name: lastName });
+            
+            if (!role || role === '') {
+                Notification.show('Please select a role', 'error');
+                return;
+            }
             
             try {
-                await ApiClient.post('users_create.php', { email, password, role, first_name: firstName, last_name: lastName });
+                const result = await ApiClient.post('users_create.php', { email, password, role, first_name: firstName, last_name: lastName });
+                console.log('User created:', result);
                 modal.classList.remove('open');
                 await this.handleNavigation('showUsers');
                 Notification.show('User created successfully');
             } catch (error) {
+                console.error('Create user error:', error);
                 Notification.show(error.message, 'error');
             }
         });
