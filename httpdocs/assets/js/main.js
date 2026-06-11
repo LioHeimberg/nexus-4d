@@ -518,43 +518,45 @@ const App = {
                 <h2 class="page-title">Events</h2>
                 <div class="card">
                     <div class="card-header">
-                        <span class="card-title">Event List</span>
+                        <span class="card-title">Event Feed</span>
+                        <button class="btn-primary" onclick="App.openEventModal()">+ Add Event</button>
                     </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Date</th>
-                                    <th>Location</th>
-                                    <th>Yes</th>
-                                    <th>Maybe</th>
-                                    <th>No</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <div class="feed-container">
             `;
             
             if (data.events.length === 0) {
-                html += `<tr><td colspan="6" class="empty-state">No events found</td></tr>`;
+                html += `<div class="empty-state">No events found</div>`;
             } else {
                 data.events.forEach(event => {
+                    const eventDate = new Date(event.event_date);
+                    const formattedDate = eventDate.toLocaleDateString('de-DE', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                    
                     html += `
-                        <tr>
-                            <td>${event.title}</td>
-                            <td>${new Date(event.event_date).toLocaleDateString()}</td>
-                            <td>${event.location}</td>
-                            <td><span class="status-yes">${event.yes_count}</span></td>
-                            <td><span class="status-maybe">${event.maybe_count}</span></td>
-                            <td><span class="status-no">${event.no_count}</span></td>
-                        </tr>
+                        <div class="feed-item">
+                            <div class="feed-header">
+                                <h3 class="feed-title">${event.title}</h3>
+                                <span class="feed-date">${formattedDate}</span>
+                            </div>
+                            <div class="feed-content">
+                                <p class="feed-location">📍 ${event.location}</p>
+                                ${event.description ? `<p class="feed-description">${event.description}</p>` : ''}
+                            </div>
+                            <div class="feed-footer">
+                                <span class="badge badge-yes">${event.yes_count} attending</span>
+                                <span class="badge badge-maybe">${event.maybe_count} maybe</span>
+                                <span class="badge badge-no">${event.no_count} not going</span>
+                            </div>
+                        </div>
                     `;
                 });
             }
             
             html += `
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             `;
@@ -576,6 +578,7 @@ const App = {
                 <div class="card">
                     <div class="card-header">
                         <span class="card-title">Posts</span>
+                        <button class="btn-primary" onclick="App.openPostModal()">+ Add Post</button>
                     </div>
                     <div class="table-container">
                         <table>
@@ -823,6 +826,7 @@ const App = {
                 <div class="card">
                     <div class="card-header">
                         <span class="card-title">Bar List</span>
+                        <button class="btn-primary" onclick="App.openBarModal()">+ Add Bar</button>
                     </div>
                     <div class="table-container">
                         <table>
@@ -1001,9 +1005,245 @@ const App = {
         });
     },
     
-    editUser(id) {
+    openEventModal() {
+        const modal = document.createElement('div');
+        modal.className = 'modal open';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add Event</h3>
+                    <button class="modal-close" onclick="this.closest('.modal').classList.remove('open')">&times;</button>
+                </div>
+                <form id="add-event-form">
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label for="event-title">Title</label>
+                            <input type="text" id="event-title" required>
+                        </div>
+                        <div class="form-group-full">
+                            <label for="event-date">Date</label>
+                            <input type="date" id="event-date" required>
+                        </div>
+                        <div class="form-group-full">
+                            <label for="event-location">Location</label>
+                            <input type="text" id="event-location" required>
+                        </div>
+                        <div class="form-group-full">
+                            <label for="event-description">Description</label>
+                            <textarea id="event-description" rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-top: 1rem;">
+                        <button type="submit" class="btn-primary">Create Event</button>
+                    </div>
+                </form>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        const submitBtn = modal.querySelector('button[type="submit"]');
+        submitBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            const title = modal.querySelector('#event-title').value;
+            const date = modal.querySelector('#event-date').value;
+            const location = modal.querySelector('#event-location').value;
+            const description = modal.querySelector('#event-description').value;
+            
+            try {
+                const result = await ApiClient.post('events_create.php', { title, event_date: date, location, description });
+                console.log('Event created:', result);
+                modal.classList.remove('open');
+                await this.handleNavigation('showEvents');
+                Notification.show('Event created successfully');
+            } catch (error) {
+                console.error('Create event error:', error);
+                Notification.show(error.message, 'error');
+            }
+        });
+    },
+    
+    openPostModal() {
+        const modal = document.createElement('div');
+        modal.className = 'modal open';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add Post</h3>
+                    <button class="modal-close" onclick="this.closest('.modal').classList.remove('open')">&times;</button>
+                </div>
+                <form id="add-post-form">
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label for="post-title">Title</label>
+                            <input type="text" id="post-title" required>
+                        </div>
+                        <div class="form-group-full">
+                            <label for="post-content">Content</label>
+                            <textarea id="post-content" rows="6" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-top: 1rem;">
+                        <button type="submit" class="btn-primary">Create Post</button>
+                    </div>
+                </form>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        const submitBtn = modal.querySelector('button[type="submit"]');
+        submitBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            const title = modal.querySelector('#post-title').value;
+            const content = modal.querySelector('#post-content').value;
+            
+            try {
+                const result = await ApiClient.post('posts_create.php', { title, content });
+                console.log('Post created:', result);
+                modal.classList.remove('open');
+                await this.handleNavigation('showPosts');
+                Notification.show('Post created successfully');
+            } catch (error) {
+                console.error('Create post error:', error);
+                Notification.show(error.message, 'error');
+            }
+        });
+    },
+    
+    openBarModal() {
+        const modal = document.createElement('div');
+        modal.className = 'modal open';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add Bar (Rümli)</h3>
+                    <button class="modal-close" onclick="this.closest('.modal').classList.remove('open')">&times;</button>
+                </div>
+                <form id="add-bar-form">
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label for="bar-name">Name</label>
+                            <input type="text" id="bar-name" required>
+                        </div>
+                        <div class="form-group-full">
+                            <label for="bar-location">Location</label>
+                            <input type="text" id="bar-location" required>
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-top: 1rem;">
+                        <button type="submit" class="btn-primary">Create Bar</button>
+                    </div>
+                </form>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        const submitBtn = modal.querySelector('button[type="submit"]');
+        submitBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            const name = modal.querySelector('#bar-name').value;
+            const location = modal.querySelector('#bar-location').value;
+            
+            try {
+                const result = await ApiClient.post('bars_create.php', { name, location });
+                console.log('Bar created:', result);
+                modal.classList.remove('open');
+                await this.handleNavigation('showBars');
+                Notification.show('Bar created successfully');
+            } catch (error) {
+                console.error('Create bar error:', error);
+                Notification.show(error.message, 'error');
+            }
+        });
+    },
+    
+    async editUser(id) {
         console.log('Edit user:', id);
-        Notification.show('Edit functionality not yet implemented');
+        
+        try {
+            const data = await ApiClient.get('users.php');
+            const user = data.users.find(u => u.id === id);
+            
+            if (!user) {
+                Notification.show('User not found', 'error');
+                return;
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal open';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Edit User</h3>
+                        <button class="modal-close" onclick="this.closest('.modal').classList.remove('open')">&times;</button>
+                    </div>
+                    <form id="edit-user-form">
+                        <div class="form-row">
+                            <div class="form-group-full">
+                                <label for="edit-user-email">Email</label>
+                                <input type="email" id="edit-user-email" value="${user.email}" required>
+                            </div>
+                            <div>
+                                <label for="edit-user-role">Role</label>
+                                <select id="edit-user-role" required>
+                                    <option value="member" ${user.role === 'member' ? 'selected' : ''}>Member</option>
+                                    <option value="boss" ${user.role === 'boss' ? 'selected' : ''}>Boss</option>
+                                    <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Admin</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="edit-user-firstname">First Name</label>
+                                <input type="text" id="edit-user-firstname" value="${user.first_name}" required>
+                            </div>
+                            <div>
+                                <label for="edit-user-lastname">Last Name</label>
+                                <input type="text" id="edit-user-lastname" value="${user.last_name}" required>
+                            </div>
+                        </div>
+                        <div class="form-row" style="margin-top: 1rem;">
+                            <button type="submit" class="btn-primary">Update User</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            const submitBtn = modal.querySelector('button[type="submit"]');
+            submitBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                
+                const email = modal.querySelector('#edit-user-email').value;
+                const role = modal.querySelector('#edit-user-role').value;
+                const firstName = modal.querySelector('#edit-user-firstname').value;
+                const lastName = modal.querySelector('#edit-user-lastname').value;
+                
+                try {
+                    const result = await ApiClient.put('users_update.php', { 
+                        id, 
+                        email, 
+                        role, 
+                        first_name: firstName, 
+                        last_name: lastName 
+                    });
+                    console.log('User updated:', result);
+                    modal.classList.remove('open');
+                    await this.handleNavigation('showUsers');
+                    Notification.show('User updated successfully');
+                } catch (error) {
+                    console.error('Update user error:', error);
+                    Notification.show(error.message, 'error');
+                }
+            });
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            Notification.show(error.message, 'error');
+        }
     }
 };
 
