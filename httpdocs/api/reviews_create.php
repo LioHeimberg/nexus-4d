@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-session_start();
-
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -15,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/auth.php';
 
 $response = ['success' => false, 'message' => '', 'review' => null];
 
@@ -86,6 +83,9 @@ try {
             exit();
         }
     }
+    
+    // For guest reviewers, we don't need to validate reviewer_id
+    // The reviewer_id can be null for guests, which is handled by the database
     
     $stmt = $pdo->prepare('INSERT INTO reviews (reviewer_type, reviewer_id, target_user_id, event_id, bar_id, rating_friendly, rating_professional, rating_overall, comment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
     $stmt->execute([$reviewerType, $reviewerId, $targetUserId, $eventId, $barId, $ratingFriendly, $ratingProfessional, $ratingOverall, $comment]);

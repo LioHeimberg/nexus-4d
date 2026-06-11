@@ -1,0 +1,272 @@
+/* Guest Review Page CSS */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+header h1 {
+    color: #2e63a8;
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+main {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #495057;
+}
+
+.form-group select,
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-group select:focus,
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #2e63a8;
+    box-shadow: 0 0 0 2px rgba(46, 99, 168, 0.2);
+}
+
+.rating-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: #f1f5f9;
+    border-radius: 6px;
+}
+
+.rating-section h3 {
+    color: #2e63a8;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.rating-group {
+    margin-bottom: 1.5rem;
+}
+
+.rating-label {
+    display: block;
+}
+
+.rating-title {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #495057;
+}
+
+.stars {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.stars input[type="radio"] {
+    display: none;
+}
+
+.stars label {
+    cursor: pointer;
+    font-size: 2rem;
+    color: #ddd;
+    transition: color 0.2s;
+    padding: 0 0.1rem;
+}
+
+.stars label:hover,
+.stars label:hover ~ label {
+    color: #ffd700;
+}
+
+.stars input[type="radio"]:checked ~ label {
+    color: #ffd700;
+}
+
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background-color: #2e63a8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #245494;
+}
+
+.message {
+    padding: 1rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.message.hidden {
+    display: none;
+}
+
+footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e9ecef;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Dark mode */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode main {
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .rating-section {
+    background-color: #2d2d2d;
+}
+
+body.dark-mode .form-group select,
+body.dark-mode .form-group input,
+body.dark-mode .form-group textarea {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+body.dark-mode .form-group select:focus,
+body.dark-mode .form-group input:focus,
+body.dark-mode .form-group textarea:focus {
+    box-shadow: 0 0 0 2px rgba(46, 99, 168, 0.3);
+}
+
+body.dark-mode .message.success {
+    background-color: #2d4a2c;
+    color: #a8e6a3;
+    border-color: #3d613d;
+}
+
+body.dark-mode .message.error {
+    background-color: #4a2d2d;
+    color: #e6a8a8;
+    border-color: #613d3d;
+}
+
+body.dark-mode header h1 {
+    color: #4a90e2;
+}
+
+body.dark-mode header p,
+body.dark-mode footer,
+body.dark-mode .rating-title,
+body.dark-mode .form-group label {
+    color: #b0b0b0;
+}
+
+body.dark-mode .stars label {
+    color: #555;
+}
+
+body.dark-mode .stars label:hover,
+body.dark-mode .stars label:hover ~ label,
+body.dark-mode .stars input[type="radio"]:checked ~ label {
+    color: #ffd700;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    header p {
+        font-size: 1rem;
+    }
+    
+    main {
+        padding: 1.5rem;
+    }
+    
+    .rating-section {
+        padding: 1rem;
+    }
+    
+    .stars label {
+        font-size: 1.8rem;
+    }
+    
+    .btn-primary {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+}

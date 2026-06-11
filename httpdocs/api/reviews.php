@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-session_start();
-
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -15,14 +13,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/auth.php';
 
 $response = ['success' => false, 'message' => '', 'reviews' => [], 'stats' => null];
 
 try {
-    $session = requireRoles(['admin', 'boss', 'member']);
+    // Get target user ID from query parameter
+    $targetUserId = $_GET['user_id'] ?? null;
     
-    $stmt = $pdo->prepare('SELECT r.id, r.rating_friendly, r.rating_professional, r.rating_overall, r.comment, r.created_at,
+    if (!$targetUserId) {
+        http_response_code(400);
+        $response['message'] = 'user_id parameter is required';
+        echo json_encode($response);
+        exit();
+    }
+    
+    // For guest access, we don't require authentication
+    // Anyone can view reviews for a specific member
+    
+    $stmt = $pdo->prepare('SELECT r.id, r.reviewer_type, r.rating_friendly, r.rating_professional, r.rating_overall, r.comment, r.created_at,
         u.first_name as reviewer_first_name, u.last_name as reviewer_last_name,
         e.title as event_title, b.name as bar_name
         FROM reviews r 
@@ -31,7 +39,7 @@ try {
         LEFT JOIN bars b ON r.bar_id = b.id
         WHERE r.target_user_id = ?
         ORDER BY r.created_at DESC');
-    $stmt->execute([$session['user_id']]);
+    $stmt->execute([$targetUserId]);
     $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     $stmt = $pdo->prepare('SELECT 
@@ -40,7 +48,7 @@ try {
         ROUND(AVG(rating_professional), 2) as avg_professional,
         ROUND(AVG(rating_overall), 2) as avg_overall
         FROM reviews WHERE target_user_id = ?');
-    $stmt->execute([$session['user_id']]);
+    $stmt->execute([$targetUserId]);
     $stats = $stmt->fetch(PDO::FETCH_ASSOC);
     
     $response = [
@@ -53,12 +61,7 @@ try {
     echo json_encode($response);
     
 } catch (Exception $e) {
-        if ($e->getMessage() === 'Unauthorized' || $e->getMessage() === 'No token provided') {
-            http_response_code(401);
-        } elseif ($e->getMessage() === 'Forbidden') {
-            http_response_code(403);
-        } else {
-            http_response_code(500);
-        }
-        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
-    }
+    http_response_code(500);
+    $response['message'] = 'Server error: ' . $e->getMessage();
+    echo json_encode($response);
+}

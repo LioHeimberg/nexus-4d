@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback geben - ROKJA:4D</title>
+    <link rel="stylesheet" href="/assets/css/guest.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Feedback geben</h1>
+            <p>Vielen Dank, dass du bei ROKJA:4D dabei bist! Teile deine Erfahrung mit uns.</p>
+        </header>
+
+        <main>
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label for="memberSelect">Wer hat dich bedient?</label>
+                    <select id="memberSelect" required>
+                        <option value="">Wähle einen Jugendteam-Mitglied aus...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventSelect">Bei welcher Veranstaltung?</label>
+                    <select id="eventSelect">
+                        <option value="">Nicht bei einer Veranstaltung</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="barSelect">In welchem Rümli?</label>
+                    <select id="barSelect">
+                        <option value="">Nicht in einem Rümli</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="reviewerName">Dein Name (optional)</label>
+                    <input type="text" id="reviewerName" placeholder="Dein Name (wird nur für deine eigene Erinnerung gespeichert)" autocomplete="name">
+                </div>
+
+                <div class="rating-section">
+                    <h3>Wie zufrieden warst du?</h3>
+                    
+                    <div class="rating-group">
+                        <label class="rating-label">
+                            <span class="rating-title">Freundlichkeit</span>
+                            <div class="stars">
+                                <input type="radio" id="friendly-1" name="rating_friendly" value="1">
+                                <label for="friendly-1" class="star">★</label>
+                                <input type="radio" id="friendly-2" name="rating_friendly" value="2">
+                                <label for="friendly-2" class="star">★</label>
+                                <input type="radio" id="friendly-3" name="rating_friendly" value="3">
+                                <label for="friendly-3" class="star">★</label>
+                                <input type="radio" id="friendly-4" name="rating_friendly" value="4">
+                                <label for="friendly-4" class="star">★</label>
+                                <input type="radio" id="friendly-5" name="rating_friendly" value="5">
+                                <label for="friendly-5" class="star">★</label>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="rating-group">
+                        <label class="rating-label">
+                            <span class="rating-title">Professionell</span>
+                            <div class="stars">
+                                <input type="radio" id="professional-1" name="rating_professional" value="1">
+                                <label for="professional-1" class="star">★</label>
+                                <input type="radio" id="professional-2" name="rating_professional" value="2">
+                                <label for="professional-2" class="star">★</label>
+                                <input type="radio" id="professional-3" name="rating_professional" value="3">
+                                <label for="professional-3" class="star">★</label>
+                                <input type="radio" id="professional-4" name="rating_professional" value="4">
+                                <label for="professional-4" class="star">★</label>
+                                <input type="radio" id="professional-5" name="rating_professional" value="5">
+                                <label for="professional-5" class="star">★</label>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="rating-group">
+                        <label class="rating-label">
+                            <span class="rating-title">Gesamt</span>
+                            <div class="stars">
+                                <input type="radio" id="overall-1" name="rating_overall" value="1">
+                                <label for="overall-1" class="star">★</label>
+                                <input type="radio" id="overall-2" name="rating_overall" value="2">
+                                <label for="overall-2" class="star">★</label>
+                                <input type="radio" id="overall-3" name="rating_overall" value="3">
+                                <label for="overall-3" class="star">★</label>
+                                <input type="radio" id="overall-4" name="rating_overall" value="4">
+                                <label for="overall-4" class="star">★</label>
+                                <input type="radio" id="overall-5" name="rating_overall" value="5">
+                                <label for="overall-5" class="star">★</label>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="comment">Kommentar (optional)</label>
+                    <textarea id="comment" rows="4" placeholder="Was hat dir besonders gut gefallen? Oder was könnten wir verbessern?"></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary">Feedback absenden</button>
+            </form>
+
+            <div id="successMessage" class="message success hidden">
+                <p>Danke für dein Feedback! Deine Stimme zählt.</p>
+            </div>
+
+            <div id="errorMessage" class="message error hidden">
+                <p>Es gab ein Problem beim Absenden deines Feedbacks. Bitte versuche es erneut.</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>ROKJA:4D – Regionale Offene Kinder- und Jugendarbeit<br>
+            Wünnewil-Flamatt | Schmitten | Ueberstorf</p>
+        </footer>
+    </div>
+
+    <script src="/assets/js/guest.js"></script>
+</body>
+</html>
