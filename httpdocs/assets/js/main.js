@@ -423,35 +423,13 @@ const App = {
         });
         
         // Guest login button
-        document.getElementById('guest-login').addEventListener('click', async () => {
-            try {
-                // Call guest login endpoint
-                const response = await fetch(`${API_BASE_URL}/guest_login.php`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.message || 'Guest login failed');
-                }
-                
-                AppState.user = data.user;
-                AppState.token = data.token;
-                
-                localStorage.setItem('nexus4d_token', data.token);
-                localStorage.setItem('nexus4d_user', JSON.stringify(data.user));
-                
-                this.showDashboard();
-                Notification.hide();
-                
-            } catch (error) {
-                Notification.show(error.message, 'error');
-            }
-        });
+        const guestButton = document.querySelector('.guest-button a');
+        if (guestButton) {
+            guestButton.addEventListener('click', async (e) => {
+                e.preventDefault();
+                window.location.href = '/guest-review.html';
+            });
+        }
         
         document.getElementById('logout-btn').addEventListener('click', async () => {
             await AuthManager.logout();
@@ -652,9 +630,10 @@ const App = {
     
     async showMyReviews() {
         const contentArea = document.getElementById('content-area');
+        const user = AuthManager.getUser();
         
         try {
-            const data = await ApiClient.get('reviews.php');
+            const data = await ApiClient.get(`reviews.php?user_id=${user.id}`);
             
             let html = `
                 <h2 class="page-title">My Reviews</h2>

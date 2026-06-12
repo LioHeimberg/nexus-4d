@@ -7,26 +7,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const barSelect = document.getElementById('barSelect');
     const reviewerNameInput = document.getElementById('reviewerName');
     const reviewForm = document.getElementById('reviewForm');
-    const successMessage = document.getElementById('successMessage');
-    const errorMessage = document.getElementById('errorMessage');
+    const errorMessage = document.getElementById('error-message');
+ 
     
     // Load members, events, and bars
     loadMembers();
     loadEvents();
     loadBars();
     
-    // Load dark mode preference
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark-mode');
+    // Reset messages
+    function resetMessages() {
+        errorMessage.classList.remove('visible');
     }
     
-    // Toggle dark mode (optional - could be added later as a setting)
-    // document.addEventListener('click', function(e) {
-    //     if (e.target.id === 'darkModeToggle') {
-    //         document.body.classList.toggle('dark-mode');
-    //         localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-    //     }
-    // });
+    // Load dark mode preference
+    const savedTheme = localStorage.getItem('nexus4d_theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
     
     // Load members from API
     async function loadMembers() {
@@ -46,9 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('Error loading members:', error);
-            // Display error message to user
             errorMessage.textContent = 'Konnte Jugendteam-Mitglieder nicht laden. Bitte versuchen Sie es später erneut.';
-            errorMessage.classList.remove('hidden');
+            errorMessage.classList.add('visible');
         }
     }
     
@@ -70,9 +67,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('Error loading events:', error);
-            // Display error message to user
             errorMessage.textContent = 'Konnte Veranstaltungen nicht laden. Bitte versuchen Sie es später erneut.';
-            errorMessage.classList.remove('hidden');
+            errorMessage.classList.add('visible');
         }
     }
     
@@ -94,9 +90,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('Error loading bars:', error);
-            // Display error message to user
             errorMessage.textContent = 'Konnte Rümli nicht laden. Bitte versuchen Sie es später erneut.';
-            errorMessage.classList.remove('hidden');
+            errorMessage.classList.add('visible');
         }
     }
     
@@ -105,8 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         
         // Reset messages
-        successMessage.classList.add('hidden');
-        errorMessage.classList.add('hidden');
+        resetMessages();
         
         // Get form values
         const targetUserId = memberSelect.value;
@@ -117,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Validate required fields
         if (!targetUserId) {
             errorMessage.textContent = 'Bitte wählen Sie ein Jugendteam-Mitglied aus.';
-            errorMessage.classList.remove('hidden');
+            errorMessage.classList.add('visible');
             return;
         }
         
@@ -129,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Validate ratings
         if (!ratingFriendly || !ratingProfessional || !ratingOverall) {
             errorMessage.textContent = 'Bitte bewerten Sie alle drei Kriterien.';
-            errorMessage.classList.remove('hidden');
+            errorMessage.classList.add('visible');
             return;
         }
         
@@ -167,24 +161,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
             
             if (data.success) {
-                // Show success message
-                successMessage.classList.remove('hidden');
+                alert('Danke für dein Feedback! Deine Stimme zählt.');
                 
                 // Reset form
                 reviewForm.reset();
                 
                 // Scroll to top
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-                // Clear any stored reviewer name
-                // localStorage.removeItem('lastReviewerName');
             } else {
                 throw new Error(data.message || 'Feedback konnte nicht gesendet werden');
             }
         } catch (error) {
             console.error('Error submitting review:', error);
             errorMessage.textContent = 'Es gab ein Problem beim Absenden Ihres Feedbacks. Bitte versuchen Sie es erneut.';
-            errorMessage.classList.remove('hidden');
+            errorMessage.classList.add('visible');
         }
     });
 });

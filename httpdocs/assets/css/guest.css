@@ -1,272 +1,256 @@
-/* Guest Review Page CSS */
+/* Guest Review Page CSS - Extends styles.css */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f8f9fa;
-}
-
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid #e9ecef;
-}
-
-header h1 {
-    color: #2e63a8;
-    margin-bottom: 0.5rem;
-}
-
-header p {
-    color: #6c757d;
-    font-size: 1.1rem;
-}
-
-main {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.form-group {
+#login-page .form-section {
+    background-color: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 12px;
     margin-bottom: 1.5rem;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #495057;
+#login-page .form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
-.form-group select,
-.form-group input,
-.form-group textarea {
+#login-page .form-group-full {
+    grid-column: 1 / -1;
+}
+
+#login-page .rating-label {
+    cursor: pointer;
+    text-align: center;
+    padding: 0;
+}
+
+#login-page .rating-title {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+#login-page .stars {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 0.25rem;
+    justify-content: center;
+}
+
+#login-page .stars input[type="radio"] {
+    display: none;
+}
+
+#login-page .stars label.star {
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: var(--bg-tertiary);
+    transition: color 0.2s, transform 0.2s;
+    line-height: 1;
+    padding: 0;
+}
+
+#login-page .stars label.star:hover,
+#login-page .stars label.star:hover ~ label.star {
+    color: #ffd700;
+    transform: scale(1.1);
+}
+
+#login-page .stars input[type="radio"]:checked ~ label.star {
+    color: #ffd700;
+}
+
+#login-page .form-group {
+    margin-bottom: 1.5rem;
+}
+
+#login-page .form-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+#login-page .form-group select {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     font-size: 1rem;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.form-group select:focus,
-.form-group input:focus,
-.form-group textarea:focus {
+#login-page .form-group select:focus {
     outline: none;
-    border-color: #2e63a8;
-    box-shadow: 0 0 0 2px rgba(46, 99, 168, 0.2);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 99, 168, 0.1);
 }
 
-.rating-section {
-    margin: 2rem 0;
-    padding: 1.5rem;
-    background-color: #f1f5f9;
-    border-radius: 6px;
+#login-page textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    resize: vertical;
 }
 
-.rating-section h3 {
-    color: #2e63a8;
-    margin-bottom: 1.5rem;
-    text-align: center;
+#login-page textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
 }
 
-.rating-group {
-    margin-bottom: 1.5rem;
-}
-
-.rating-label {
-    display: block;
-}
-
-.rating-title {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #495057;
-}
-
-.stars {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.stars input[type="radio"] {
-    display: none;
-}
-
-.stars label {
-    cursor: pointer;
-    font-size: 2rem;
-    color: #ddd;
-    transition: color 0.2s;
-    padding: 0 0.1rem;
-}
-
-.stars label:hover,
-.stars label:hover ~ label {
-    color: #ffd700;
-}
-
-.stars input[type="radio"]:checked ~ label {
-    color: #ffd700;
-}
-
-.btn-primary {
+#login-page .btn-primary {
     display: block;
     width: 100%;
     padding: 1rem;
-    background-color: #2e63a8;
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
-.btn-primary:hover {
-    background-color: #245494;
+#login-page .btn-primary:hover {
+    background-color: var(--primary-dark);
 }
 
-.message {
-    padding: 1rem;
-    margin: 1.5rem 0;
-    border-radius: 4px;
-    text-align: center;
+#login-page .btn-primary:active {
+    transform: scale(0.98);
 }
 
-.message.success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+#login-page .btn-secondary {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    display: inline-block;
+    text-decoration: none;
 }
 
-.message.error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+#login-page .btn-secondary:hover {
+    background-color: var(--bg-tertiary);
+    border-color: var(--primary-color);
 }
 
-.message.hidden {
+#login-page .error-message {
+    padding: 0.75rem;
+    background-color: rgba(235, 87, 107, 0.1);
+    border: 1px solid var(--status-no);
+    border-radius: 8px;
+    color: var(--status-no);
+    font-size: 0.9rem;
     display: none;
 }
 
-footer {
+#login-page .error-message.visible {
+    display: block;
+}
+
+
+
+#login-page .guest-button {
+    margin: 1rem 0;
     text-align: center;
+}
+
+#login-page .button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+#login-page .button-group .guest-button {
+    flex: 2;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#login-page .button-group .theme-toggle {
+    flex: 1;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#login-page .footer {
     margin-top: 2rem;
     padding-top: 1.5rem;
-    border-top: 1px solid #e9ecef;
-    color: #6c757d;
-    font-size: 0.9rem;
+    border-top: 1px solid var(--border-color);
 }
 
-/* Dark mode */
-body.dark-mode {
-    background-color: #121212;
-    color: #e0e0e0;
+#login-page .footer p {
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
 }
 
-body.dark-mode main {
-    background-color: #1e1e1e;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+#login-page .login-container {
+    max-width: 700px;
 }
 
-body.dark-mode .rating-section {
-    background-color: #2d2d2d;
+#login-page .page-title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
 }
 
-body.dark-mode .form-group select,
-body.dark-mode .form-group input,
-body.dark-mode .form-group textarea {
-    background-color: #2d2d2d;
-    border-color: #444;
-    color: #e0e0e0;
+body.dark-mode #login-page {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
 }
 
-body.dark-mode .form-group select:focus,
-body.dark-mode .form-group input:focus,
-body.dark-mode .form-group textarea:focus {
-    box-shadow: 0 0 0 2px rgba(46, 99, 168, 0.3);
+body.dark-mode #login-page .form-group select {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
 }
 
-body.dark-mode .message.success {
-    background-color: #2d4a2c;
-    color: #a8e6a3;
-    border-color: #3d613d;
+body.dark-mode #login-page .form-group select:focus {
+    box-shadow: 0 0 0 3px rgba(46, 99, 168, 0.1);
 }
 
-body.dark-mode .message.error {
-    background-color: #4a2d2d;
-    color: #e6a8a8;
-    border-color: #613d3d;
+body.dark-mode #login-page textarea {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
 }
 
-body.dark-mode header h1 {
-    color: #4a90e2;
+body.dark-mode #login-page .stars label.star {
+    color: var(--bg-tertiary);
 }
 
-body.dark-mode header p,
-body.dark-mode footer,
-body.dark-mode .rating-title,
-body.dark-mode .form-group label {
-    color: #b0b0b0;
-}
-
-body.dark-mode .stars label {
-    color: #555;
-}
-
-body.dark-mode .stars label:hover,
-body.dark-mode .stars label:hover ~ label,
-body.dark-mode .stars input[type="radio"]:checked ~ label {
+body.dark-mode #login-page .stars label.star:hover,
+body.dark-mode #login-page .stars label.star:hover ~ label.star,
+body.dark-mode #login-page .stars input[type="radio"]:checked ~ label.star {
     color: #ffd700;
 }
 
-/* Responsive design */
-@media (max-width: 600px) {
-    .container {
-        padding: 1rem;
-    }
-    
-    header h1 {
-        font-size: 1.8rem;
-    }
-    
-    header p {
-        font-size: 1rem;
-    }
-    
-    main {
-        padding: 1.5rem;
-    }
-    
-    .rating-section {
-        padding: 1rem;
-    }
-    
-    .stars label {
-        font-size: 1.8rem;
-    }
-    
-    .btn-primary {
-        padding: 0.8rem;
-        font-size: 1rem;
-    }
+body.dark-mode #login-page .btn-secondary {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
 }
+
+body.dark-mode #login-page .btn-secondary:hover {
+    background-color: var(--bg-tertiary);
+    border-color: var(--primary-color);
+}
+
+

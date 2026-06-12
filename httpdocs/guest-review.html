@@ -3,18 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback geben - ROKJA:4D</title>
+    <title>Nexus 4D</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/guest.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>N4D</text></svg>">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Feedback geben</h1>
-            <p>Vielen Dank, dass du bei ROKJA:4D dabei bist! Teile deine Erfahrung mit uns.</p>
-        </header>
+    <div id="app">
+        <div id="login-page" class="page active">
+            <div class="login-container">
+                <div class="logo">
+                    <span class="letter" style="--color: #2e63a8">R</span>
+                    <span class="letter" style="--color: #30a3db">O</span>
+                    <span class="letter" style="--color: #3eb074">K</span>
+                    <span class="letter" style="--color: #ecd057">J</span>
+                    <span class="letter" style="--color: #eb576b">A</span>
+                    <span class="colon">:</span>
+                    <span class="four-d">4D</span>
+                </div>
+                <h1>Feedback geben</h1>
+                <p class="subtitle">Regionale Offene Kinder- und Jugendarbeit</p>
 
-        <main>
-            <form id="reviewForm">
+                <form id="reviewForm">
                 <div class="form-group">
                     <label for="memberSelect">Wer hat dich bedient?</label>
                     <select id="memberSelect" required>
@@ -41,61 +51,67 @@
                     <input type="text" id="reviewerName" placeholder="Dein Name (wird nur für deine eigene Erinnerung gespeichert)" autocomplete="name">
                 </div>
 
-                <div class="rating-section">
-                    <h3>Wie zufrieden warst du?</h3>
+                <div class="form-section">
+                    <h2 class="page-title">Wie zufrieden warst du?</h2>
                     
-                    <div class="rating-group">
-                        <label class="rating-label">
-                            <span class="rating-title">Freundlichkeit</span>
-                            <div class="stars">
-                                <input type="radio" id="friendly-1" name="rating_friendly" value="1">
-                                <label for="friendly-1" class="star">★</label>
-                                <input type="radio" id="friendly-2" name="rating_friendly" value="2">
-                                <label for="friendly-2" class="star">★</label>
-                                <input type="radio" id="friendly-3" name="rating_friendly" value="3">
-                                <label for="friendly-3" class="star">★</label>
-                                <input type="radio" id="friendly-4" name="rating_friendly" value="4">
-                                <label for="friendly-4" class="star">★</label>
-                                <input type="radio" id="friendly-5" name="rating_friendly" value="5">
-                                <label for="friendly-5" class="star">★</label>
-                            </div>
-                        </label>
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label class="rating-label">
+                                <span class="rating-title">Freundlichkeit</span>
+                                <div class="stars">
+                                    <input type="radio" id="friendly-5" name="rating_friendly" value="5">
+                                    <label for="friendly-5" class="star">★</label>
+                                    <input type="radio" id="friendly-4" name="rating_friendly" value="4">
+                                    <label for="friendly-4" class="star">★</label>
+                                    <input type="radio" id="friendly-3" name="rating_friendly" value="3">
+                                    <label for="friendly-3" class="star">★</label>
+                                    <input type="radio" id="friendly-2" name="rating_friendly" value="2">
+                                    <label for="friendly-2" class="star">★</label>
+                                    <input type="radio" id="friendly-1" name="rating_friendly" value="1">
+                                    <label for="friendly-1" class="star">★</label>
+                                </div>
+                            </label>
+                        </div>
                     </div>
 
-                    <div class="rating-group">
-                        <label class="rating-label">
-                            <span class="rating-title">Professionell</span>
-                            <div class="stars">
-                                <input type="radio" id="professional-1" name="rating_professional" value="1">
-                                <label for="professional-1" class="star">★</label>
-                                <input type="radio" id="professional-2" name="rating_professional" value="2">
-                                <label for="professional-2" class="star">★</label>
-                                <input type="radio" id="professional-3" name="rating_professional" value="3">
-                                <label for="professional-3" class="star">★</label>
-                                <input type="radio" id="professional-4" name="rating_professional" value="4">
-                                <label for="professional-4" class="star">★</label>
-                                <input type="radio" id="professional-5" name="rating_professional" value="5">
-                                <label for="professional-5" class="star">★</label>
-                            </div>
-                        </label>
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label class="rating-label">
+                                <span class="rating-title">Professionell</span>
+                                <div class="stars">
+                                    <input type="radio" id="professional-5" name="rating_professional" value="5">
+                                    <label for="professional-5" class="star">★</label>
+                                    <input type="radio" id="professional-4" name="rating_professional" value="4">
+                                    <label for="professional-4" class="star">★</label>
+                                    <input type="radio" id="professional-3" name="rating_professional" value="3">
+                                    <label for="professional-3" class="star">★</label>
+                                    <input type="radio" id="professional-2" name="rating_professional" value="2">
+                                    <label for="professional-2" class="star">★</label>
+                                    <input type="radio" id="professional-1" name="rating_professional" value="1">
+                                    <label for="professional-1" class="star">★</label>
+                                </div>
+                            </label>
+                        </div>
                     </div>
 
-                    <div class="rating-group">
-                        <label class="rating-label">
-                            <span class="rating-title">Gesamt</span>
-                            <div class="stars">
-                                <input type="radio" id="overall-1" name="rating_overall" value="1">
-                                <label for="overall-1" class="star">★</label>
-                                <input type="radio" id="overall-2" name="rating_overall" value="2">
-                                <label for="overall-2" class="star">★</label>
-                                <input type="radio" id="overall-3" name="rating_overall" value="3">
-                                <label for="overall-3" class="star">★</label>
-                                <input type="radio" id="overall-4" name="rating_overall" value="4">
-                                <label for="overall-4" class="star">★</label>
-                                <input type="radio" id="overall-5" name="rating_overall" value="5">
-                                <label for="overall-5" class="star">★</label>
-                            </div>
-                        </label>
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label class="rating-label">
+                                <span class="rating-title">Gesamt</span>
+                                <div class="stars">
+                                    <input type="radio" id="overall-5" name="rating_overall" value="5">
+                                    <label for="overall-5" class="star">★</label>
+                                    <input type="radio" id="overall-4" name="rating_overall" value="4">
+                                    <label for="overall-4" class="star">★</label>
+                                    <input type="radio" id="overall-3" name="rating_overall" value="3">
+                                    <label for="overall-3" class="star">★</label>
+                                    <input type="radio" id="overall-2" name="rating_overall" value="2">
+                                    <label for="overall-2" class="star">★</label>
+                                    <input type="radio" id="overall-1" name="rating_overall" value="1">
+                                    <label for="overall-1" class="star">★</label>
+                                </div>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
@@ -105,21 +121,20 @@
                 </div>
 
                 <button type="submit" class="btn-primary">Feedback absenden</button>
-            </form>
-
-            <div id="successMessage" class="message success hidden">
-                <p>Danke für dein Feedback! Deine Stimme zählt.</p>
+                
+                <div id="error-message" class="error-message"></div>
+                
+                <div class="guest-button">
+                    <a href="/index.html" class="btn-secondary">Zurück zum Login</a>
+                </div>
+                
+ 
             </div>
 
-            <div id="errorMessage" class="message error hidden">
-                <p>Es gab ein Problem beim Absenden deines Feedbacks. Bitte versuche es erneut.</p>
+            <div class="footer">
+                <p>© 2025 ROKJA:4D | Wünnewil-Flamatt | Schmitten | Ueberstorf</p>
             </div>
-        </main>
-
-        <footer>
-            <p>ROKJA:4D – Regionale Offene Kinder- und Jugendarbeit<br>
-            Wünnewil-Flamatt | Schmitten | Ueberstorf</p>
-        </footer>
+        </div>
     </div>
 
     <script src="/assets/js/guest.js"></script>

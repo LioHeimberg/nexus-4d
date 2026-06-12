@@ -201,6 +201,37 @@ body.dashboard-active {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    margin-bottom: 0;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.button-group .guest-button {
+    flex: 3;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-group .theme-toggle {
+    flex: 1;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-group .btn-secondary {
+    width: 100%;
+}
+
+.button-group #theme-toggle {
+    width: 100%;
 }
 
 .form-group {
@@ -230,6 +261,26 @@ body.dashboard-active {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(46, 99, 168, 0.1);
+}
+
+.stars input[type="radio"]:checked ~ label.star {
+    color: #ffd700;
+}
+
+body.dark-mode .stars label.star {
+    color: var(--bg-tertiary);
+}
+
+body.dark-mode .stars label.star:hover,
+body.dark-mode .stars label.star:hover ~ label.star,
+body.dark-mode .stars input[type="radio"]:checked ~ label.star {
+    color: #ffd700;
+}
+
+body.dark-mode .error-message {
+    background-color: rgba(235, 87, 107, 0.2);
+    border-color: var(--status-no);
+    color: #ffb3c1;
 }
 
 .error-message {
@@ -644,6 +695,48 @@ textarea:focus {
     display: block;
     font-size: 0.8rem;
     margin-top: 0.5rem;
+}
+
+.stars {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.stars input[type="radio"] {
+    display: none;
+}
+
+.stars label.star {
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: var(--bg-tertiary);
+    transition: color 0.2s, transform 0.2s;
+    line-height: 1;
+}
+
+.stars label.star:hover,
+.stars label.star:hover ~ label.star {
+    color: #ffd700;
+    transform: scale(1.1);
+}
+
+.stars input[type="radio"]:checked ~ label.star {
+    color: #ffd700;
+}
+
+.stars input[type="radio"]:checked ~ label.star:hover,
+.stars input[type="radio"]:checked ~ label.star:hover ~ label.star {
+    color: #ffd700;
+}
+
+.rating-title {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
 }
 
 /* Modal */
