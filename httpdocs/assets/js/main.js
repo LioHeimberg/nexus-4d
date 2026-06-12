@@ -519,6 +519,7 @@ const App = {
     
     async showEvents() {
         const contentArea = document.getElementById('content-area');
+        const user = AuthManager.getUser();
         
         try {
             const data = await ApiClient.get('events.php');
@@ -526,10 +527,10 @@ const App = {
             let html = `
                 <h2 class="page-title">Events</h2>
                 <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">Event Feed</span>
-                        <button class="btn-primary" onclick="App.openEventModal()">+ Add Event</button>
-                    </div>
+                <div class="card-header">
+                    <span class="card-title">Event Feed</span>
+                    ${user && (user.role === 'admin' || user.role === 'boss') ? '<button class="btn-primary" onclick="App.openEventModal()">+ Add Event</button>' : ''}
+                </div>
                     <div class="feed-container">
             `;
             
@@ -578,6 +579,7 @@ const App = {
     
     async showPosts() {
         const contentArea = document.getElementById('content-area');
+        const user = AuthManager.getUser();
         
         try {
             const data = await ApiClient.get('posts.php');
@@ -585,11 +587,11 @@ const App = {
             let html = `
                 <h2 class="page-title">Posts</h2>
                 <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">Posts</span>
-                        <button class="btn-primary" onclick="App.openPostModal()">+ Add Post</button>
-                    </div>
-                    <div class="table-container">
+                <div class="card-header">
+                    <span class="card-title">Posts</span>
+                    ${user && (user.role === 'admin' || user.role === 'boss') ? '<button class="btn-primary" onclick="App.openPostModal()">+ Add Post</button>' : ''}
+                </div>
+                <div class="table-container">
                         <table>
                             <thead>
                                 <tr>
