@@ -139,13 +139,13 @@ document.addEventListener('DOMContentLoaded', function() {
             event_id: eventId,
             bar_id: barId,
             comment: comment,
-            reviewer_type: 'guest'
+            reviewer_type: 'guest',
+            reviewer_name: reviewerName
         };
         
-        // If reviewer name is provided, include it (for local storage only)
+        // If reviewer name is provided, include it in the data sent to server
         if (reviewerName) {
-            // We're not sending the name to the server, but we could store it locally
-            // localStorage.setItem('lastReviewerName', reviewerName);
+            localStorage.setItem('lastReviewerName', reviewerName);
         }
         
         // Send to API

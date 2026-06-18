@@ -35,6 +35,7 @@ try {
     $eventId = $input['event_id'] ?? null;
     $barId = $input['bar_id'] ?? null;
     $comment = isset($input['comment']) ? trim($input['comment']) : null;
+    $reviewerName = isset($input['reviewer_name']) ? trim($input['reviewer_name']) : null;
     
     if (!in_array($ratingFriendly, [1, 2, 3, 4, 5]) || !in_array($ratingProfessional, [1, 2, 3, 4, 5]) || !in_array($ratingOverall, [1, 2, 3, 4, 5])) {
         http_response_code(400);
@@ -87,15 +88,17 @@ try {
     // For guest reviewers, we don't need to validate reviewer_id
     // The reviewer_id can be null for guests, which is handled by the database
     
-    $stmt = $pdo->prepare('INSERT INTO reviews (reviewer_type, reviewer_id, target_user_id, event_id, bar_id, rating_friendly, rating_professional, rating_overall, comment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-    $stmt->execute([$reviewerType, $reviewerId, $targetUserId, $eventId, $barId, $ratingFriendly, $ratingProfessional, $ratingOverall, $comment]);
+    $stmt = $pdo->prepare('INSERT INTO reviews (reviewer_type, reviewer_id, target_user_id, event_id, bar_id, rating_friendly, rating_professional, rating_overall, comment, reviewer_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $stmt->execute([$reviewerType, $reviewerId, $targetUserId, $eventId, $barId, $ratingFriendly, $ratingProfessional, $ratingOverall, $comment, $reviewerName]);
     
     $reviewId = $pdo->lastInsertId();
     
     $stmt = $pdo->prepare('SELECT r.id, r.reviewer_type, r.rating_friendly, r.rating_professional, r.rating_overall, r.comment, r.created_at,
-        u.first_name as reviewer_first_name, u.last_name as reviewer_last_name
+        u.first_name as reviewer_first_name, u.last_name as reviewer_last_name, r.reviewer_name,
+        t.first_name as target_first_name, t.last_name as target_last_name
         FROM reviews r 
         LEFT JOIN users u ON r.reviewer_id = u.id
+        LEFT JOIN users t ON r.target_user_id = t.id
         WHERE r.id = ?');
     $stmt->execute([$reviewId]);
     $review = $stmt->fetch(PDO::FETCH_ASSOC);

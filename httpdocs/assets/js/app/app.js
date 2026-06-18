@@ -455,7 +455,7 @@ const App = {
                     
                     html += `
                         <tr>
-                            <td>${reviewer}</td>
+                            <td>${review.reviewer_name ? review.reviewer_name : (review.reviewer_first_name ? `${review.reviewer_first_name} ${review.reviewer_last_name}` : 'Guest')}</td>
                             <td>${location}</td>
                             <td>${'★'.repeat(review.rating_friendly)}</td>
                             <td>${'★'.repeat(review.rating_professional)}</td>
@@ -504,13 +504,14 @@ const App = {
                                     <th>Overall</th>
                                     <th>Comment</th>
                                     <th>Date</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
             `;
             
             if (data.reviews.length === 0) {
-                html += `<tr><td colspan="8" class="empty-state">No reviews found</td></tr>`;
+                html += `<tr><td colspan="9" class="empty-state">No reviews found</td></tr>`;
             } else {
                 data.reviews.forEach(review => {
                     const reviewer = review.reviewer_first_name 
@@ -520,14 +521,21 @@ const App = {
                     
                     html += `
                         <tr>
-                            <td>${reviewer}</td>
-                            <td>${review.reviewer_type}</td>
+                            <td>${review.reviewer_name ? review.reviewer_name : (review.reviewer_first_name ? `${review.reviewer_first_name} ${review.reviewer_last_name}` : 'Guest')}</td>
+                            <td>${review.target_first_name ? `${review.target_first_name} ${review.target_last_name}` : 'Unknown'}</td>
                             <td>${location}</td>
                             <td>${'★'.repeat(review.rating_friendly)}</td>
                             <td>${'★'.repeat(review.rating_professional)}</td>
                             <td>${'★'.repeat(review.rating_overall)}</td>
                             <td>${review.comment || '-'}</td>
                             <td>${new Date(review.created_at).toLocaleDateString()}</td>
+                            <td>
+                                ${review.can_remove ? `
+                                    <button onclick="removeReview(${review.id})" class="btn-secondary" style="color: var(--status-no); padding: 4px 8px;">
+                                        Remove
+                                    </button>
+                                ` : ''}
+                            </td>
                         </tr>
                     `;
                 });
@@ -707,7 +715,24 @@ const App = {
         } catch (error) {
             Notification.show(error.message, 'error');
         }
+    },
+    
+    async removeReview(id) {
+        if (!confirm('Are you sure you want to remove this review? This action cannot be undone.')) return;
+        
+        try {
+            await ApiClient.delete('reviews_delete.php', { review_id: id });
+            await this.handleNavigation('showReviewsAll');
+            Notification.show('Review removed successfully');
+        } catch (error) {
+            Notification.show(error.message, 'error');
+        }
     }
+};
+
+// Make removeReview available globally for onclick handlers
+window.removeReview = function(id) {
+    App.removeReview(id);
 };
 
 export { App };

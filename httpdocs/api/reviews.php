@@ -31,12 +31,14 @@ try {
     $session = requireRoles(['admin', 'boss', 'member']);
     
     $stmt = $pdo->prepare('SELECT r.id, r.reviewer_type, r.rating_friendly, r.rating_professional, r.rating_overall, r.comment, r.created_at,
-        u.first_name as reviewer_first_name, u.last_name as reviewer_last_name,
-        e.title as event_title, b.name as bar_name
+        u.first_name as reviewer_first_name, u.last_name as reviewer_last_name, r.reviewer_name,
+        e.title as event_title, b.name as bar_name,
+        t.first_name as target_first_name, t.last_name as target_last_name
         FROM reviews r 
         LEFT JOIN users u ON r.reviewer_id = u.id
         LEFT JOIN events e ON r.event_id = e.id
         LEFT JOIN bars b ON r.bar_id = b.id
+        LEFT JOIN users t ON r.target_user_id = t.id
         WHERE r.target_user_id = ?
         ORDER BY r.created_at DESC');
     $stmt->execute([$targetUserId]);
@@ -54,7 +56,12 @@ try {
     $response = [
         'success' => true,
         'message' => 'Reviews retrieved successfully',
-        'reviews' => $reviews,
+        'reviews' => array_map(function($review) {
+            return [
+                ...$review,
+                'can_remove' => in_array($_SESSION['role'], ['admin', 'boss'])
+            ];
+        }, $reviews),
         'stats' => $stats
     ];
     

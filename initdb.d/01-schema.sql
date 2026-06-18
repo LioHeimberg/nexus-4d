@@ -90,6 +90,7 @@ CREATE TABLE `reviews` (
   `rating_professional` TINYINT UNSIGNED NOT NULL CHECK (`rating_professional` BETWEEN 1 AND 5),
   `rating_overall` TINYINT UNSIGNED NOT NULL CHECK (`rating_overall` BETWEEN 1 AND 5),
   `comment` TEXT,
+  `reviewer_name` VARCHAR(255) NULL,
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
   INDEX `idx_target_user` (`target_user_id`),
   INDEX `idx_event` (`event_id`),
