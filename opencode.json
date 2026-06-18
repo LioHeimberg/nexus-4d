@@ -38,6 +38,9 @@
         "qwen/qwen3-next-80b-a3b-instruct": {
           "name": "Qwen3 Next 80B A3B Instruct"
         },
+        "qwen/qwen2.5-coder-32b-instruct": {
+          "name": "Qwen2.5 coder 32B Instruct"
+        },
         "qwen/qwen3-coder-next": {
           "name": "Qwen3 Coder Next"
         }
