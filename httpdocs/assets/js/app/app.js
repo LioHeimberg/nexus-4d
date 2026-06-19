@@ -315,6 +315,7 @@ const App = {
                             <div class="feed-header">
                                 <h3 class="feed-title">${event.title}</h3>
                                 <span class="feed-date">${formattedDate}</span>
+                                ${user && (user.role === 'admin' || user.role === 'boss') ? `<button class="btn-delete" onclick="deleteEvent(${event.id})" title="Delete event">✖</button>` : ''}
                             </div>
                             <div class="feed-content">
                                 <p class="feed-location">📍 ${event.location}</p>
@@ -362,6 +363,7 @@ const App = {
                                     <th>Title</th>
                                     <th>Author</th>
                                     <th>Published</th>
+                                    ${user && (user.role === 'admin' || user.role === 'boss') ? '<th>Actions</th>' : ''}
                                 </tr>
                             </thead>
                             <tbody>
@@ -376,6 +378,7 @@ const App = {
                             <td>${post.title}</td>
                             <td>${post.first_name} ${post.last_name}</td>
                             <td>${new Date(post.published_at).toLocaleDateString()}</td>
+                            ${user && (user.role === 'admin' || user.role === 'boss') ? `<td><button onclick="deletePost(${JSON.stringify(post.id)})" class="btn-secondary" style="color: var(--status-no); padding: 4px 8px;">Delete</button></td>` : ''}
                         </tr>
                     `;
                 });
@@ -527,7 +530,7 @@ const App = {
                             <td>${review.comment || '-'}</td>
                             <td>${new Date(review.created_at).toLocaleDateString()}</td>
                             <td>
-                                ${review.can_remove ? `
+                                ${review.can_remove && (AuthManager.getUser().role === 'admin' || AuthManager.getUser().role === 'boss') ? `
                                     <button onclick="removeReview(${review.id})" class="btn-secondary" style="color: var(--status-no); padding: 4px 8px;">
                                         Remove
                                     </button>
@@ -670,6 +673,30 @@ const App = {
             await ApiClient.delete('reviews_delete.php', { review_id: id });
             await this.handleNavigation('showReviewsAll');
             Notification.show('Review removed successfully');
+        } catch (error) {
+            Notification.show(error.message, 'error');
+        }
+    },
+    
+    async deleteEvent(id) {
+        if (!confirm('Are you sure you want to delete this event? This action cannot be undone.')) return;
+        
+        try {
+            await ApiClient.delete('events_delete.php', { id });
+            await this.handleNavigation('showEvents');
+            Notification.show('Event deleted successfully');
+        } catch (error) {
+            Notification.show(error.message, 'error');
+        }
+    },
+    
+    async deletePost(id) {
+        if (!confirm('Are you sure you want to delete this post? This action cannot be undone.')) return;
+        
+        try {
+            await ApiClient.delete('posts_delete.php', { id });
+            await this.handleNavigation('showPosts');
+            Notification.show('Post deleted successfully');
         } catch (error) {
             Notification.show(error.message, 'error');
         }

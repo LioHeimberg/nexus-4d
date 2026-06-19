@@ -13,6 +13,8 @@ window.openPostModal = openPostModal;
 window.openBarModal = openBarModal;
 window.editUser = editUser;
 window.deleteUser = App.deleteUser;
+window.deleteEvent = App.deleteEvent;
+window.deletePost = App.deletePost;
 
 // Initialize the application
 App.init();

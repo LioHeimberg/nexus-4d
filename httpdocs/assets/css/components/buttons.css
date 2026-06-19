@@ -1,0 +1,24 @@
+/*
+ * CSS for delete buttons
+ */
+.btn-delete {
+    background: none;
+    border: none;
+    color: var(--status-no);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0;
+    margin-left: 0.5rem;
+    line-height: 1;
+    opacity: 0.7;
+}
+
+.btn-delete:hover {
+    opacity: 1;
+}
+
+.btn-delete:active {
+    transform: scale(0.95);
+}
+
+/* Add to existing CSS in theme.css */
