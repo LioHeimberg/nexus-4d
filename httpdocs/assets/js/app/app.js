@@ -114,8 +114,7 @@ const App = {
             menuItems = [
                 { label: 'My Reviews', action: 'showMyReviews' },
                 { label: 'Events', action: 'showEvents' },
-                { label: 'Posts', action: 'showPosts' },
-                { label: 'Participation', action: 'showParticipation' }
+                { label: 'Posts', action: 'showPosts' }
             ];
         }
         
@@ -164,9 +163,7 @@ const App = {
                 case 'showBars':
                     await this.showBars();
                     break;
-                case 'showParticipation':
-                    await this.showParticipation();
-                    break;
+
             }
         } catch (error) {
             Notification.show(error.message, 'error');
@@ -652,58 +649,7 @@ const App = {
         }
     },
     
-    async showParticipation() {
-        const contentArea = document.getElementById('content-area');
-        
-        try {
-            const data = await ApiClient.get('participation_my.php');
-            
-            let html = `
-                <h2 class="page-title">Event Participation</h2>
-                <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">My Votes</span>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Event</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Voted</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-            `;
-            
-            if (data.participation.length === 0) {
-                html += `<tr><td colspan="4" class="empty-state">No participation recorded</td></tr>`;
-            } else {
-                data.participation.forEach(p => {
-                    html += `
-                        <tr>
-                            <td>${p.event_title}</td>
-                            <td>${new Date(p.event_date).toLocaleDateString()}</td>
-                            <td><span class="status-${p.status}">${p.status}</span></td>
-                            <td>${new Date(p.voted_at).toLocaleDateString()}</td>
-                        </tr>
-                    `;
-                });
-            }
-            
-            html += `
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-            
-            contentArea.innerHTML = html;
-        } catch (error) {
-            Notification.show(error.message, 'error');
-        }
-    },
+
     
     async deleteUser(id) {
         if (!confirm('Are you sure you want to delete this user?')) return;
