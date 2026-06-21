@@ -1,5 +1,7 @@
 # Nexus 4D
 
+![Shield](https://img.shields.io/github/last-commit/LioHeimberg/nexus-4d?style=for-the-badge&logo=startrek&&color=green)
+
 A web-based management system for JugendTeam members with review tracking, event management, and role-based access.
 
 ## Features
