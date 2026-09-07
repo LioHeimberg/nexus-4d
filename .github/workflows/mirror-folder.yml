@@ -1,0 +1,58 @@
+name: Mirror Folder Content to Another Branch
+
+on:
+  push:
+    branches:
+      - main # Der Quell-Branch
+    paths:
+      - 'httpdocs/**' # Der Ordner, dessen Inhalt kopiert werden soll
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      # 1. Quell-Branch auschecken
+      - name: Checkout Source Branch
+        uses: actions/checkout@v4
+        with:
+          path: source-repo
+          fetch-depth: 0
+
+      # 2. Ziel-Branch auschecken
+      - name: Checkout Target Branch
+        uses: actions/checkout@v4
+        with:
+          ref: build # Der Ziel-Branch
+          path: target-repo
+          fetch-depth: 0
+
+      # 3. Inhalt in das Hauptverzeichnis des Ziel-Branches kopieren
+      - name: Copy Content and Commit
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@://github.com"
+          
+          # Alle sichtbaren Dateien und Ordner im Ziel-Branch löschen,
+          # aber den versteckten .git-Ordner behalten!
+          rm -rf target-repo/* 2>/dev/null || true
+          
+          # Nur den INHALT des Quellordners in das Hauptverzeichnis von target-repo kopieren
+          # Das "/." sorgt dafür, dass auch versteckte Dateien (wie .gitignore) mitkommen
+          cp -r source-repo/mein-ordner/. target-repo/
+          
+          # In das Zielverzeichnis wechseln
+          cd target-repo
+          
+          # Alle Änderungen (neue, geänderte und gelöschte Dateien) erfassen
+          git add -A
+          
+          if git diff --staged --quiet; then
+            echo "Keine Änderungen festgestellt."
+          else
+            git commit -m "Automatisches Update: Inhalt von 'mein-ordner' in Root gespiegelt"
+            git push origin target-branch
+          fi
