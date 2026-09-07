@@ -39,6 +39,6 @@ A web-based management system for JugendTeam members with review tracking, event
 
 ## License
 
-© 2025 ROKJA:4D
+© 2026 ROKJA:4D
 Regionale Offene Kinder- und Jugendarbeit
 Wünnewil-Flamatt | Schmitten | Ueberstorf
