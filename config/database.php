@@ -9,7 +9,7 @@ declare(strict_types=1);
 $host = getenv('DB_HOST') ?: 'localhost';
 $dbname = getenv('DB_NAME') ?: 'nexus4ddata';
 $user = getenv('DB_USER') ?: 'nexus4ddata';
-$pass = getenv('DB_PASS') ?: 's1f83@07w';
+$pass = getenv('DB_PASS') ?: 's1f83@O7w';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
