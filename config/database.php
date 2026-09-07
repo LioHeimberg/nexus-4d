@@ -6,10 +6,10 @@ declare(strict_types=1);
 // Database connection settings
 // For production, update these values
 
-$host = getenv('DB_HOST') ?: 'db';
-$dbname = getenv('DB_NAME') ?: 'nexusData';
-$user = getenv('DB_USER') ?: 'dev';
-$pass = getenv('DB_PASS') ?: 'dev#123';
+$host = getenv('DB_HOST') ?: 'localhost';
+$dbname = getenv('DB_NAME') ?: 'nexus4ddata';
+$user = getenv('DB_USER') ?: 'nexus4ddata';
+$pass = getenv('DB_PASS') ?: 's1f83@07w';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
