@@ -57,10 +57,10 @@ jobs:
           
           # SICHERHEITS-CHECK: Zeige im Log an, ob der Quellordner wirklich da ist
           echo "Prüfe Quellordner Inhalt:"
-          ls -la source-repo/mein-ordner || echo "WARNUNG: source-repo/mein-ordner wurde nicht gefunden!"
+          ls -la source-repo/httpdocs || echo "WARNUNG: source-repo/mein-ordner wurde nicht gefunden!"
           
           # Inhalt kopieren
-          cp -r source-repo/mein-ordner/. target-repo/
+          cp -r source-repo/httpdocs/. target-repo/
           
           # Wieder in das Zielverzeichnis wechseln zum Pushen
           cd target-repo
