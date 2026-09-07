@@ -42,7 +42,7 @@ jobs:
           
           # Nur den INHALT des Quellordners in das Hauptverzeichnis von target-repo kopieren
           # Das "/." sorgt dafür, dass auch versteckte Dateien (wie .gitignore) mitkommen
-          cp -r source-repo/mein-ordner/. target-repo/
+          cp -r source-repo/httpdocs/. target-repo/
           
           # In das Zielverzeichnis wechseln
           cd target-repo
