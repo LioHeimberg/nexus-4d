@@ -43,6 +43,7 @@ try {
         LEFT JOIN users t ON r.target_user_id = t.id
         WHERE r.target_user_id = ?
         ORDER BY r.created_at DESC');
+    
     $stmt->execute([$targetUserId]);
     $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
@@ -52,13 +53,14 @@ try {
         ROUND(AVG(rating_professional), 2) as avg_professional,
         ROUND(AVG(rating_overall), 2) as avg_overall
         FROM reviews WHERE target_user_id = ?');
+    
     $stmt->execute([$targetUserId]);
     $stats = $stmt->fetch(PDO::FETCH_ASSOC);
     
     $response = [
         'success' => true,
         'message' => 'Reviews retrieved successfully',
-        'reviews' => array_map(function($review) {
+        'reviews' => array_map(function ($review) use ($canRemove) {
             return [
                 ...$review,
                 'can_remove' => $canRemove
