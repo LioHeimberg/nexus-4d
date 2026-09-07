@@ -1,0 +1,6 @@
+# Block direct requests to the "httpdocs" subdirectory
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule ^httpdocs($|/) - [R=404]
+
+# Rewrite all requests that are not already for the "httpdocs" subdirectory
+RewriteRule !^httpdocs/ /httpdocs%{REQUEST_URI} [L]
