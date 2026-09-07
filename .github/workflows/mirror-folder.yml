@@ -22,37 +22,54 @@ jobs:
           path: source-repo
           fetch-depth: 0
 
-      # 2. Ziel-Branch auschecken
+            # 2. Ziel-Branch auschecken (oder erstellen, falls er nicht existiert)
       - name: Checkout Target Branch
         uses: actions/checkout@v4
         with:
-          ref: build # Der Ziel-Branch
+          ref: main # Wir checken erst main aus, um zu prüfen, ob 'build' existiert
           path: target-repo
           fetch-depth: 0
 
-      # 3. Inhalt in das Hauptverzeichnis des Ziel-Branches kopieren
+      # 3. Inhalt kopieren, Branch prüfen und commiten
       - name: Copy Content and Commit
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@://github.com"
           
-          # Alle sichtbaren Dateien und Ordner im Ziel-Branch löschen,
-          # aber den versteckten .git-Ordner behalten!
-          rm -rf target-repo/* 2>/dev/null || true
-          
-          # Nur den INHALT des Quellordners in das Hauptverzeichnis von target-repo kopieren
-          # Das "/." sorgt dafür, dass auch versteckte Dateien (wie .gitignore) mitkommen
-          cp -r source-repo/httpdocs/. target-repo/
-          
           # In das Zielverzeichnis wechseln
           cd target-repo
           
-          # Alle Änderungen (neue, geänderte und gelöschte Dateien) erfassen
-          git add -A
+          # Prüfen, ob der Branch 'build' auf GitHub existiert. 
+          # Wenn nein, erstellen wir ihn frisch aus einem leeren Zustand (Orphan).
+          if git ls-remote --heads origin build | grep -q build; then
+            echo "Branch 'build' existiert. Wechsle dorthin..."
+            git checkout build
+            # Bestehende Dateien löschen (außer .git)
+            rm -rf * 2>/dev/null || true
+          else
+            echo "Branch 'build' existiert nicht. Erstelle neuen, leeren Branch..."
+            git checkout --orphan build
+            git rm -rf .
+          fi
           
+          # Zurück ins Hauptverzeichnis des Servers springen
+          cd ..
+          
+          # SICHERHEITS-CHECK: Zeige im Log an, ob der Quellordner wirklich da ist
+          echo "Prüfe Quellordner Inhalt:"
+          ls -la source-repo/mein-ordner || echo "WARNUNG: source-repo/mein-ordner wurde nicht gefunden!"
+          
+          # Inhalt kopieren
+          cp -r source-repo/mein-ordner/. target-repo/
+          
+          # Wieder in das Zielverzeichnis wechseln zum Pushen
+          cd target-repo
+          
+          # Änderungen hinzufügen und pushen
+          git add -A
           if git diff --staged --quiet; then
             echo "Keine Änderungen festgestellt."
           else
-            git commit -m "Automatisches Update: Inhalt von 'mein-ordner' in Root gespiegelt"
-            git push origin target-branch
+            git commit -m "Automatisches Update: Inhalt von 'mein-ordner' gespiegelt"
+            git push origin build
           fi
