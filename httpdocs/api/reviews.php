@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-session_start();
-
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, OPTIONS');
@@ -31,6 +29,8 @@ try {
     }
     
     $session = requireRoles(['admin', 'boss', 'member']);
+
+    $canRemove = in_array($session['role'] ?? '', ['admin', 'boss'], true);
     
     $stmt = $pdo->prepare('SELECT r.id, r.reviewer_type, r.rating_friendly, r.rating_professional, r.rating_overall, r.comment, r.created_at,
         u.first_name as reviewer_first_name, u.last_name as reviewer_last_name, r.reviewer_name,
@@ -61,7 +61,7 @@ try {
         'reviews' => array_map(function($review) {
             return [
                 ...$review,
-                'can_remove' => in_array($_SESSION['role'], ['admin', 'boss'])
+                'can_remove' => $canRemove
             ];
         }, $reviews),
         'stats' => $stats
