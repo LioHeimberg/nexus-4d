@@ -3,7 +3,7 @@ import { AuthManager } from '../auth/auth.js';
 import { ApiClient } from '../api/client.js';
 import { Notification } from '../ui/notifications.js';
 import { ThemeManager } from '../utils/theme.js';
-import { API_BASE_URL } from '../utils/constants.js';
+import { API_BASE_URL,BUILD_VERSION } from '../utils/constants.js';
 
 const App = {
     async init() {
