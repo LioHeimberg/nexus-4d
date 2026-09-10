@@ -873,10 +873,16 @@ body {
 }
 
 #login-page,
-#setup-page,
-#under-construction {
+#setup-page {
     position: relative;
     overflow: hidden;
+    background: var(--page-gradient);
+    background-attachment: fixed;
+}
+
+#under-construction {
+    position: relative;
+    overflow: visible;
     background: var(--page-gradient);
     background-attachment: fixed;
 }
