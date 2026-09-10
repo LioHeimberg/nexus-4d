@@ -818,3 +818,561 @@ textarea:focus {
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+
+/* =========================================================
+   ROKJA:4D – Glassmorphism Theme
+   Ergänzung zum bestehenden CSS
+   Kein SVG, kein JavaScript nötig
+   ========================================================= */
+
+/* ---------- Theme Variables ---------- */
+
+:root {
+    --glass-bg: rgba(235, 242, 250, 0.78);
+    --glass-bg-strong: rgba(255, 255, 255, 0.62);
+    --glass-border: rgba(255, 255, 255, 0.58);
+    --glass-highlight: rgba(255, 255, 255, 0.68);
+    --glass-shadow:
+        0 14px 36px rgba(46, 99, 168, 0.08),
+        0 3px 12px rgba(0, 0, 0, 0.04);
+    --glass-inset:
+        inset 0 1px 0 rgba(255, 255, 255, 0.68);
+
+    --page-gradient:
+        radial-gradient(circle at 15% 20%, rgba(48, 163, 219, 0.12), transparent 32%),
+        radial-gradient(circle at 85% 75%, rgba(62, 176, 116, 0.09), transparent 32%),
+        radial-gradient(circle at 70% 15%, rgba(236, 208, 87, 0.07), transparent 25%),
+        #f1f5f9;
+}
+
+body.dark-mode {
+    --glass-bg: rgba(30, 35, 55, 0.38);
+    --glass-bg-strong: rgba(37, 37, 64, 0.48);
+    --glass-border: rgba(255, 255, 255, 0.09);
+    --glass-highlight: rgba(255, 255, 255, 0.06);
+    --glass-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.35),
+        0 3px 14px rgba(0, 0, 0, 0.20);
+    --glass-inset:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+    --page-gradient:
+        radial-gradient(circle at 15% 20%, rgba(78, 126, 200, 0.22), transparent 32%),
+        radial-gradient(circle at 85% 75%, rgba(94, 192, 148, 0.14), transparent 32%),
+        radial-gradient(circle at 70% 15%, rgba(236, 208, 87, 0.08), transparent 25%),
+        var(--bg-primary);
+}
+
+
+/* ---------- Global Background ---------- */
+
+body {
+    background: var(--page-gradient);
+    background-attachment: fixed;
+}
+
+#login-page,
+#setup-page {
+    position: relative;
+    overflow: hidden;
+    background: var(--page-gradient);
+    background-attachment: fixed;
+}
+
+#under-construction {
+    position: relative;
+    overflow: visible;
+    background: var(--page-gradient);
+    background-attachment: fixed;
+}
+
+
+/* ---------- Ambient Light ---------- */
+
+#login-page::before,
+#setup-page::before,
+#under-construction::before,
+.dashboard::before {
+    content: "";
+    position: fixed;
+    width: 420px;
+    height: 420px;
+    top: -180px;
+    left: -120px;
+    border-radius: 50%;
+    background: rgba(46, 99, 168, 0.10);
+    filter: blur(90px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+#login-page::after,
+#setup-page::after,
+#under-construction::after,
+.dashboard::after {
+    content: "";
+    position: fixed;
+    width: 380px;
+    height: 380px;
+    right: -120px;
+    bottom: -160px;
+    border-radius: 50%;
+    background: rgba(235, 87, 107, 0.08);
+    filter: blur(90px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+body.dark-mode #login-page::before,
+body.dark-mode #setup-page::before,
+body.dark-mode #under-construction::before,
+body.dark-mode .dashboard::before {
+    background: rgba(78, 126, 200, 0.20);
+}
+
+body.dark-mode #login-page::after,
+body.dark-mode #setup-page::after,
+body.dark-mode #under-construction::after,
+body.dark-mode .dashboard::after {
+    background: rgba(235, 87, 107, 0.10);
+}
+
+
+/* ---------- Main Glass Containers ---------- */
+
+.login-container,
+.setup-container,
+.card,
+.stat-card,
+.form-section,
+.modal-content,
+.dashboard-header {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px) saturate(115%);
+    -webkit-backdrop-filter: blur(14px) saturate(115%);
+    box-shadow: var(--glass-shadow), var(--glass-inset);
+}
+
+
+/* ---------- Login ---------- */
+
+.login-container {
+    position: relative;
+    z-index: 1;
+    border-radius: 24px;
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+}
+
+.login-container:hover {
+    box-shadow:
+        0 24px 60px rgba(46, 99, 168, 0.15),
+        0 5px 18px rgba(0, 0, 0, 0.07),
+        var(--glass-inset);
+}
+
+
+/* ---------- Setup / Under Construction ---------- */
+
+#setup-page,
+#under-construction {
+    position: relative;
+    z-index: 0;
+}
+
+.setup-container {
+    position: relative;
+    z-index: 1;
+    border-radius: 24px;
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+}
+
+.setup-container:hover {
+    box-shadow:
+        0 24px 60px rgba(46, 99, 168, 0.15),
+        0 5px 18px rgba(0, 0, 0, 0.07),
+        var(--glass-inset);
+}
+
+
+/* ---------- Dashboard ---------- */
+
+.dashboard {
+    position: relative;
+    min-height: 100vh;
+    background: var(--page-gradient);
+    background-attachment: fixed;
+}
+
+.dashboard-header {
+    position: relative;
+    z-index: 2;
+    background: var(--glass-bg-strong);
+    border-radius: 0 0 20px 20px;
+    box-shadow:
+        0 10px 35px rgba(46, 99, 168, 0.08),
+        var(--glass-inset);
+}
+
+.dashboard-content {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* ---------- Cards ---------- */
+
+.card,
+.stat-card,
+.form-section {
+    border-radius: 18px;
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.2s ease;
+}
+
+.card:hover,
+.stat-card:hover,
+.form-section:hover {
+    border-color: rgba(255, 255, 255, 0.75);
+    box-shadow:
+        0 16px 40px rgba(46, 99, 168, 0.13),
+        var(--glass-inset);
+}
+
+body.dark-mode .card:hover,
+body.dark-mode .stat-card:hover,
+body.dark-mode .form-section:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow:
+        0 16px 40px rgba(0, 0, 0, 0.32),
+        var(--glass-inset);
+}
+
+
+/* ---------- Card Header ---------- */
+
+.card-header {
+    border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .card-header {
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+
+/* ---------- Inputs / Textarea ---------- */
+
+.form-group input,
+textarea {
+    background: rgba(255, 255, 255, 0.13);
+    border-color: rgba(255, 255, 255, 0.38);
+    backdrop-filter: blur(6px) saturate(110%);
+    -webkit-backdrop-filter: blur(6px) saturate(110%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        0 2px 8px rgba(46, 99, 168, 0.04);
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+textarea:focus {
+    background: rgba(255, 255, 255, 0.42);
+    border-color: var(--primary-color);
+    box-shadow:
+        0 0 0 3px rgba(46, 99, 168, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.38);
+}
+
+body.dark-mode .form-group input,
+body.dark-mode textarea {
+    background: rgba(20, 24, 42, 0.38);
+    border-color: rgba(255, 255, 255, 0.09);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+body.dark-mode .form-group input:focus,
+body.dark-mode textarea:focus {
+    background: rgba(20, 24, 42, 0.50);
+}
+
+
+/* ---------- Buttons ---------- */
+
+.btn-primary {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    box-shadow:
+        0 6px 18px rgba(46, 99, 168, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+
+.btn-primary:hover {
+    box-shadow:
+        0 9px 24px rgba(46, 99, 168, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.17);
+    border-color: rgba(255, 255, 255, 0.38);
+    border-radius: 10px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.38);
+    border-color: var(--primary-color);
+}
+
+body.dark-mode .btn-secondary {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.09);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+body.dark-mode .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.10);
+}
+
+
+/* ---------- Theme Toggle ---------- */
+
+#theme-toggle {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.60);
+    border-radius: 12px;
+    backdrop-filter: blur(6px) saturate(115%);
+    -webkit-backdrop-filter: blur(6px) saturate(115%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.38),
+        0 4px 14px rgba(46, 99, 168, 0.08);
+}
+
+#theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.26);
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+body.dark-mode #theme-toggle {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.09);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.07),
+        0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+body.dark-mode #theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.10);
+}
+
+
+/* ---------- Navigation ---------- */
+
+.nav-item {
+    border: 1px solid transparent;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.17);
+    border-color: rgba(255, 255, 255, 0.26);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+
+.nav-item.active {
+    box-shadow:
+        0 5px 16px rgba(46, 99, 168, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+
+
+/* ---------- Role Badges ---------- */
+
+.role-badge {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+
+body.dark-mode .role-badge {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+
+/* ---------- Tables ---------- */
+
+th {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+
+tr:hover {
+    background: rgba(255, 255, 255, 0.10);
+}
+
+body.dark-mode th {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode tr:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+th,
+td {
+    border-bottom-color: rgba(255, 255, 255, 0.18);
+}
+
+body.dark-mode th,
+body.dark-mode td {
+    border-bottom-color: rgba(255, 255, 255, 0.07);
+}
+
+
+/* ---------- Status Pills ---------- */
+
+.status-yes,
+.status-maybe,
+.status-no,
+.role-admin,
+.role-boss,
+.role-member {
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+
+/* ---------- Rating Controls ---------- */
+
+.rating-label {
+    background: rgba(255, 255, 255, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.rating-label:hover {
+    background: var(--primary-color);
+    border-color: rgba(255, 255, 255, 0.18);
+    transform: translateY(-2px);
+}
+
+.rating-label.selected {
+    box-shadow:
+        0 6px 18px rgba(46, 99, 168, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+
+body.dark-mode .rating-label {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.10);
+}
+
+
+/* ---------- Modal ---------- */
+
+.modal {
+    background: rgba(10, 15, 30, 0.38);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.modal-content {
+    border-radius: 22px;
+    background: var(--glass-bg-strong);
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.20),
+        var(--glass-inset);
+}
+
+body.dark-mode .modal {
+    background: rgba(0, 0, 0, 0.52);
+}
+
+body.dark-mode .modal-content {
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.50),
+        var(--glass-inset);
+}
+
+
+/* ---------- Footer ---------- */
+
+.footer {
+    border-top-color: rgba(255, 255, 255, 0.26);
+}
+
+body.dark-mode .footer {
+    border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+
+/* ---------- Error Message ---------- */
+
+.error-message {
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+
+/* ---------- Accessibility / Reduced Motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 768px) {
+    .login-container,
+    .setup-container {
+        padding: 2rem;
+        border-radius: 20px;
+    }
+
+    .dashboard-header {
+        border-radius: 0 0 16px 16px;
+    }
+}
