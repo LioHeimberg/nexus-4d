@@ -331,7 +331,8 @@ body.dark-mode .error-message {
 
 /* Dashboard */
 .dashboard {
-    min-height: 100vh;
+    height: 100vh;
+    min-height: 0;
     display: flex;
     flex-direction: column;
 }
@@ -343,7 +344,8 @@ body.dark-mode .error-message {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 2px 8px var(--shadow-color);
+    box-shadow: 0 2px 8px var(--shadow-color);   
+    flex: 0 0 auto;
 }
 
 .dashboard-header .logo {
@@ -418,9 +420,12 @@ body.dark-mode .error-message {
 
 /* Dashboard Content */
 .dashboard-content {
-    flex: 1;
+    flex: 1 1 auto;
+    min-height: 0;
     padding: 2rem;
     overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 .page-title {
