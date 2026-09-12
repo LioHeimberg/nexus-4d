@@ -304,7 +304,6 @@ function openDummyModal() {
             return;
         }
 
-        // Werte von der Dummy-Data-Seite holen
         const bosses = parseInt(
             document.getElementById('dummy-bosses')?.value || 0,
             10
@@ -335,7 +334,6 @@ function openDummyModal() {
             10
         );
 
-        // Sicherheitsprüfung
         const values = [
             bosses,
             members,
@@ -352,8 +350,6 @@ function openDummyModal() {
             );
             return;
         }
-
-        // Zweite Bestätigung
         const confirmModal = document.createElement('div');
         confirmModal.className = 'modal open';
 
@@ -473,6 +469,178 @@ function openDummyModal() {
     });
 }
 
+function openDummyRemoveModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal open';
+
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Remove Dummy Data</h3>
+                <button
+                    class="modal-close"
+                    onclick="this.closest('.modal').remove()"
+                >
+                    &times;
+                </button>
+            </div>
+
+            <form id="dummy-data-form">
+                <div class="form-row">
+                    <div class="form-group-full">
+                        <blockquote>
+                            To remove dummy data, please confirm your Admin Password.
+                        </blockquote>
+                    </div>
+
+                    <div class="form-group-full">
+                        <label for="dummy-admin-password">Password</label>
+                        <input
+                            type="password"
+                            id="dummy-admin-password"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-row" style="margin-top: 1rem;">
+                    <button
+                        type="submit"
+                        class="btn-secondary"
+                    >
+                        Continue
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        onclick="this.closest('.modal').remove()"
+                    >
+                        Cancel
+                    </button>
+                </div>
+
+                <div id="error-message" class="error-message"></div>
+            </form>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    modal.querySelector('#dummy-data-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const AdminPass = modal.querySelector('#dummy-admin-password').value;
+
+        if (!AdminPass) {
+            modal.querySelector('#dummy-admin-password').reportValidity();
+            return;
+        }
+
+        const confirmModal = document.createElement('div');
+        confirmModal.className = 'modal open';
+
+        confirmModal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Are you sure?</h3>
+
+                    <button
+                        class="modal-close"
+                        onclick="this.closest('.modal').remove()"
+                    >
+                        &times;
+                    </button>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group-full">
+                        <p>
+                            All dummy data will be removed from the system. This action cannot be undone.
+                        </p>
+                    </div>
+                </div>
+
+                <div
+                    class="form-row"
+                    style="margin-top: 1rem;"
+                >
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        id="confirm-dummy-removal"
+                    >
+                        Remove
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        onclick="this.closest('.modal').remove()"
+                    >
+                        Cancel
+                    </button>
+                </div>
+
+                <div
+                    id="error-message"
+                    class="error-message"
+                ></div>
+            </div>
+        `;
+
+        document.body.appendChild(confirmModal);
+
+        confirmModal
+            .querySelector('#confirm-dummy-removal')
+            .addEventListener('click', async () => {
+
+                const button = confirmModal.querySelector(
+                    '#confirm-dummy-removal'
+                );
+
+                button.disabled = true;
+                button.textContent = 'Removing...';
+
+                try {
+                    const result = await ApiClient.post(
+                        'dummydata_remove.php',
+                        {
+                            AdminPass
+                        }
+                    );
+
+                    console.log('Dummy data removed:', result);
+
+                    confirmModal.remove();
+                    modal.remove();
+
+                    await App.handleNavigation('showUsers');
+
+                    Notification.show(
+                        'Dummy data removed successfully'
+                    );
+
+                } catch (error) {
+                    console.error(
+                        'Remove dummy data error:',
+                        error
+                    );
+
+                    const errorDiv = confirmModal.querySelector(
+                        '#error-message'
+                    );
+
+                    errorDiv.textContent = error.message;
+                    errorDiv.classList.add('visible');
+
+                    button.disabled = false;
+                    button.textContent = 'Remove';
+                }
+            });
+    });
+}
+
 async function editUser(id) {
     console.log('Edit user:', id);
     
@@ -558,4 +726,4 @@ async function editUser(id) {
 }
 
 // Export all modal functions
-export { openUserModal, openEventModal, openPostModal, openBarModal, openDummyModal, editUser };
+export { openUserModal, openEventModal, openPostModal, openBarModal, openDummyModal, openDummyRemoveModal, editUser };

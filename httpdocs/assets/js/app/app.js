@@ -661,107 +661,139 @@ const App = {
         const contentArea = document.getElementById('content-area');
         
         try {
-            let html = `
+            const html = `
                 <h2 class="page-title">Dummy Data</h2>
 
-                <div class="cardContentCenter">
-                    <div class="dummy-data-settings">
-                        <div class="form-row">
-                            <div class="form-group-full">
-                                <label for="dummy-bosses">Bosse</label>
-                                <input
-                                    type="number"
-                                    id="dummy-bosses"
-                                    min="0"
-                                    max="1000"
-                                    value="3"
-                                >
-                            </div>
+                <div class="card dummy-data-card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Generate Dummy Data</h3>
+                            <p class="dummy-data-description">
+                                Choose how many records should be generated for each category.
+                            </p>
+                        </div>
+                    </div>
 
-                            <div class="form-group-full">
-                                <label for="dummy-members">Member</label>
-                                <input
-                                    type="number"
-                                    id="dummy-members"
-                                    min="0"
-                                    max="1000"
-                                    value="8"
-                                >
-                            </div>
+                    <div class="dummy-data-grid">
 
-                            <div class="form-group-full">
-                                <label for="dummy-events">Events</label>
-                                <input
-                                    type="number"
-                                    id="dummy-events"
-                                    min="0"
-                                    max="1000"
-                                    value="3"
-                                >
-                            </div>
+                        <div class="dummy-data-field">
+                            <label for="dummy-bosses">
+                                <span class="dummy-data-label">Bosse</span>
+                                <span class="dummy-data-hint">Users with boss role</span>
+                            </label>
 
-                            <div class="form-group-full">
-                                <label for="dummy-posts">Posts</label>
-                                <input
-                                    type="number"
-                                    id="dummy-posts"
-                                    min="0"
-                                    max="1000"
-                                    value="5"
-                                >
-                            </div>
-
-                            <div class="form-group-full">
-                                <label for="dummy-bars">Bars</label>
-                                <input
-                                    type="number"
-                                    id="dummy-bars"
-                                    min="0"
-                                    max="1000"
-                                    value="4"
-                                >
-                            </div>
-
-                            <div class="form-group-full">
-                                <label for="dummy-reviews">Reviews</label>
-                                <input
-                                    type="number"
-                                    id="dummy-reviews"
-                                    min="0"
-                                    max="1000"
-                                    value="14"
-                                >
-                            </div>
+                            <input
+                                type="number"
+                                id="dummy-bosses"
+                                min="0"
+                                max="1000"
+                                value="3"
+                            >
                         </div>
 
-                        <div class="form-row dummy-data-actions" style="margin-top: 1.5rem;">
-                            <button
-                                type="button"
-                                class="btn-tertiary"
-                                onclick="openDummyModal()"
-                            >
-                                GENERATE DUMMY DATA
-                            </button>
+                        <div class="dummy-data-field">
+                            <label for="dummy-members">
+                                <span class="dummy-data-label">Member</span>
+                                <span class="dummy-data-hint">Users with member role</span>
+                            </label>
 
-                            <button
-                                type="button"
-                                class="btn-secondary"
-                                disabled
+                            <input
+                                type="number"
+                                id="dummy-members"
+                                min="0"
+                                max="1000"
+                                value="8"
                             >
-                                REMOVE DUMMY DATA
-                            </button>
                         </div>
+
+                        <div class="dummy-data-field">
+                            <label for="dummy-events">
+                                <span class="dummy-data-label">Events</span>
+                                <span class="dummy-data-hint">Dummy events</span>
+                            </label>
+
+                            <input
+                                type="number"
+                                id="dummy-events"
+                                min="0"
+                                max="1000"
+                                value="3"
+                            >
+                        </div>
+
+                        <div class="dummy-data-field">
+                            <label for="dummy-posts">
+                                <span class="dummy-data-label">Posts</span>
+                                <span class="dummy-data-hint">Dummy posts</span>
+                            </label>
+
+                            <input
+                                type="number"
+                                id="dummy-posts"
+                                min="0"
+                                max="1000"
+                                value="5"
+                            >
+                        </div>
+
+                        <div class="dummy-data-field">
+                            <label for="dummy-bars">
+                                <span class="dummy-data-label">Bars</span>
+                                <span class="dummy-data-hint">Rümli / bars</span>
+                            </label>
+
+                            <input
+                                type="number"
+                                id="dummy-bars"
+                                min="0"
+                                max="1000"
+                                value="4"
+                            >
+                        </div>
+
+                        <div class="dummy-data-field">
+                            <label for="dummy-reviews">
+                                <span class="dummy-data-label">Reviews</span>
+                                <span class="dummy-data-hint">Guest reviews</span>
+                            </label>
+
+                            <input
+                                type="number"
+                                id="dummy-reviews"
+                                min="0"
+                                max="1000"
+                                value="14"
+                            >
+                        </div>
+
+                    </div>
+
+                    <div class="dummy-data-actions">
+                        <button
+                            type="button"
+                            class="btn-tertiary"
+                            onclick="openDummyModal()"
+                        >
+                            GENERATE DUMMY DATA
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-secondary"
+                            onclick="openDummyRemoveModal()"
+                        >
+                            REMOVE DUMMY DATA
+                        </button>
                     </div>
                 </div>
             `;
             
             contentArea.innerHTML = html;
+
         } catch (error) {
             Notification.show(error.message, 'error');
         }
     },
-    
-
     
     async deleteUser(id) {
         if (!confirm('Are you sure you want to delete this user?')) return;
