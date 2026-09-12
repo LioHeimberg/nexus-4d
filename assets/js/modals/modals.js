@@ -269,10 +269,10 @@ function openDummyModal() {
     submitBtn.addEventListener('click', async (e) => {
         e.preventDefault();
 
-        const location = modal.querySelector('#admin-password').value;
+        const AdminPass = modal.querySelector('#admin-password').value;
         
         try {
-            const result = await ApiClient.post('dummydata_create.php', { password: location });
+            const result = await ApiClient.post('dummydata_create.php', { AdminPass });
             console.log('Dummy data generated:', result);
             modal.classList.remove('open');
             await App.handleNavigation('showDummyData');
