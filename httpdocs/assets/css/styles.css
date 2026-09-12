@@ -5,7 +5,6 @@
 }
 
 :root {
-    /* Light Theme Colors */
     --primary-color: #2e63a8;
     --primary-dark: #234c85;
     --secondary-color: #30a3db;
@@ -29,7 +28,6 @@
 }
 
 body.dark-mode {
-    /* Dark Theme Colors */
     --primary-color: #4e7ec8;
     --primary-dark: #3e63a8;
     --secondary-color: #50b3eb;
@@ -47,6 +45,57 @@ body.dark-mode {
     --border-color: #303050;
     --shadow-color: rgba(0, 0, 0, 0.3);
 }
+
+/* Pergament
+:root {
+    --primary-color: #6b4a2f;
+    --primary-dark: #4a321f;
+
+    --secondary-color: #a87932;
+    --secondary-dark: #805b25;
+
+    --accent-color: #657044;
+
+    --bg-primary: #f3e6c8;
+    --bg-secondary: #e8d7b2;
+    --bg-tertiary: #d8c39a;
+
+    --text-primary: #2f2418;
+    --text-secondary: #594734;
+    --text-tertiary: #806c52;
+
+    --border-color: #b9a078;
+    --shadow-color: rgba(55, 38, 20, 0.18);
+
+    --status-yes: #657044;
+    --status-maybe: #b58a3c;
+    --status-no: #8b3f32;
+}
+
+body.dark-mode {
+    --primary-color: #b18a55;
+    --primary-dark: #8b693f;
+
+    --secondary-color: #c29a50;
+    --secondary-dark: #9d7839;
+
+    --accent-color: #879263;
+
+    --bg-primary: #292016;
+    --bg-secondary: #382b1d;
+    --bg-tertiary: #493823;
+
+    --text-primary: #f0dfb8;
+    --text-secondary: #d1bd91;
+    --text-tertiary: #a9956f;
+
+    --border-color: #665238;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+
+    --status-yes: #879263;
+    --status-maybe: #c09a52;
+    --status-no: #a65343;
+} */
 
 html {
     font-size: 16px;
