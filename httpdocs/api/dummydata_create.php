@@ -171,6 +171,25 @@ try {
 
     }
 
+    function generateDummyPost($bossId, $pdo)
+    {
+        $title = trim(LipsumGenerator::getWords(3, false));
+        $content = trim(LipsumGenerator::getWords(25));
+        
+        $stmt = $pdo->prepare('INSERT INTO posts (title, content, boss_id) VALUES (?, ?, ?)');
+        $stmt->execute([$title, $content, $bossId]);
+        
+        $postId = $pdo->lastInsertId();
+        
+        $stmt = $pdo->prepare('SELECT p.id, p.title, p.content, p.published_at, 
+            u.first_name, u.last_name
+            FROM posts p 
+            JOIN users u ON p.boss_id = u.id 
+            WHERE p.id = ?');
+        $stmt->execute([$postId]);
+        $post = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 
     /* create dummy data */
 
@@ -186,6 +205,10 @@ try {
 
     for ($i = 0; $i < 3; $i++) {
         generateDummyEvent($bossId, $pdo);
+    }
+
+    for ($i = 0; $i < 5; $i++) {
+        generateDummyPost($bossId, $pdo);
     }
 
     
