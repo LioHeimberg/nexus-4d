@@ -70,6 +70,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "Keine Änderungen festgestellt."
           else
-            git commit -m "Automatisches Update: Inhalt von 'mein-ordner' gespiegelt"
+            git commit -m "Automated build process"
             git push origin build
           fi
