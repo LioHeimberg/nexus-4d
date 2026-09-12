@@ -4,7 +4,7 @@ import { AuthManager } from './auth/auth.js';
 import { ApiClient } from './api/client.js';
 import { Notification } from './ui/notifications.js';
 import { App } from './app/app.js';
-import { openUserModal, openEventModal, openPostModal, openBarModal, openDummyModal, editUser } from './modals/modals.js';
+import { openUserModal, openEventModal, openPostModal, openBarModal, openDummyModal, openDummyRemoveModal ,editUser } from './modals/modals.js';
 import { BUILD_VERSION } from './utils/constants.js';
 
 // Make modal functions and deleteUser available globally for onclick handlers in HTML
@@ -13,6 +13,7 @@ window.openEventModal = openEventModal;
 window.openPostModal = openPostModal;
 window.openBarModal = openBarModal;
 window.openDummyModal = openDummyModal;
+window.openDummyRemoveModal = openDummyRemoveModal;
 window.editUser = editUser;
 window.deleteUser = App.deleteUser;
 window.deleteEvent = App.deleteEvent;

@@ -861,7 +861,6 @@ textarea:focus {
     to { transform: rotate(360deg); }
 }
 
-
 /* =========================================================
    ROKJA:4D – Glassmorphism Theme
    Ergänzung zum bestehenden CSS
@@ -1436,5 +1435,224 @@ body.dark-mode .footer {
 
     .dashboard-header {
         border-radius: 0 0 16px 16px;
+    }
+}
+
+/* =========================================================
+   Dummy Data
+   ========================================================= */
+
+.dummy-data-card {
+    max-width: 900px;
+    margin: 0 auto 1.5rem auto;
+    padding: 1.75rem;
+}
+
+.dummy-data-card .card-header {
+    margin-bottom: 1.5rem;
+}
+
+.dummy-data-description {
+    margin-top: 0.35rem;
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
+}
+
+
+/* ---------- Dummy Data Grid ---------- */
+
+.dummy-data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+
+/* ---------- Individual Field ---------- */
+
+.dummy-data-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1rem 1.1rem;
+
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 12px;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.dummy-data-field:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.38);
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 6px 18px rgba(46, 99, 168, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.20);
+}
+
+
+/* ---------- Labels ---------- */
+
+.dummy-data-field label {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    cursor: text;
+}
+
+.dummy-data-label {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.dummy-data-hint {
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+    margin-top: 0.15rem;
+}
+
+
+/* ---------- Number Inputs ---------- */
+
+.dummy-data-field input {
+    width: 90px;
+    flex-shrink: 0;
+
+    padding: 0.65rem 0.75rem;
+
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+
+    background: var(--bg-primary);
+    color: var(--text-primary);
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.dummy-data-field input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+
+    box-shadow:
+        0 0 0 3px rgba(46, 99, 168, 0.10);
+}
+
+
+/* Remove number input arrows where supported */
+
+.dummy-data-field input::-webkit-outer-spin-button,
+.dummy-data-field input::-webkit-inner-spin-button {
+    margin: 0;
+}
+
+
+/* ---------- Actions ---------- */
+
+.dummy-data-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.dummy-data-actions .btn-tertiary {
+    width: auto;
+    min-width: 240px;
+}
+
+.dummy-data-actions .btn-secondary {
+    width: auto;
+    min-width: 180px;
+}
+
+
+/* ---------- Disabled Remove Button ---------- */
+
+.dummy-data-actions .btn-secondary:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.dummy-data-actions .btn-secondary:disabled:hover {
+    background: rgba(255, 255, 255, 0.17);
+    border-color: rgba(255, 255, 255, 0.38);
+}
+
+
+/* ---------- Dark Mode ---------- */
+
+body.dark-mode .dummy-data-field {
+    background: rgba(255, 255, 255, 0.045);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .dummy-data-field:hover {
+    background: rgba(255, 255, 255, 0.075);
+    border-color: rgba(255, 255, 255, 0.14);
+
+    box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .dummy-data-field input {
+    background: rgba(20, 24, 42, 0.45);
+    border-color: rgba(255, 255, 255, 0.09);
+}
+
+body.dark-mode .dummy-data-actions {
+    border-top-color: rgba(255, 255, 255, 0.07);
+}
+
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 768px) {
+
+    .dummy-data-card {
+        padding: 1.25rem;
+    }
+
+    .dummy-data-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dummy-data-field {
+        padding: 0.9rem 1rem;
+    }
+
+    .dummy-data-actions {
+        flex-direction: column;
+    }
+
+    .dummy-data-actions .btn-tertiary,
+    .dummy-data-actions .btn-secondary {
+        width: 100%;
+        min-width: 0;
     }
 }
