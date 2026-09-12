@@ -265,8 +265,8 @@ const App = {
                             <td><span class="role-badge role-${user.role}">${user.role}</span></td>
                             <td>${new Date(user.created_at).toLocaleDateString()}</td>
                             ${user.role !== 'admin' ? `<td>
-                                <button onclick="editUser(${user.id})" class="btn-secondary">Edit</button>
-                                <button onclick="deleteUser(${user.id})" class="btn-secondary" style="color: var(--status-no)">Delete</button>
+                                <button onclick="editUser(${user.id})" class="btn-secondary"><i class="bi bi-pencil-square"></i></button>
+                                <button onclick="deleteUser(${user.id})" class="btn-secondary" style="color: var(--status-no)"><i class="bi bi-trash"></i></button>
                             </td>` : ''}
                         </tr>
                     `;
@@ -384,7 +384,7 @@ const App = {
                             <td>${post.title}</td>
                             <td>${post.first_name} ${post.last_name}</td>
                             <td>${new Date(post.published_at).toLocaleDateString()}</td>
-                            ${user && (user.role === 'admin' || user.role === 'boss') ? `<td><button onclick="deletePost(${JSON.stringify(post.id)})" class="btn-secondary" style="color: var(--status-no); padding: 4px 8px;">Delete</button></td>` : ''}
+                            ${user && (user.role === 'admin' || user.role === 'boss') ? `<td><button onclick="deletePost(${JSON.stringify(post.id)})" class="btn-secondary" style="color: var(--status-no);"><i class="bi bi-trash"></i></button></td>` : ''}
                         </tr>
                     `;
                 });
@@ -537,8 +537,8 @@ const App = {
                             <td>${new Date(review.created_at).toLocaleDateString()}</td>
                             <td>
                                 ${review.can_remove && (AuthManager.getUser().role === 'admin' || AuthManager.getUser().role === 'boss') ? `
-                                    <button onclick="removeReview(${review.id})" class="btn-secondary" style="color: var(--status-no); padding: 4px 8px;">
-                                        Remove
+                                    <button onclick="removeReview(${review.id})" class="btn-secondary" style="color: var(--status-no);">
+                                        <i class="bi bi-trash"></i>
                                     </button>
                                 ` : ''}
                             </td>
