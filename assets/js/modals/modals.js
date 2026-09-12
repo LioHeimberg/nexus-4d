@@ -236,6 +236,54 @@ function openBarModal() {
     });
 }
 
+function openDummyModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal open';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Generate Dummy Data</h3>
+                <button class="modal-close" onclick="this.closest('.modal').classList.remove('open')">&times;</button>
+            </div>
+            <form id="add-bar-form">
+                <div class="form-row">
+                    <div class="form-group-full">
+                        <blockquote>To generate dummy data, please confirm your Admin Password and click the "Generate" button below.</blockquote>
+                    </div>
+                    <div class="form-group-full">
+                        <label for="admin-password">Password</label>
+                        <input type="password" id="admin-password" required>
+                    </div>
+                </div>
+                <div class="form-row" style="margin-top: 1rem;">
+                    <button type="submit" class="btn-secondary">Generate</button>
+                    <button type="submit" class="btn-primary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    const submitBtn = modal.querySelector('button[type="submit"]');
+    submitBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        const location = modal.querySelector('#admin-password').value;
+        
+        try {
+            const result = await ApiClient.post('dummydata_create.php', { password: location });
+            console.log('Dummy data generated:', result);
+            modal.classList.remove('open');
+            await App.handleNavigation('showDummyData');
+            Notification.show('Dummy data generated successfully');
+        } catch (error) {
+            console.error('Generate dummy data error:', error);
+            Notification.show(error.message, 'error');
+        }
+    });
+}
+
 async function editUser(id) {
     console.log('Edit user:', id);
     
@@ -321,4 +369,4 @@ async function editUser(id) {
 }
 
 // Export all modal functions
-export { openUserModal, openEventModal, openPostModal, openBarModal, editUser };
+export { openUserModal, openEventModal, openPostModal, openBarModal, openDummyModal, editUser };
