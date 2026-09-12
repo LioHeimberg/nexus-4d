@@ -981,6 +981,7 @@ body.dark-mode .dashboard::after {
 
 #setup-page,
 #under-construction {
+    padding: 2rem;
     position: relative;
     z-index: 0;
 }
