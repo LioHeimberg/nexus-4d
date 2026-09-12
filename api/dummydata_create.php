@@ -45,27 +45,108 @@ try {
     }
     
     $passwordHash = password_hash("123", PASSWORD_DEFAULT);
-    
-    $stmt = $pdo->prepare('INSERT INTO users (email, password_hash, role, first_name, last_name) VALUES (?, ?, ?, ?, ?)');
-    $stmt->execute(['boss@example.com', $passwordHash, 'boss', 'Boss', 'User']);
-    
-    $bossId = $pdo->lastInsertId();
-    
-    $stmt = $pdo->prepare('SELECT id, email, role, first_name, last_name, created_at FROM users WHERE id = ?');
-    $stmt->execute([$bossId]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $stmt = $pdo->prepare('INSERT INTO users (email, password_hash, role, first_name, last_name) VALUES (?, ?, ?, ?, ?)');
-    $stmt->execute(['member@example.com', $passwordHash, 'member', 'Member', 'User']);
-    
-    $userId = $pdo->lastInsertId();
-    
-    $stmt = $pdo->prepare('SELECT id, email, role, first_name, last_name, created_at FROM users WHERE id = ?');
-    $stmt->execute([$userId]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    function generateUniqueDummyName(PDO $pdo, string $prefix): string
+    {
+        // Maximal 20 Versuche
+        for ($i = 0; $i < 20; $i++) {
 
-    
-    /* --- Create Dummy Event --- */
+            $name = trim(LipsumGenerator::getWords(1, false));
+
+            // Nur erstes Wort
+            $name = explode(' ', $name)[0];
+
+            // Sonderzeichen entfernen
+            $name = preg_replace('/[^a-zA-Z0-9]/', '', $name);
+
+            // Falls Lipsum nichts Brauchbares geliefert hat
+            if ($name === '') {
+                $name = 'user';
+            }
+
+            $name = strtolower($name);
+
+            // Erste Variante ohne Nummer
+            $email = $prefix . '-' . $name . '@example.com';
+
+            // Prüfen, ob E-Mail bereits existiert
+            $stmt = $pdo->prepare(
+                'SELECT COUNT(*) FROM users WHERE email = ?'
+            );
+
+            $stmt->execute([$email]);
+
+            if ((int) $stmt->fetchColumn() === 0) {
+                return $name;
+            }
+
+            // Name existiert bereits -> nächste Variante
+            for ($number = 2; $number <= 100; $number++) {
+
+                $uniqueName = $name . $number;
+                $email = $prefix . '-' . $uniqueName . '@example.com';
+
+                $stmt->execute([$email]);
+
+                if ((int) $stmt->fetchColumn() === 0) {
+                    return $uniqueName;
+                }
+            }
+        }
+
+        throw new \RuntimeException(
+            'Could not generate a unique dummy name.'
+        );
+    }
+
+
+    function generateDummyBoss(PDO $pdo, string $passwordHash): int
+    {
+        $bossname = generateUniqueDummyName($pdo, 'boss');
+
+        $email = 'boss-' . $bossname . '@example.com';
+
+        $stmt = $pdo->prepare(
+            'INSERT INTO users
+            (email, password_hash, role, first_name, last_name)
+            VALUES (?, ?, ?, ?, ?)'
+        );
+
+        $stmt->execute([
+            $email,
+            $passwordHash,
+            'boss',
+            'Boss',
+            $bossname
+        ]);
+
+        return (int) $pdo->lastInsertId();
+    }
+
+
+    function generateDummyMember(PDO $pdo, string $passwordHash): int
+    {
+        $membername = generateUniqueDummyName($pdo, 'member');
+
+        $email = 'member-' . $membername . '@example.com';
+
+        $stmt = $pdo->prepare(
+            'INSERT INTO users
+            (email, password_hash, role, first_name, last_name)
+            VALUES (?, ?, ?, ?, ?)'
+        );
+
+        $stmt->execute([
+            $email,
+            $passwordHash,
+            'member',
+            'Member',
+            $membername
+        ]);
+
+        return (int) $pdo->lastInsertId();
+    }
+
 
     function generateDummyEvent($bossId, $pdo)
     {
@@ -90,9 +171,46 @@ try {
 
     }
 
+    function generateDummyPost($bossId, $pdo)
+    {
+        $title = trim(LipsumGenerator::getWords(3, false));
+        $content = trim(LipsumGenerator::getWords(25));
+        
+        $stmt = $pdo->prepare('INSERT INTO posts (title, content, boss_id) VALUES (?, ?, ?)');
+        $stmt->execute([$title, $content, $bossId]);
+        
+        $postId = $pdo->lastInsertId();
+        
+        $stmt = $pdo->prepare('SELECT p.id, p.title, p.content, p.published_at, 
+            u.first_name, u.last_name
+            FROM posts p 
+            JOIN users u ON p.boss_id = u.id 
+            WHERE p.id = ?');
+        $stmt->execute([$postId]);
+        $post = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    /* create dummy data */
+
+    for ($i = 0; $i < 3; $i++) {
+        generateDummyBoss($pdo, $passwordHash);
+    }
+
+    $bossId = $pdo->lastInsertId();
+
+    for ($i = 0; $i < 8; $i++) {
+        generateDummyMember($pdo, $passwordHash);
+    }
+
     for ($i = 0; $i < 3; $i++) {
         generateDummyEvent($bossId, $pdo);
     }
+
+    for ($i = 0; $i < 5; $i++) {
+        generateDummyPost($bossId, $pdo);
+    }
+
     
     unset($user['password_hash']);
     
