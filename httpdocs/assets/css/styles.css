@@ -135,6 +135,27 @@ body.dashboard-active {
     border-color: var(--primary-color);
 }
 
+.btn-tertiary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    width: 80%;
+}
+
+.btn-tertiary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-tertiary:active {
+    transform: scale(0.98);
+}
+
+
 /* Theme Toggle */
 .theme-toggle {
     margin-top: 1rem;
@@ -419,6 +440,22 @@ body.dark-mode .error-message {
 }
 
 .card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 16px var(--shadow-color);
+}
+
+.cardContentCenter {
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 3rem;
+    margin-bottom: 3rem;
+    border: 1px solid var(--border-color);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    display: flex;
+    justify-content: center;
+}
+
+.cardContentCenter:hover {
     border-color: var(--primary-color);
     box-shadow: 0 4px 16px var(--shadow-color);
 }
@@ -944,6 +981,7 @@ body.dark-mode .dashboard::after {
 .login-container,
 .setup-container,
 .card,
+.cardContentCenter,
 .stat-card,
 .form-section,
 .modal-content,
@@ -1033,6 +1071,7 @@ body.dark-mode .dashboard::after {
 /* ---------- Cards ---------- */
 
 .card,
+.cardContentCenter,
 .stat-card,
 .form-section {
     border-radius: 18px;
@@ -1044,6 +1083,7 @@ body.dark-mode .dashboard::after {
 }
 
 .card:hover,
+.cardContentCenter:hover,
 .stat-card:hover,
 .form-section:hover {
     border-color: rgba(255, 255, 255, 0.75);
@@ -1053,6 +1093,7 @@ body.dark-mode .dashboard::after {
 }
 
 body.dark-mode .card:hover,
+body.dark-mode .cardContentCenter:hover,
 body.dark-mode .stat-card:hover,
 body.dark-mode .form-section:hover {
     border-color: rgba(255, 255, 255, 0.18);
@@ -1145,6 +1186,22 @@ body.dark-mode textarea:focus {
     border-color: var(--primary-color);
 }
 
+.btn-tertiary {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    box-shadow:
+        0 6px 18px rgba(46, 99, 168, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+
+.btn-tertiary:hover {
+    box-shadow:
+        0 9px 24px rgba(46, 99, 168, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transform: translateY(-1px);
+}
+
+
 body.dark-mode .btn-secondary {
     background: rgba(255, 255, 255, 0.06);
     border-color: rgba(255, 255, 255, 0.09);
@@ -1154,7 +1211,6 @@ body.dark-mode .btn-secondary {
 body.dark-mode .btn-secondary:hover {
     background: rgba(255, 255, 255, 0.10);
 }
-
 
 /* ---------- Theme Toggle ---------- */
 

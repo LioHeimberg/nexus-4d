@@ -99,7 +99,9 @@ const App = {
                 { label: 'Events', action: 'showEvents' },
                 { label: 'Posts', action: 'showPosts' },
                 { label: 'Reviews', action: 'showReviewsAll' },
-                { label: 'Member Stats', action: 'showMemberStats' }
+                { label: 'Member Stats', action: 'showMemberStats' },
+                { label: 'Bars', action: 'showBars' },
+                { label: 'DummyData', action: 'showDummyData' }
             ];
         } else if (role === 'boss') {
             menuItems = [
@@ -162,6 +164,9 @@ const App = {
                     break;
                 case 'showBars':
                     await this.showBars();
+                    break;
+                case 'showDummyData':
+                    await this.showDummyData();
                     break;
 
             }
@@ -643,6 +648,23 @@ const App = {
                             </tbody>
                         </table>
                     </div>
+                </div>
+            `;
+            
+            contentArea.innerHTML = html;
+        } catch (error) {
+            Notification.show(error.message, 'error');
+        }
+    },
+    
+    async showDummyData() {
+        const contentArea = document.getElementById('content-area');
+        
+        try {
+            let html = `
+                <h2 class="page-title">Dummy Data</h2>
+                <div class="cardContentCenter">
+                        <button class="btn-tertiary" onclick="openDummyModal()">GENERATE DUMMY DATA</button>
                 </div>
             `;
             
