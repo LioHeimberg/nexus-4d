@@ -1,10 +1,10 @@
 <?php
 
-namespace MasterOdin\Gists;
+namespace nexus4d\api;
 
 /**
  * Class LipsumGenerator
- * @package MasterOdin\Gists
+ * @package nexus4d\api
  *
  * Provides a way to generate dummy text to be used on a page using
  * http://www.lipsum.com as the generator. More convinent than
@@ -92,16 +92,65 @@ class LipsumGenerator {
      *
      * @return string
      */
-    private static function sendRequest($type, $amount, $start) {
-        $start = ($start === true) ? "yes" : "no";
-        $url = static::BASE_URL.'?'.http_build_query(array("what" => $type, "amount" => $amount, "start" => $start));
+    private static function sendRequest($type, $amount, $start)
+    {
+        $start = $start ? 'yes' : 'no';
+
+        $url = static::BASE_URL . '?' . http_build_query([
+            'what'   => $type,
+            'amount' => $amount,
+            'start'  => $start
+        ]);
+
         $ch = curl_init($url);
-        $timeout = 5;
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_TIMEOUT        => 10,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_USERAGENT      => 'Mozilla/5.0',
+            CURLOPT_HTTPHEADER     => [
+                'Accept: application/json'
+            ],
+        ]);
+
         $data = curl_exec($ch);
-        curl_close($ch);
+
+        if ($data === false) {
+            $error = curl_error($ch);
+
+            throw new \RuntimeException(
+                'Lipsum cURL error: ' . $error
+            );
+        }
+
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
         $json = json_decode($data, true);
+
+        if ($httpCode !== 200) {
+            throw new \RuntimeException(
+                'Lipsum returned HTTP ' . $httpCode .
+                '. Response: ' . substr($data, 0, 500)
+            );
+        }
+
+        if (!is_array($json)) {
+            throw new \RuntimeException(
+                'Invalid JSON response from Lipsum. ' .
+                'HTTP ' . $httpCode .
+                '. Response: ' . substr($data, 0, 500)
+            );
+        }
+
+        if (!isset($json['feed']['lipsum'])) {
+            throw new \RuntimeException(
+                'Lipsum response does not contain feed.lipsum. ' .
+                'Response: ' . substr($data, 0, 500)
+            );
+        }
+
         return $json['feed']['lipsum'];
     }
 }
