@@ -239,87 +239,237 @@ function openBarModal() {
 function openDummyModal() {
     const modal = document.createElement('div');
     modal.className = 'modal open';
+
     modal.innerHTML = `
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Generate Dummy Data</h3>
-                <button class="modal-close" onclick="this.closest('.modal').classList.remove('open')">&times;</button>
+                <button
+                    class="modal-close"
+                    onclick="this.closest('.modal').remove()"
+                >
+                    &times;
+                </button>
             </div>
-            <form id="add-bar-form">
+
+            <form id="dummy-data-form">
                 <div class="form-row">
                     <div class="form-group-full">
-                        <blockquote>To generate dummy data, please confirm your Admin Password and click the "Generate" button below.</blockquote>
+                        <blockquote>
+                            To generate dummy data, please confirm your Admin Password.
+                        </blockquote>
                     </div>
+
                     <div class="form-group-full">
-                        <label for="admin-password">Password</label>
-                        <input type="password" id="admin-password" required>
+                        <label for="dummy-admin-password">Password</label>
+                        <input
+                            type="password"
+                            id="dummy-admin-password"
+                            required
+                        >
                     </div>
                 </div>
+
                 <div class="form-row" style="margin-top: 1rem;">
-                    <button type="button" class="btn-secondary" id="presubmit-btn">Generate</button>
-                    <button type="button" class="btn-primary" onclick="this.closest('.modal').classList.remove('open')">Cancel</button>
-                    <div id="error-message" class="error-message"></div>
+                    <button
+                        type="submit"
+                        class="btn-secondary"
+                    >
+                        Continue
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        onclick="this.closest('.modal').remove()"
+                    >
+                        Cancel
+                    </button>
                 </div>
+
+                <div id="error-message" class="error-message"></div>
             </form>
         </div>
     `;
 
-    function openDummySubmitModal(AdminPass) {
-        const submitModal = document.createElement('div');
-        submitModal.className = 'modal open';
-        submitModal.innerHTML = `
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Are you sure?</h3>
-                    <button class="modal-close" onclick="this.closest('.modal').classList.remove('open')">&times;</button>
-                </div>
-                <form id="add-bar-form">
-                    <div class="form-row" style="margin-top: 1rem;">
-                        <button type="submit" class="btn-secondary">Generate</button>
-                        <button type="button" class="btn-primary" onclick="this.closest('.modal').classList.remove('open')">Cancel</button>
-                    </div>
-                    <div id="error-message" class="error-message"></div>
-                </form>
-            </div>
-        `;
-
-        document.body.appendChild(submitModal);
-
-        submitModal.querySelector('form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            try {
-                const result = await ApiClient.post('dummydata_create.php', { AdminPass });
-                console.log('Dummy data generated:', result);
-
-                submitModal.classList.remove('open');
-                modal.classList.remove('open');
-
-                await App.handleNavigation('showUsers');
-                Notification.show('Dummy data generated successfully');
-            } catch (error) {
-                console.error('Generate dummy data error:', error);
-
-                const errorDiv = submitModal.querySelector('#error-message');
-                errorDiv.textContent = error.message;
-                errorDiv.classList.add('visible');
-            }
-        });
-    }
-
     document.body.appendChild(modal);
 
-    const presubmitBtn = modal.querySelector('#presubmit-btn');
+    modal.querySelector('#dummy-data-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    presubmitBtn.addEventListener('click', () => {
-        const AdminPass = modal.querySelector('#admin-password').value;
+        const AdminPass = modal.querySelector('#dummy-admin-password').value;
 
         if (!AdminPass) {
-            modal.querySelector('#admin-password').reportValidity();
+            modal.querySelector('#dummy-admin-password').reportValidity();
             return;
         }
 
-        openDummySubmitModal(AdminPass);
+        // Werte von der Dummy-Data-Seite holen
+        const bosses = parseInt(
+            document.getElementById('dummy-bosses')?.value || 0,
+            10
+        );
+
+        const members = parseInt(
+            document.getElementById('dummy-members')?.value || 0,
+            10
+        );
+
+        const events = parseInt(
+            document.getElementById('dummy-events')?.value || 0,
+            10
+        );
+
+        const posts = parseInt(
+            document.getElementById('dummy-posts')?.value || 0,
+            10
+        );
+
+        const bars = parseInt(
+            document.getElementById('dummy-bars')?.value || 0,
+            10
+        );
+
+        const reviews = parseInt(
+            document.getElementById('dummy-reviews')?.value || 0,
+            10
+        );
+
+        // Sicherheitsprüfung
+        const values = [
+            bosses,
+            members,
+            events,
+            posts,
+            bars,
+            reviews
+        ];
+
+        if (values.some(value => isNaN(value) || value < 0 || value > 1000)) {
+            Notification.show(
+                'Please enter values between 0 and 1000.',
+                'error'
+            );
+            return;
+        }
+
+        // Zweite Bestätigung
+        const confirmModal = document.createElement('div');
+        confirmModal.className = 'modal open';
+
+        confirmModal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Are you sure?</h3>
+
+                    <button
+                        class="modal-close"
+                        onclick="this.closest('.modal').remove()"
+                    >
+                        &times;
+                    </button>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group-full">
+                        <p>
+                            The following dummy data will be generated:
+                        </p>
+
+                        <ul>
+                            <li>${bosses} bosses</li>
+                            <li>${members} members</li>
+                            <li>${events} events</li>
+                            <li>${posts} posts</li>
+                            <li>${bars} bars</li>
+                            <li>${reviews} reviews</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div
+                    class="form-row"
+                    style="margin-top: 1rem;"
+                >
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        id="confirm-dummy-generation"
+                    >
+                        Generate
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        onclick="this.closest('.modal').remove()"
+                    >
+                        Cancel
+                    </button>
+                </div>
+
+                <div
+                    id="error-message"
+                    class="error-message"
+                ></div>
+            </div>
+        `;
+
+        document.body.appendChild(confirmModal);
+
+        confirmModal
+            .querySelector('#confirm-dummy-generation')
+            .addEventListener('click', async () => {
+
+                const button = confirmModal.querySelector(
+                    '#confirm-dummy-generation'
+                );
+
+                button.disabled = true;
+                button.textContent = 'Generating...';
+
+                try {
+                    const result = await ApiClient.post(
+                        'dummydata_create.php',
+                        {
+                            AdminPass,
+                            bosses,
+                            members,
+                            events,
+                            posts,
+                            bars,
+                            reviews
+                        }
+                    );
+
+                    console.log('Dummy data generated:', result);
+
+                    confirmModal.remove();
+                    modal.remove();
+
+                    await App.handleNavigation('showUsers');
+
+                    Notification.show(
+                        'Dummy data generated successfully'
+                    );
+
+                } catch (error) {
+                    console.error(
+                        'Generate dummy data error:',
+                        error
+                    );
+
+                    const errorDiv = confirmModal.querySelector(
+                        '#error-message'
+                    );
+
+                    errorDiv.textContent = error.message;
+                    errorDiv.classList.add('visible');
+
+                    button.disabled = false;
+                    button.textContent = 'Generate';
+                }
+            });
     });
 }
 

@@ -29,10 +29,59 @@ try {
     $input = json_decode(file_get_contents('php://input'), true);
 
         if (!isset($input['AdminPass'])) {
-        http_response_code(400);
-        echo json_encode(['success' => false, 'message' => 'Admin password is required']);
-        exit();
-    }
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Admin password is required'
+            ]);
+            exit();
+        }
+
+        $bossCount = isset($input['bosses'])
+            ? (int) $input['bosses']
+            : 0;
+
+        $memberCount = isset($input['members'])
+            ? (int) $input['members']
+            : 0;
+
+        $eventCount = isset($input['events'])
+            ? (int) $input['events']
+            : 0;
+
+        $postCount = isset($input['posts'])
+            ? (int) $input['posts']
+            : 0;
+
+        $barCount = isset($input['bars'])
+            ? (int) $input['bars']
+            : 0;
+
+        $reviewCount = isset($input['reviews'])
+            ? (int) $input['reviews']
+            : 0;
+
+        $counts = [
+            'bosses' => $bossCount,
+            'members' => $memberCount,
+            'events' => $eventCount,
+            'posts' => $postCount,
+            'bars' => $barCount,
+            'reviews' => $reviewCount
+        ];
+
+        foreach ($counts as $type => $count) {
+            if ($count < 0 || $count > 1000) {
+                http_response_code(400);
+
+                echo json_encode([
+                    'success' => false,
+                    'message' => "Invalid amount for {$type}. Must be between 0 and 1000."
+                ]);
+
+                exit();
+            }
+        }
 
     $stmt = $pdo->prepare('SELECT id, email, password_hash, role, first_name, last_name FROM users WHERE role = ?');
     $stmt->execute(['admin']);
@@ -48,28 +97,22 @@ try {
 
     function generateUniqueDummyName(PDO $pdo, string $prefix): string
     {
-        // Maximal 20 Versuche
         for ($i = 0; $i < 20; $i++) {
 
             $name = trim(LipsumGenerator::getWords(1, false));
 
-            // Nur erstes Wort
             $name = explode(' ', $name)[0];
 
-            // Sonderzeichen entfernen
             $name = preg_replace('/[^a-zA-Z0-9]/', '', $name);
 
-            // Falls Lipsum nichts Brauchbares geliefert hat
             if ($name === '') {
                 $name = 'user';
             }
 
             $name = strtolower($name);
 
-            // Erste Variante ohne Nummer
             $email = $prefix . '-' . $name . '@example.com';
 
-            // Prüfen, ob E-Mail bereits existiert
             $stmt = $pdo->prepare(
                 'SELECT COUNT(*) FROM users WHERE email = ?'
             );
@@ -80,7 +123,6 @@ try {
                 return $name;
             }
 
-            // Name existiert bereits -> nächste Variante
             for ($number = 2; $number <= 100; $number++) {
 
                 $uniqueName = $name . $number;
@@ -322,29 +364,59 @@ try {
 
     /* create dummy data */
 
-    for ($i = 0; $i < 3; $i++) {
-        generateDummyBoss($pdo, $passwordHash);
+    $bossIds = [];
+
+    for ($i = 0; $i < $bossCount; $i++) {
+        $bossIds[] = generateDummyBoss($pdo, $passwordHash);
     }
 
-    $bossId = $pdo->lastInsertId();
-
-    for ($i = 0; $i < 8; $i++) {
+    for ($i = 0; $i < $memberCount; $i++) {
         generateDummyMember($pdo, $passwordHash);
     }
 
-    for ($i = 0; $i < 3; $i++) {
-        generateDummyEvent($bossId, $pdo);
+    if (count($bossIds) > 0) {
+
+        for ($i = 0; $i < $eventCount; $i++) {
+            $bossId = $bossIds[array_rand($bossIds)];
+
+            generateDummyEvent(
+                $bossId,
+                $pdo
+            );
+        }
+
+        for ($i = 0; $i < $postCount; $i++) {
+            $bossId = $bossIds[array_rand($bossIds)];
+
+            generateDummyPost(
+                $bossId,
+                $pdo
+            );
+        }
+
+        for ($i = 0; $i < $barCount; $i++) {
+            $bossId = $bossIds[array_rand($bossIds)];
+
+            generateDummyBar(
+                $bossId,
+                $pdo
+            );
+        }
+
+    } else {
+
+        if (
+            $eventCount > 0 ||
+            $postCount > 0 ||
+            $barCount > 0
+        ) {
+            throw new \RuntimeException(
+                'At least one boss is required to generate events, posts or bars.'
+            );
+        }
     }
 
-    for ($i = 0; $i < 5; $i++) {
-        generateDummyPost($bossId, $pdo);
-    }
-
-    for ($i = 0; $i < 4; $i++) {
-        generateDummyBar($bossId, $pdo);
-    }
-
-    for ($i = 0; $i < 14; $i++) {
+    for ($i = 0; $i < $reviewCount; $i++) {
         generateDummyReview($pdo);
     }
 
