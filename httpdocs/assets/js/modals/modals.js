@@ -256,31 +256,70 @@ function openDummyModal() {
                     </div>
                 </div>
                 <div class="form-row" style="margin-top: 1rem;">
-                    <button type="submit" class="btn-secondary">Generate</button>
-                    <button type="submit" class="btn-primary">Cancel</button>
+                    <button type="button" class="btn-secondary" id="presubmit-btn">Generate</button>
+                    <button type="button" class="btn-primary" onclick="this.closest('.modal').classList.remove('open')">Cancel</button>
+                    <div id="error-message" class="error-message"></div>
                 </div>
             </form>
         </div>
     `;
-    
-    document.body.appendChild(modal);
-    
-    const submitBtn = modal.querySelector('button[type="submit"]');
-    submitBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
 
+    function openDummySubmitModal(AdminPass) {
+        const submitModal = document.createElement('div');
+        submitModal.className = 'modal open';
+        submitModal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Are you sure?</h3>
+                    <button class="modal-close" onclick="this.closest('.modal').classList.remove('open')">&times;</button>
+                </div>
+                <form id="add-bar-form">
+                    <div class="form-row" style="margin-top: 1rem;">
+                        <button type="submit" class="btn-secondary">Generate</button>
+                        <button type="button" class="btn-primary" onclick="this.closest('.modal').classList.remove('open')">Cancel</button>
+                    </div>
+                    <div id="error-message" class="error-message"></div>
+                </form>
+            </div>
+        `;
+
+        document.body.appendChild(submitModal);
+
+        submitModal.querySelector('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            try {
+                const result = await ApiClient.post('dummydata_create.php', { AdminPass });
+                console.log('Dummy data generated:', result);
+
+                submitModal.classList.remove('open');
+                modal.classList.remove('open');
+
+                await App.handleNavigation('showUsers');
+                Notification.show('Dummy data generated successfully');
+            } catch (error) {
+                console.error('Generate dummy data error:', error);
+
+                const errorDiv = submitModal.querySelector('#error-message');
+                errorDiv.textContent = error.message;
+                errorDiv.classList.add('visible');
+            }
+        });
+    }
+
+    document.body.appendChild(modal);
+
+    const presubmitBtn = modal.querySelector('#presubmit-btn');
+
+    presubmitBtn.addEventListener('click', () => {
         const AdminPass = modal.querySelector('#admin-password').value;
-        
-        try {
-            const result = await ApiClient.post('dummydata_create.php', { AdminPass });
-            console.log('Dummy data generated:', result);
-            modal.classList.remove('open');
-            await App.handleNavigation('showDummyData');
-            Notification.show('Dummy data generated successfully');
-        } catch (error) {
-            console.error('Generate dummy data error:', error);
-            Notification.show(error.message, 'error');
+
+        if (!AdminPass) {
+            modal.querySelector('#admin-password').reportValidity();
+            return;
         }
+
+        openDummySubmitModal(AdminPass);
     });
 }
 
