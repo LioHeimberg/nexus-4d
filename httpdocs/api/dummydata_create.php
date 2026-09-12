@@ -190,6 +190,135 @@ try {
         $post = $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    function generateDummyBar($bossId, $pdo)
+    {
+        $name = 'Rümli - ' . trim(LipsumGenerator::getWords(1, false));
+        $location = trim(LipsumGenerator::getWords(1, false));
+        
+        $stmt = $pdo->prepare('INSERT INTO bars (name, location, boss_id) VALUES (?, ?, ?)');
+        $stmt->execute([$name, $location, $bossId]);
+        
+        $barId = $pdo->lastInsertId();
+        
+        $stmt = $pdo->prepare('SELECT id, name, location FROM bars WHERE id = ?');
+        $stmt->execute([$barId]);
+        $bar = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function generateDummyReview(PDO $pdo): int
+    {
+
+        $stmt = $pdo->query(
+            "SELECT id
+            FROM users
+            WHERE role = 'member'
+            ORDER BY RAND()
+            LIMIT 1"
+        );
+
+        $member = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$member) {
+            throw new \RuntimeException(
+                'No member found for dummy review.'
+            );
+        }
+
+        $targetUserId = (int) $member['id'];
+
+        $useEvent = (bool) random_int(0, 1);
+
+        $eventId = null;
+        $barId = null;
+
+        if ($useEvent) {
+
+            $stmt = $pdo->query(
+                "SELECT id
+                FROM events
+                ORDER BY RAND()
+                LIMIT 1"
+            );
+
+            $event = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$event) {
+                throw new \RuntimeException(
+                    'No event found for dummy review.'
+                );
+            }
+
+            $eventId = (int) $event['id'];
+
+        } else {
+
+            $stmt = $pdo->query(
+                "SELECT id
+                FROM bars
+                ORDER BY RAND()
+                LIMIT 1"
+            );
+
+            $bar = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$bar) {
+                throw new \RuntimeException(
+                    'No bar found for dummy review.'
+                );
+            }
+
+            $barId = (int) $bar['id'];
+        }
+
+        $ratingFriendly = random_int(1, 5);
+        $ratingProfessional = random_int(1, 5);
+        $ratingOverall = random_int(1, 5);
+
+        $comment = trim(
+            LipsumGenerator::getWords(random_int(5, 13), false)
+        );
+
+        if ($comment === '') {
+            $comment = null;
+        }
+
+        $reviewerType = 'guest';
+        $reviewerId = null;
+        $reviewerName = 'Dummy Guest - ' . trim(LipsumGenerator::getWords(1, false));
+
+        $stmt = $pdo->prepare(
+            'INSERT INTO reviews
+            (
+                reviewer_type,
+                reviewer_id,
+                target_user_id,
+                event_id,
+                bar_id,
+                rating_friendly,
+                rating_professional,
+                rating_overall,
+                comment,
+                reviewer_name
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+        );
+
+        $stmt->execute([
+            $reviewerType,
+            $reviewerId,
+            $targetUserId,
+            $eventId,
+            $barId,
+            $ratingFriendly,
+            $ratingProfessional,
+            $ratingOverall,
+            $comment,
+            $reviewerName
+        ]);
+
+
+        return (int) $pdo->lastInsertId();
+    }
 
     /* create dummy data */
 
@@ -209,6 +338,14 @@ try {
 
     for ($i = 0; $i < 5; $i++) {
         generateDummyPost($bossId, $pdo);
+    }
+
+    for ($i = 0; $i < 4; $i++) {
+        generateDummyBar($bossId, $pdo);
+    }
+
+    for ($i = 0; $i < 14; $i++) {
+        generateDummyReview($pdo);
     }
 
     
