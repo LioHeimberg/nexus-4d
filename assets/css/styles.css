@@ -5,7 +5,6 @@
 }
 
 :root {
-    /* Light Theme Colors */
     --primary-color: #2e63a8;
     --primary-dark: #234c85;
     --secondary-color: #30a3db;
@@ -29,7 +28,6 @@
 }
 
 body.dark-mode {
-    /* Dark Theme Colors */
     --primary-color: #4e7ec8;
     --primary-dark: #3e63a8;
     --secondary-color: #50b3eb;
@@ -47,6 +45,57 @@ body.dark-mode {
     --border-color: #303050;
     --shadow-color: rgba(0, 0, 0, 0.3);
 }
+
+/* Pergament
+:root {
+    --primary-color: #6b4a2f;
+    --primary-dark: #4a321f;
+
+    --secondary-color: #a87932;
+    --secondary-dark: #805b25;
+
+    --accent-color: #657044;
+
+    --bg-primary: #f3e6c8;
+    --bg-secondary: #e8d7b2;
+    --bg-tertiary: #d8c39a;
+
+    --text-primary: #2f2418;
+    --text-secondary: #594734;
+    --text-tertiary: #806c52;
+
+    --border-color: #b9a078;
+    --shadow-color: rgba(55, 38, 20, 0.18);
+
+    --status-yes: #657044;
+    --status-maybe: #b58a3c;
+    --status-no: #8b3f32;
+}
+
+body.dark-mode {
+    --primary-color: #b18a55;
+    --primary-dark: #8b693f;
+
+    --secondary-color: #c29a50;
+    --secondary-dark: #9d7839;
+
+    --accent-color: #879263;
+
+    --bg-primary: #292016;
+    --bg-secondary: #382b1d;
+    --bg-tertiary: #493823;
+
+    --text-primary: #f0dfb8;
+    --text-secondary: #d1bd91;
+    --text-tertiary: #a9956f;
+
+    --border-color: #665238;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+
+    --status-yes: #879263;
+    --status-maybe: #c09a52;
+    --status-no: #a65343;
+} */
 
 html {
     font-size: 16px;
@@ -1655,5 +1704,391 @@ body.dark-mode .dummy-data-actions {
     .dummy-data-actions .btn-secondary {
         width: 100%;
         min-width: 0;
+    }
+}
+
+/* =========================================================
+   Events / Event Feed
+   ========================================================= */
+
+/* ---------- Feed Container ---------- */
+
+.feed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+
+/* ---------- Event Item ---------- */
+
+.feed-item {
+    position: relative;
+    padding: 1.25rem 1.35rem;
+
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 16px;
+
+    backdrop-filter: blur(10px) saturate(115%);
+    -webkit-backdrop-filter: blur(10px) saturate(115%);
+
+    box-shadow:
+        0 6px 20px rgba(46, 99, 168, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.feed-item:hover {
+    transform: translateY(-2px);
+
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.40);
+
+    box-shadow:
+        0 12px 28px rgba(46, 99, 168, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+
+/* ---------- Event Header ---------- */
+
+.feed-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.8rem;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.feed-title {
+    flex: 1;
+
+    margin: 0;
+
+    color: var(--text-primary);
+    font-size: 1.15rem;
+    font-weight: 650;
+    line-height: 1.3;
+}
+
+.feed-date {
+    flex-shrink: 0;
+
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    text-align: right;
+}
+
+
+/* ---------- Event Content ---------- */
+
+.feed-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.feed-location {
+    margin: 0;
+
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.feed-description {
+    margin: 0;
+
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.65;
+
+    white-space: pre-line;
+}
+
+
+/* ---------- Event Footer ---------- */
+
+.feed-footer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+
+/* ---------- Event Badges ---------- */
+
+.feed-footer .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.35rem 0.7rem;
+
+    border-radius: 999px;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+
+    border: 1px solid rgba(255, 255, 255, 0.16);
+
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+
+/* Attending */
+
+.badge-yes {
+    background: rgba(62, 176, 116, 0.16);
+    color: var(--status-yes);
+    border-color: rgba(62, 176, 116, 0.25) !important;
+}
+
+
+/* Maybe */
+
+.badge-maybe {
+    background: rgba(236, 208, 87, 0.16);
+    color: var(--status-maybe);
+    border-color: rgba(236, 208, 87, 0.25) !important;
+}
+
+
+/* Not going */
+
+.badge-no {
+    background: rgba(235, 87, 107, 0.16);
+    color: var(--status-no);
+    border-color: rgba(235, 87, 107, 0.25) !important;
+}
+
+
+/* ---------- Delete Button ---------- */
+
+.btn-delete {
+    flex-shrink: 0;
+
+    width: 32px;
+    height: 32px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid rgba(235, 87, 107, 0.22);
+    border-radius: 8px;
+
+    background: rgba(235, 87, 107, 0.08);
+    color: var(--status-no);
+
+    font-size: 0.8rem;
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.btn-delete:hover {
+    background: rgba(235, 87, 107, 0.18);
+    border-color: rgba(235, 87, 107, 0.40);
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 14px rgba(235, 87, 107, 0.14);
+}
+
+.btn-delete:active {
+    transform: scale(0.94);
+}
+
+
+/* ---------- Empty Event State ---------- */
+
+.feed-container .empty-state {
+    margin: 0;
+    padding: 4rem 2rem;
+
+    border: 1px dashed rgba(255, 255, 255, 0.22);
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+
+/* =========================================================
+   Dark Mode
+   ========================================================= */
+
+body.dark-mode .feed-item {
+    background: rgba(255, 255, 255, 0.045);
+    border-color: rgba(255, 255, 255, 0.08);
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .feed-item:hover {
+    background: rgba(255, 255, 255, 0.075);
+    border-color: rgba(255, 255, 255, 0.14);
+
+    box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+body.dark-mode .feed-header {
+    border-bottom-color: rgba(255, 255, 255, 0.07);
+}
+
+body.dark-mode .feed-footer {
+    border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .feed-footer .badge {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .feed-container .empty-state {
+    border-color: rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.035);
+}
+
+body.dark-mode .btn-delete {
+    background: rgba(235, 87, 107, 0.07);
+    border-color: rgba(235, 87, 107, 0.16);
+}
+
+body.dark-mode .btn-delete:hover {
+    background: rgba(235, 87, 107, 0.14);
+    border-color: rgba(235, 87, 107, 0.30);
+}
+
+
+/* =========================================================
+   Responsive / Mobile
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .feed-item {
+        padding: 1rem;
+        border-radius: 14px;
+    }
+
+    .feed-header {
+        align-items: flex-start;
+        gap: 0.6rem;
+    }
+
+    .feed-title {
+        font-size: 1.05rem;
+    }
+
+    .feed-date {
+        max-width: 42%;
+        font-size: 0.72rem;
+        line-height: 1.35;
+    }
+
+    .feed-content {
+        gap: 0.4rem;
+    }
+
+    .feed-location,
+    .feed-description {
+        font-size: 0.85rem;
+    }
+
+    .feed-footer {
+        gap: 0.4rem;
+    }
+
+    .feed-footer .badge {
+        padding: 0.35rem 0.6rem;
+        font-size: 0.7rem;
+    }
+
+    .btn-delete {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+
+/* ---------- Very Small Screens ---------- */
+
+@media (max-width: 480px) {
+
+    .feed-header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.5rem;
+    }
+
+    .feed-title {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .feed-date {
+        grid-column: 1 / -1;
+        grid-row: 2;
+
+        max-width: none;
+        text-align: left;
+    }
+
+    .btn-delete {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .feed-footer .badge {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+}
+
+
+/* ---------- Reduced Motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+    .feed-item,
+    .btn-delete {
+        transition: none;
+    }
+
+    .feed-item:hover,
+    .btn-delete:hover {
+        transform: none;
     }
 }
