@@ -320,16 +320,17 @@ const App = {
                             <div class="feed-header">
                                 <h3 class="feed-title">${event.title}</h3>
                                 <span class="feed-date">${formattedDate}</span>
-                                ${user && (user.role === 'admin' || user.role === 'boss') ? `<button class="btn-delete" onclick="deleteEvent(${event.id})" title="Delete event">✖</button>` : ''}
+                                ${user && (user.role === 'admin' || user.role === 'boss') ? `<button class="btn-delete" onclick="deleteEvent(${event.id})" title="Delete event"><i class="bi bi-trash"></i></button>` : ''}
                             </div>
                             <div class="feed-content">
-                                <p class="feed-location">📍 ${event.location}</p>
+                                <p class="feed-location"><i class="bi bi-geo-fill"></i> ${event.location}</p>
                                 ${event.description ? `<p class="feed-description">${event.description}</p>` : ''}
                             </div>
                             <div class="feed-footer">
-                                <span class="badge badge-yes">${event.yes_count} attending</span>
-                                <span class="badge badge-maybe">${event.maybe_count} maybe</span>
-                                <span class="badge badge-no">${event.no_count} not going</span>
+                                <span class="badge badge-yes">${event.yes_count}&nbsp;<i class="bi bi-patch-check"></i></span>
+                                <span class="badge badge-maybe">${event.maybe_count}&nbsp;<i class="bi bi-patch-question"></i></span>
+                                <span class="badge badge-no">${event.no_count}&nbsp;<i class="bi bi-ban"></i></span>
+                                <h4>Written by: <b>${event.first_name}&nbsp;${event.last_name}</b></h4>
                             </div>
                         </div>
                     `;
