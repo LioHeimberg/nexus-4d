@@ -44,7 +44,16 @@ try {
     $passwordHash = password_hash("123", PASSWORD_DEFAULT);
     
     $stmt = $pdo->prepare('INSERT INTO users (email, password_hash, role, first_name, last_name) VALUES (?, ?, ?, ?, ?)');
-    $stmt->execute(['boss@liolp.ch', $passwordHash, 'boss', 'Boss', 'User']);
+    $stmt->execute(['boss@example.com', $passwordHash, 'boss', 'Boss', 'User']);
+    
+    $userId = $pdo->lastInsertId();
+    
+    $stmt = $pdo->prepare('SELECT id, email, role, first_name, last_name, created_at FROM users WHERE id = ?');
+    $stmt->execute([$userId]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $stmt = $pdo->prepare('INSERT INTO users (email, password_hash, role, first_name, last_name) VALUES (?, ?, ?, ?, ?)');
+    $stmt->execute(['member@example.com', $passwordHash, 'member', 'Member', 'User']);
     
     $userId = $pdo->lastInsertId();
     
