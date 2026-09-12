@@ -25,7 +25,7 @@ try {
     
     $input = json_decode(file_get_contents('php://input'), true);
 
-        if (!isset($input['password'])) {
+        if (!isset($input['AdminPass'])) {
         http_response_code(400);
         echo json_encode(['success' => false, 'message' => 'Admin password is required']);
         exit();
@@ -35,13 +35,13 @@ try {
     $stmt->execute(['admin']);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     
-    if (!$user || !password_verify($input['password'], $user['password_hash'])) {
+    if (!$user || !password_verify($input['AdminPass'], $user['password_hash'])) {
         http_response_code(401);
         echo json_encode(['success' => false, 'message' => 'Invalid Admin password']);
         exit();
     }
     
-    $passwordHash = password_hash(123, PASSWORD_DEFAULT);
+    $passwordHash = password_hash("123", PASSWORD_DEFAULT);
     
     $stmt = $pdo->prepare('INSERT INTO users (email, password_hash, role, first_name, last_name) VALUES (?, ?, ?, ?, ?)');
     $stmt->execute(['boss@liolp.ch', $passwordHash, 'boss', 'Boss', 'User']);
