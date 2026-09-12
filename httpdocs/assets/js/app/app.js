@@ -663,8 +663,95 @@ const App = {
         try {
             let html = `
                 <h2 class="page-title">Dummy Data</h2>
+
                 <div class="cardContentCenter">
-                        <button class="btn-tertiary" onclick="openDummyModal()">GENERATE DUMMY DATA</button>
+                    <div class="dummy-data-settings">
+                        <div class="form-row">
+                            <div class="form-group-full">
+                                <label for="dummy-bosses">Bosse</label>
+                                <input
+                                    type="number"
+                                    id="dummy-bosses"
+                                    min="0"
+                                    max="1000"
+                                    value="3"
+                                >
+                            </div>
+
+                            <div class="form-group-full">
+                                <label for="dummy-members">Member</label>
+                                <input
+                                    type="number"
+                                    id="dummy-members"
+                                    min="0"
+                                    max="1000"
+                                    value="8"
+                                >
+                            </div>
+
+                            <div class="form-group-full">
+                                <label for="dummy-events">Events</label>
+                                <input
+                                    type="number"
+                                    id="dummy-events"
+                                    min="0"
+                                    max="1000"
+                                    value="3"
+                                >
+                            </div>
+
+                            <div class="form-group-full">
+                                <label for="dummy-posts">Posts</label>
+                                <input
+                                    type="number"
+                                    id="dummy-posts"
+                                    min="0"
+                                    max="1000"
+                                    value="5"
+                                >
+                            </div>
+
+                            <div class="form-group-full">
+                                <label for="dummy-bars">Bars</label>
+                                <input
+                                    type="number"
+                                    id="dummy-bars"
+                                    min="0"
+                                    max="1000"
+                                    value="4"
+                                >
+                            </div>
+
+                            <div class="form-group-full">
+                                <label for="dummy-reviews">Reviews</label>
+                                <input
+                                    type="number"
+                                    id="dummy-reviews"
+                                    min="0"
+                                    max="1000"
+                                    value="14"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-row dummy-data-actions" style="margin-top: 1.5rem;">
+                            <button
+                                type="button"
+                                class="btn-tertiary"
+                                onclick="openDummyModal()"
+                            >
+                                GENERATE DUMMY DATA
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn-secondary"
+                                disabled
+                            >
+                                REMOVE DUMMY DATA
+                            </button>
+                        </div>
+                    </div>
                 </div>
             `;
             

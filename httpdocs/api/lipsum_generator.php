@@ -3,154 +3,156 @@
 namespace nexus4d\api;
 
 /**
- * Class LipsumGenerator
- * @package nexus4d\api
+ * Local dummy text generator.
  *
- * Provides a way to generate dummy text to be used on a page using
- * http://www.lipsum.com as the generator. More convinent than
- * having to go to the site itself and copy/paste and then
- * manually converting all line breaks into <br /> tags in the HTML!
- *
- * @since 1.0.0
+ * No external API connection is required.
  */
-class LipsumGenerator {
-    const BASE_URL = "http://www.lipsum.com/feed/json";
-
+class LipsumGenerator
+{
     private function __construct() {}
     private function __clone() {}
 
-    /**
-     * Generate a given amount of paragraphs of dummy text
-     *
-     * @param int  $amount Number of paragraphs to generate. Minimum value is 1.
-     * @param bool $start  Should the first paragraph start with "Lorem ipsum dolor sit amet..."
-     *
-     * @return string
-     */
-    public static function getParagraphs($amount = 5, $start = true) {
-        return nl2br(static::sendRequest('paras', intval($amount), $start === true));
-    }
+    private const WORDS = [
+        'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur',
+        'adipiscing', 'elit', 'integer', 'nec', 'odio', 'praesent',
+        'libero', 'sed', 'cursus', 'ante', 'dapibus', 'diam',
+        'sed', 'nisi', 'nulla', 'quis', 'sem', 'at', 'nibh',
+        'elementum', 'imperdiet', 'duis', 'sagittis', 'ipsum',
+        'praesent', 'mauris', 'fusce', 'nec', 'tellus', 'sed',
+        'augue', 'semper', 'porta', 'maecenas', 'massa', 'vestibulum',
+        'lacinia', 'arcu', 'eget', 'nulla', 'class', 'aptent',
+        'taciti', 'sociosqu', 'ad', 'litora', 'torquent', 'per',
+        'conubia', 'nostra', 'inceptos', 'himenaeos', 'curabitur',
+        'sodales', 'ligula', 'in', 'libero', 'vivamus', 'euismod',
+        'mauris', 'varius', 'quam', 'quisque', 'velit', 'nisi',
+        'porta', 'eget', 'aliquet', 'nec', 'imperdiet', 'at',
+        'urna', 'nullam', 'vitae', 'libero', 'ac', 'risus',
+        'placerat', 'mattis', 'vestibulum', 'commodo', 'felis',
+        'quis', 'tortor', 'donec', 'id', 'elit', 'non', 'mi',
+        'porta', 'gravida', 'at', 'eget', 'metus'
+    ];
 
     /**
-     * Generate a given amount of words of dummy text
-     *
-     * @param int  $amount Number of wrods to generated. Minimum value is 5.
-     * @param bool $start  Should the first paragraph start with "Lorem ipsum dolor sit amet..."
-     *
-     * @return string
+     * Generate paragraphs of dummy text.
      */
-    public static function getWords($amount = 5, $start = true) {
-        return nl2br(static::sendRequest('words', intval($amount), $start === true));
-    }
-
-    /**
-     * Generate a given amount of bytes of dummy text
-     *
-     * @param int  $amount Number of bytes of words to generate. Minimum value is 27.
-     * @param bool $start  Should the returned bytes start with "Lorem ipsum dolor sit amet..."
-     *
-     * @return string
-     */
-    public static function getBytes($amount = 27, $start = true) {
-        return nl2br(static::sendRequest('bytes', intval($amount), $start === true));
-    }
-
-    /**
-     * Fetch lists from http://www.lipsum.com which we then parse down into a nested array
-     * where the array points to array that contains each individual line from the response such
-     * that it best matches what you would get if you were to go to the site itself. For example,
-     * if you wanted 5 lists, it would give you 5 groupings of some number of sentences (which
-     * are separated).
-     *
-     * @param int  $amount Number of lists to generate. Minimum value is 1.
-     * @param bool $start  Should the first line start with "Lorem ipsum dolor sit amet..."
-     *
-     * @return array
-     */
-    public static function getLists($amount = 5, $start = true) {
-        $return = static::sendRequest('lists', intval($amount), $start === true);
-        $return = explode("\n", $return);
-        foreach ($return as $key => $value) {
-            $value = explode(".", trim($value));
-            unset($value[count($value)-1]);
-            foreach ($value as $kkey => $vvalue) {
-                $value[$kkey] = trim($vvalue).".";
-            }
-            $return[$key] = $value;
-        }
-        return $return;
-    }
-
-    /**
-     * Sends a request to http://www.lipsum.com for its JSON feed for the specified
-     * type of response (paragraphs, words, etc.) of the desired amount and whether
-     * or not the response should start with "Lorem ipsum dolor sit amet..."
-     *
-     * @param string $type
-     * @param int    $amount
-     * @param bool   $start
-     *
-     * @return string
-     */
-    private static function sendRequest($type, $amount, $start)
+    public static function getParagraphs($amount = 5, $start = true)
     {
-        $start = $start ? 'yes' : 'no';
+        $amount = max(1, (int) $amount);
 
-        $url = static::BASE_URL . '?' . http_build_query([
-            'what'   => $type,
-            'amount' => $amount,
-            'start'  => $start
-        ]);
+        $paragraphs = [];
 
-        $ch = curl_init($url);
+        for ($i = 0; $i < $amount; $i++) {
+            $wordCount = random_int(40, 80);
 
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_TIMEOUT        => 10,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_USERAGENT      => 'Mozilla/5.0',
-            CURLOPT_HTTPHEADER     => [
-                'Accept: application/json'
-            ],
-        ]);
-
-        $data = curl_exec($ch);
-
-        if ($data === false) {
-            $error = curl_error($ch);
-
-            throw new \RuntimeException(
-                'Lipsum cURL error: ' . $error
+            $paragraphs[] = self::generateText(
+                $wordCount,
+                $start && $i === 0
             );
         }
 
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        return nl2br(implode("\n\n", $paragraphs));
+    }
 
-        $json = json_decode($data, true);
+    /**
+     * Generate a given amount of words.
+     */
+    public static function getWords($amount = 5, $start = true)
+    {
+        $amount = max(1, (int) $amount);
 
-        if ($httpCode !== 200) {
-            throw new \RuntimeException(
-                'Lipsum returned HTTP ' . $httpCode .
-                '. Response: ' . substr($data, 0, 500)
-            );
+        return nl2br(
+            self::generateText($amount, $start)
+        );
+    }
+
+    /**
+     * Generate a given amount of bytes.
+     */
+    public static function getBytes($amount = 27, $start = true)
+    {
+        $amount = max(27, (int) $amount);
+
+        $text = '';
+
+        while (strlen($text) < $amount) {
+            $text .= self::generateText(
+                random_int(5, 12),
+                $start && $text === ''
+            ) . ' ';
         }
 
-        if (!is_array($json)) {
-            throw new \RuntimeException(
-                'Invalid JSON response from Lipsum. ' .
-                'HTTP ' . $httpCode .
-                '. Response: ' . substr($data, 0, 500)
-            );
+        return nl2br(
+            substr(trim($text), 0, $amount)
+        );
+    }
+
+    /**
+     * Generate lists.
+     */
+    public static function getLists($amount = 5, $start = true)
+    {
+        $amount = max(1, (int) $amount);
+
+        $lists = [];
+
+        for ($i = 0; $i < $amount; $i++) {
+            $items = [];
+
+            $itemCount = random_int(3, 7);
+
+            for ($j = 0; $j < $itemCount; $j++) {
+                $items[] = self::generateText(
+                    random_int(5, 12),
+                    $start && $i === 0 && $j === 0
+                ) . '.';
+            }
+
+            $lists[] = $items;
         }
 
-        if (!isset($json['feed']['lipsum'])) {
-            throw new \RuntimeException(
-                'Lipsum response does not contain feed.lipsum. ' .
-                'Response: ' . substr($data, 0, 500)
-            );
+        return $lists;
+    }
+
+    /**
+     * Generate random dummy text.
+     */
+    private static function generateText($amount, $start)
+    {
+        $amount = max(1, (int) $amount);
+
+        $words = [];
+
+        for ($i = 0; $i < $amount; $i++) {
+            $words[] = self::WORDS[
+                array_rand(self::WORDS)
+            ];
         }
 
-        return $json['feed']['lipsum'];
+        $text = implode(' ', $words);
+
+        if ($start) {
+            $prefix = 'Lorem ipsum dolor sit amet';
+
+            $remaining = max(
+                0,
+                $amount - 5
+            );
+
+            if ($remaining > 0) {
+                $rest = [];
+
+                for ($i = 0; $i < $remaining; $i++) {
+                    $rest[] = self::WORDS[
+                        array_rand(self::WORDS)
+                    ];
+                }
+
+                $text = $prefix . ' ' . implode(' ', $rest);
+            } else {
+                $text = $prefix;
+            }
+        }
+
+        return ucfirst(trim($text));
     }
 }
