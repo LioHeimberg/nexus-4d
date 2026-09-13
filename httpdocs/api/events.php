@@ -41,6 +41,7 @@ try {
         foreach ($events as &$event) {
             $event['my_vote'] = in_array($event['id'], $myVotes) 
                 ? (function() use ($event, $stmt, $session) {
+                    global $pdo;
                     $stmt = $pdo->prepare('SELECT status FROM event_participation WHERE event_id = ? AND member_id = ?');
                     $stmt->execute([$event['id'], $session['user_id']]);
                     return $stmt->fetchColumn();

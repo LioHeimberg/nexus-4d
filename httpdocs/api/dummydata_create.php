@@ -61,13 +61,18 @@ try {
             ? (int) $input['reviews']
             : 0;
 
+        $participationCount = isset($input['participations'])
+            ? (int) $input['participations']
+            : 0;
+
         $counts = [
             'bosses' => $bossCount,
             'members' => $memberCount,
             'events' => $eventCount,
             'posts' => $postCount,
             'bars' => $barCount,
-            'reviews' => $reviewCount
+            'reviews' => $reviewCount,
+            'participations' => $participationCount
         ];
 
         foreach ($counts as $type => $count) {
@@ -362,6 +367,96 @@ try {
         return (int) $pdo->lastInsertId();
     }
 
+    function generateDummyEventParticipation(PDO $pdo): int
+    {
+        $maxAttempts = 3;
+
+        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+
+            // Zufälligen Member holen
+            $stmt = $pdo->query(
+                "SELECT id
+                FROM users
+                WHERE role = 'member'
+                ORDER BY RAND()
+                LIMIT 1"
+            );
+
+            $member = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$member) {
+                throw new \RuntimeException(
+                    'No member found for dummy event participation.'
+                );
+            }
+
+            $targetUserId = (int) $member['id'];
+
+            // Zufälliges Event holen
+            $stmt = $pdo->query(
+                "SELECT id
+                FROM events
+                ORDER BY RAND()
+                LIMIT 1"
+            );
+
+            $event = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$event) {
+                throw new \RuntimeException(
+                    'No event found for dummy event participation.'
+                );
+            }
+
+            $eventId = (int) $event['id'];
+
+            // Prüfen, ob diese Kombination bereits existiert
+            $stmt = $pdo->prepare(
+                'SELECT id
+                FROM event_participation
+                WHERE event_id = ?
+                AND member_id = ?
+                LIMIT 1'
+            );
+
+            $stmt->execute([
+                $eventId,
+                $targetUserId
+            ]);
+
+            // Existiert bereits -> nächsten Versuch starten
+            if ($stmt->fetch(PDO::FETCH_ASSOC)) {
+                continue;
+            }
+
+            // Neue Teilnahme erstellen
+            $options = ["yes", "maybe", "no"];
+            $participation = $options[array_rand($options)];
+
+            $stmt = $pdo->prepare(
+                'INSERT INTO event_participation
+                (
+                    event_id,
+                    member_id,
+                    status
+                )
+                VALUES (?, ?, ?)'
+            );
+
+            $stmt->execute([
+                $eventId,
+                $targetUserId,
+                $participation
+            ]);
+
+            // Erfolgreich erstellt
+            return 1;
+        }
+
+        // Nach 3 erfolglosen Versuchen abbrechen
+        return 0;
+    }
+
     /* create dummy data */
 
     $bossIds = [];
@@ -418,6 +513,10 @@ try {
 
     for ($i = 0; $i < $reviewCount; $i++) {
         generateDummyReview($pdo);
+    }
+
+    for ($i = 0; $i < $participationCount; $i++) {
+        generateDummyEventParticipation($pdo);
     }
 
     
