@@ -2203,7 +2203,7 @@ body.dark-mode .dummy-data-actions {
 }
 
 .badge-yes:hover {
-    background-color: var(--bg-tertiary);
+    transform: scale(1.02);
 }
 
 .badge-yes:active {
@@ -2220,7 +2220,7 @@ body.dark-mode .dummy-data-actions {
 }
 
 .badge-maybe:hover {
-    background-color: var(--bg-tertiary);
+    transform: scale(1.02);
 }
 
 .badge-maybe:active {
@@ -2238,7 +2238,7 @@ body.dark-mode .dummy-data-actions {
 }
 
 .badge-no:hover {
-    background-color: var(--bg-tertiary);
+    transform: scale(1.02);
 }
 
 .badge-no:active {
