@@ -319,7 +319,7 @@ const App = {
                         <div class="feed-item">
                             <div class="feed-header">
                                 <h3 class="feed-title">${event.title}</h3>
-                                <span class="feed-date">${formattedDate}</span>
+                                <span class="feed-date"><i class="bi bi-calendar-date"></i>&nbsp;&nbsp;${formattedDate}</span>
                                 ${user && (user.role === 'admin' || user.role === 'boss') ? `<button class="btn-delete" onclick="deleteEvent(${event.id})" title="Delete event"><i class="bi bi-trash"></i></button>` : ''}
                             </div>
                             <div class="feed-content">
