@@ -289,60 +289,190 @@ const App = {
     async showEvents() {
         const contentArea = document.getElementById('content-area');
         const user = AuthManager.getUser();
-        
+
         try {
             const data = await ApiClient.get('events.php');
-            
+
             let html = `
                 <h2 class="page-title">Events</h2>
                 <div class="card">
-                <div class="card-header">
-                    <span class="card-title">Event Feed</span>
-                    ${user && (user.role === 'admin' || user.role === 'boss') ? '<button class="btn-primary" onclick="openEventModal()">+ Add Event</button>' : ''}
-                </div>
+                    <div class="card-header">
+                        <span class="card-title">Event Feed</span>
+                        ${
+                            user && (user.role === 'admin' || user.role === 'boss')
+                                ? '<button class="btn-primary" onclick="openEventModal()">+ Add Event</button>'
+                                : ''
+                        }
+                    </div>
+
                     <div class="feed-container">
             `;
-            
+
             if (data.events.length === 0) {
-                html += `<div class="empty-state">No events found</div>`;
+
+                html += `
+                    <div class="empty-state">
+                        No events found
+                    </div>
+                `;
+
             } else {
+
                 data.events.forEach(event => {
+
                     const eventDate = new Date(event.event_date);
-                    const formattedDate = eventDate.toLocaleDateString('de-DE', { 
-                        weekday: 'long', 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
+
+                    const formattedDate = eventDate.toLocaleDateString('de-DE', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
                     });
-                    
+
+                    const myVote = event.my_vote || null;
+
                     html += `
                         <div class="feed-item">
+
                             <div class="feed-header">
-                                <h3 class="feed-title">${event.title}</h3>
-                                <span class="feed-date"><i class="bi bi-calendar-date"></i>&nbsp;&nbsp;${formattedDate}</span>
-                                ${user && (user.role === 'admin' || user.role === 'boss') ? `<button class="btn-delete" onclick="deleteEvent(${event.id})" title="Delete event"><i class="bi bi-trash"></i></button>` : ''}
+                                <h3 class="feed-title">
+                                    ${event.title}
+                                </h3>
+
+                                <span class="feed-date">
+                                    <i class="bi bi-calendar-date"></i>
+                                    &nbsp;&nbsp;${formattedDate}
+                                </span>
+
+                                ${
+                                    user &&
+                                    (user.role === 'admin' || user.role === 'boss')
+                                        ? `
+                                            <button
+                                                class="btn-delete"
+                                                onclick="deleteEvent(${event.id})"
+                                                title="Delete event"
+                                            >
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        `
+                                        : ''
+                                }
                             </div>
+
                             <div class="feed-content">
-                                <p class="feed-location"><i class="bi bi-geo-fill"></i> ${event.location}</p>
-                                ${event.description ? `<p class="feed-description">${event.description}</p>` : ''}
+
+                                <p class="feed-location">
+                                    <i class="bi bi-geo-fill"></i>
+                                    ${event.location}
+                                </p>
+
+                                ${
+                                    event.description
+                                        ? `<p class="feed-description">${event.description}</p>`
+                                        : ''
+                                }
+
                             </div>
+
                             <div class="feed-footer">
-                                <button class="badge badge-yes">${event.yes_count}&nbsp;<i class="bi bi-patch-check"></i></button>
-                                <button class="badge badge-maybe">${event.maybe_count}&nbsp;<i class="bi bi-patch-question"></i></button>
-                                <button class="badge badge-no">${event.no_count}&nbsp;<i class="bi bi-ban"></i></button>
-                                <h4>Written by: <b>${event.first_name}&nbsp;${event.last_name}</b></h4>
+
+                                ${
+                                    user && user.role === 'member'
+                                        ? `
+                                            <div class="event-voting">
+
+                                                <button
+                                                    class="badge badge-yes ${myVote === 'yes' ? 'active' : ''}"
+                                                    onclick="voteEvent(${event.id}, 'yes')"
+                                                >
+                                                    ${event.yes_count}
+                                                    &nbsp;
+                                                    <i class="bi bi-patch-check"></i>
+                                                </button>
+
+                                                <button
+                                                    class="badge badge-maybe ${myVote === 'maybe' ? 'active' : ''}"
+                                                    onclick="voteEvent(${event.id}, 'maybe')"
+                                                >
+                                                    ${event.maybe_count}
+                                                    &nbsp;
+                                                    <i class="bi bi-patch-question"></i>
+                                                </button>
+
+                                                <button
+                                                    class="badge badge-no ${myVote === 'no' ? 'active' : ''}"
+                                                    onclick="voteEvent(${event.id}, 'no')"
+                                                >
+                                                    ${event.no_count}
+                                                    &nbsp;
+                                                    <i class="bi bi-ban"></i>
+                                                </button>
+
+                                            </div>
+                                        `
+                                        : `
+                                            <div class="event-voting">
+
+                                                <span class="badge badge-yes">
+                                                    ${event.yes_count}
+                                                    &nbsp;
+                                                    <i class="bi bi-patch-check"></i>
+                                                </span>
+
+                                                <span class="badge badge-maybe">
+                                                    ${event.maybe_count}
+                                                    &nbsp;
+                                                    <i class="bi bi-patch-question"></i>
+                                                </span>
+
+                                                <span class="badge badge-no">
+                                                    ${event.no_count}
+                                                    &nbsp;
+                                                    <i class="bi bi-ban"></i>
+                                                </span>
+
+                                            </div>
+                                        `
+                                }
+
+                                <h4>
+                                    Written by:
+                                    <b>
+                                        ${event.first_name}&nbsp;${event.last_name}
+                                    </b>
+                                </h4>
+
                             </div>
+
                         </div>
                     `;
                 });
             }
-            
+
             html += `
                     </div>
                 </div>
             `;
-            
+
             contentArea.innerHTML = html;
+
+        } catch (error) {
+            Notification.show(error.message, 'error');
+        }
+    },
+
+    async voteEvent(eventId, status) {
+        try {
+            await ApiClient.post('events.php', {
+                event_id: eventId,
+                status: status
+            });
+
+            // Events neu laden:
+            // Dadurch werden Counts und aktive Auswahl aktualisiert.
+            await App.showEvents();
+
         } catch (error) {
             Notification.show(error.message, 'error');
         }
@@ -860,9 +990,13 @@ const App = {
     }
 };
 
-// Make removeReview available globally for onclick handlers
+// Make functions available globally for onclick handlers
 window.removeReview = function(id) {
     App.removeReview(id);
+};
+
+window.voteEvent = function(eventId, status) {
+    App.voteEvent(eventId, status);
 };
 
 export { App };

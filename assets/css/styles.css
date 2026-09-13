@@ -2155,6 +2155,25 @@ body.dark-mode .dummy-data-actions {
     white-space: pre-line;
 }
 
+.event-voting {
+    display: flex;
+    gap: 8px;
+}
+
+.event-voting .badge {
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.event-voting .badge:hover {
+    transform: translateY(-1px);
+}
+
+.event-voting .badge.active {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    font-weight: 700;
+}
 
 /* ---------- Event Footer ---------- */
 
