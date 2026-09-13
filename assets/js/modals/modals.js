@@ -334,13 +334,19 @@ function openDummyModal() {
             10
         );
 
+        const participations = parseInt(
+            document.getElementById('dummy-participations')?.value || 0,
+            10
+        );
+
         const values = [
             bosses,
             members,
             events,
             posts,
             bars,
-            reviews
+            reviews,
+            participations
         ];
 
         if (values.some(value => isNaN(value) || value < 0 || value > 1000)) {
@@ -379,6 +385,7 @@ function openDummyModal() {
                             <li>${posts} posts</li>
                             <li>${bars} bars</li>
                             <li>${reviews} reviews</li>
+                            <li>${participations} reviews</li>
                         </ul>
                     </div>
                 </div>
@@ -434,7 +441,8 @@ function openDummyModal() {
                             events,
                             posts,
                             bars,
-                            reviews
+                            reviews,
+                            participations
                         }
                     );
 

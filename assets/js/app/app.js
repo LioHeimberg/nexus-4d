@@ -767,6 +767,21 @@ const App = {
                             >
                         </div>
 
+                        <div class="dummy-data-field">
+                            <label for="dummy-participations">
+                                <span class="dummy-data-label">Participations</span>
+                                <span class="dummy-data-hint">Event Participations</span>
+                            </label>
+
+                            <input
+                                type="number"
+                                id="dummy-participations"
+                                min="0"
+                                max="1000"
+                                value="32"
+                            >
+                        </div>
+
                     </div>
 
                     <div class="dummy-data-actions">
