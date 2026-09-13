@@ -327,9 +327,9 @@ const App = {
                                 ${event.description ? `<p class="feed-description">${event.description}</p>` : ''}
                             </div>
                             <div class="feed-footer">
-                                <span class="badge badge-yes">${event.yes_count}&nbsp;<i class="bi bi-patch-check"></i></span>
-                                <span class="badge badge-maybe">${event.maybe_count}&nbsp;<i class="bi bi-patch-question"></i></span>
-                                <span class="badge badge-no">${event.no_count}&nbsp;<i class="bi bi-ban"></i></span>
+                                <button class="badge badge-yes">${event.yes_count}&nbsp;<i class="bi bi-patch-check"></i></button>
+                                <button class="badge badge-maybe">${event.maybe_count}&nbsp;<i class="bi bi-patch-question"></i></button>
+                                <button class="badge badge-no">${event.no_count}&nbsp;<i class="bi bi-ban"></i></button>
                                 <h4>Written by: <b>${event.first_name}&nbsp;${event.last_name}</b></h4>
                             </div>
                         </div>
