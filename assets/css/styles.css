@@ -2199,8 +2199,16 @@ body.dark-mode .dummy-data-actions {
     background: rgba(62, 176, 116, 0.16);
     color: var(--status-yes);
     border-color: rgba(62, 176, 116, 0.25) !important;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
+.badge-yes:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.badge-yes:active {
+    transform: scale(0.98);
+}
 
 /* Maybe */
 
@@ -2208,6 +2216,15 @@ body.dark-mode .dummy-data-actions {
     background: rgba(236, 208, 87, 0.16);
     color: var(--status-maybe);
     border-color: rgba(236, 208, 87, 0.25) !important;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.badge-maybe:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.badge-maybe:active {
+    transform: scale(0.98);
 }
 
 
@@ -2217,8 +2234,16 @@ body.dark-mode .dummy-data-actions {
     background: rgba(235, 87, 107, 0.16);
     color: var(--status-no);
     border-color: rgba(235, 87, 107, 0.25) !important;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
+.badge-no:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.badge-no:active {
+    transform: scale(0.98);
+}
 
 /* ---------- Delete Button ---------- */
 
