@@ -1067,6 +1067,9 @@ textarea:focus {
     padding: 1rem;
     background-color: var(--bg-primary);
     border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    flex: 0 0 auto;
 }
 
 .setup-footer p {
