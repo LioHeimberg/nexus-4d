@@ -23,5 +23,8 @@ window.deletePost = App.deletePost;
 App.init();
 
 
-const versionTag = document.getElementById("version");
-versionTag.innerText = 'Version: ' + BUILD_VERSION
+const versionTags = document.querySelectorAll("version");
+
+versionTags.forEach(tag => {
+    tag.innerText = 'Version: ' + BUILD_VERSION;
+});
