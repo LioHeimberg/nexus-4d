@@ -1,43 +1,48 @@
+<h1 align="center">
+    <img src="https://readme-typing-svg.herokuapp.com?font=Archivo+Black&size=48&pause=1000&color=0086F7&center=true&width=500&height=70&lines=NEXUS+4D;A+Rokja%3A+4D+Tool" alt="Typing SVG" />
+</h1>
+
 # Nexus 4D
 
-![Shield](https://img.shields.io/github/last-commit/LioHeimberg/nexus-4d?style=for-the-badge&logo=startrek&&color=green)
+### This Project is perfect for you if...
 
-A web-based management system for JugendTeam members with review tracking, event management, and role-based access.
+- ... you're a youth worker
+- ... you have a Team of young and engaged teenagers.
+- ... you want them to have an easier way to comunicate in team
+- ... you want them to have an easier way to share files, events and posts
 
-## Features
+<br>
 
-- **Dashboard**: Role-specific dashboards for Admin, Boss, and Member accounts
-- **Dark Mode**: Toggle between light and dark themes
-- **Review System**: Track customer feedback with star ratings
-- **Event Management**: Create, manage, and vote on events
-- **User Management**: Full control over user accounts
-- **Bar Management**: Track Rümli bar locations
-- **Statistics**: View member performance metrics
-- **Guest Reviews**: Submit reviews without login
+<div align="center">
+    <img src="https://img.shields.io/github/last-commit/LioHeimberg/nexus-4d?style=for-the-badge&color=2e63a8" target="_blank" />
+    <img src="https://img.shields.io/github/actions/workflow/status/lioheimberg/nexus-4d/mirror-folder.yml?style=for-the-badge&color=30a3db" target="_blank" />
+  <a href="https://rokja4d.ch" target="_blank">
+    <img src="https://img.shields.io/badge/Rokja4d.ch-3eb074?style=for-the-badge&logo=codementor&logoColor=black" target="_blank" />
+  </a>
+</div>
+<div align="center">
+  <img src="https://img.shields.io/badge/License-MIT-ecd057?style=for-the-badge" alt="MIT License" />
+  <img src="https://img.shields.io/github/commit-activity/w/lioheimberg/nexus-4d?style=for-the-badge&color=eb576b" alt="MIT License" />
+</div>
 
-## User Roles
+## What do I see here?
 
-### Admin
-- Full access to all features
-- Manage all users, events, posts, and reviews
-- Can create other admins
+This is a tool to maintain your youth-team. You can make posts or events depending on if you just want to tell the team something or announce a big event like serving in a openair bar.
 
-### Boss
-- Manage members
-- Create and manage events, posts, bars
-- View all reviews and member statistics
+Guests can easely Rewiev your youth-team members and leave a comment on what they could do better.
 
-### Member
-- View own reviews and statistics
-- Vote on event participation
-- View boss posts
+### Features
 
-### Guest
-- Submit reviews without login
-- Select member and event/bar
-- Rate: Friendly, Professional, Overall
-
-## License
+| Feature | Admin | Boss | Member | Guests |
+|------------|----|-----|---|----|
+| Create/Delete/Update Users        | `YES` | `YES` | NO | NO |
+| Create/Delete/Update Events        | `YES` | `YES` | NO | NO |
+| Create/Delete/Update Posts        | `YES` | `YES` | NO | NO |
+| Create/Delete/Update Bars        | `YES` | `YES` | NO | NO |
+| Delete Reviews        | `YES` | `YES` | NO | NO |
+| View memberstats        | `YES` | `YES` | NO | NO |
+| See all Reviews        | `YES` | `YES` | NO | NO |
+| Create/Delete/Update `DummyData`        | `YES` | NO | NO | NO |
 
 © 2026 ROKJA:4D
 Regionale Offene Kinder- und Jugendarbeit
