@@ -860,6 +860,11 @@ body.dark-mode .error-message {
     border-bottom: 1px solid var(--border-color);
 }
 
+.card-sub-btn {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+}
+
 .card-title {
     font-size: 1.25rem;
     font-weight: 600;

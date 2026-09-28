@@ -237,7 +237,7 @@ const App = {
                         <span class="card-title">User List</span>
                     </div>
                         ${user.role === 'admin' || user.role === 'boss' ? 
-                            `<div>
+                            `<div class="card-sub-btn">
                                 <button class="btn-tertiary" onclick="openUserModal()">+ Add User</button>
                                 </div>` : ''}
                     <div class="table-container">
