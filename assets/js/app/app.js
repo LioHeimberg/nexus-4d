@@ -300,12 +300,12 @@ const App = {
                 <div class="card">
                     <div class="card-header">
                         <span class="card-title">Event Feed</span>
+                    </div>
                         ${
                             user && (user.role === 'admin' || user.role === 'boss')
-                                ? '<button class="btn-primary" onclick="openEventModal()">+ Add Event</button>'
+                                ? '<div class="card-sub-btn"><button class="btn-primary" onclick="openEventModal()">+ Add Event</button></div>'
                                 : ''
                         }
-                    </div>
 
                     <div class="feed-container">
             `;
@@ -492,8 +492,8 @@ const App = {
                 <div class="card">
                 <div class="card-header">
                     <span class="card-title">Posts</span>
-                    ${user && (user.role === 'admin' || user.role === 'boss') ? '<button class="btn-primary" onclick="openPostModal()">+ Add Post</button>' : ''}
                 </div>
+                    ${user && (user.role === 'admin' || user.role === 'boss') ? '<div class="card-sub-btn"><button class="btn-primary" onclick="openPostModal()">+ Add Post</button></div>' : ''}
                 <div class="table-container">
                         <table>
                             <thead>
@@ -751,7 +751,9 @@ const App = {
                 <div class="card">
                     <div class="card-header">
                         <span class="card-title">Bar List</span>
-                        <button class="btn-primary" onclick="openBarModal()">+ Add Bar</button>
+                        <div class="card-sub-btn">
+                            <button class="btn-primary" onclick="openBarModal()">+ Add Bar</button>
+                        </div>
                     </div>
                     <div class="table-container">
                         <table>
