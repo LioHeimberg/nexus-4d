@@ -238,7 +238,7 @@ const App = {
                     </div>
                         ${user.role === 'admin' || user.role === 'boss' ? 
                             `<div class="card-sub-btn">
-                                <button class="btn-tertiary" onclick="openUserModal()">+ Add User</button>
+                                <button class="btn-tertiary" onclick="openUserModal()">Add User</button>
                                 </div>` : ''}
                     <div class="table-container">
                         <table>
@@ -303,7 +303,7 @@ const App = {
                     </div>
                         ${
                             user && (user.role === 'admin' || user.role === 'boss')
-                                ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openEventModal()">+ Add Event</button></div>'
+                                ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openEventModal()">Add Event</button></div>'
                                 : ''
                         }
 
@@ -493,7 +493,7 @@ const App = {
                 <div class="card-header">
                     <span class="card-title">Posts</span>
                 </div>
-                    ${user && (user.role === 'admin' || user.role === 'boss') ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openPostModal()">+ Add Post</button></div>' : ''}
+                    ${user && (user.role === 'admin' || user.role === 'boss') ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openPostModal()">Add Post</button></div>' : ''}
                 <div class="table-container">
                         <table>
                             <thead>
@@ -753,7 +753,7 @@ const App = {
                         <span class="card-title">Bar List</span>
                     </div>
                     <div class="card-sub-btn">
-                        <button class="btn-tertiary" onclick="openBarModal()">+ Add Bar</button>
+                        <button class="btn-tertiary" onclick="openBarModal()">Add Bar</button>
                     </div>
                     <div class="table-container">
                         <table>
