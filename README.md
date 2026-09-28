@@ -44,6 +44,20 @@ Guests can easely Rewiev your youth-team members and leave a comment on what the
 | See all Reviews        | `YES` | `YES` | NO | NO |
 | Create/Delete/Update `DummyData`        | `YES` | NO | NO | NO |
 
+## What's next?
+
+In future, much more will be added to this project. but for now, this is what sits on my to do list:
+#### Todo:
+- user dropdown menu in nav bar
+- user settings page
+- reset password on user page
+- profile picture (maybe base64 coded idk at the time)
+- more themes !!
+
+## How can i help?
+If YOU! want to contribute to this amazing project, just fork the repo and then open a pull request. i will check them as soon as possible for me and maybe, your features will be seen in futur releases!
+i would love to see some of you contributing.
+
 © 2026 ROKJA:4D
 Regionale Offene Kinder- und Jugendarbeit
 Wünnewil-Flamatt | Schmitten | Ueberstorf
