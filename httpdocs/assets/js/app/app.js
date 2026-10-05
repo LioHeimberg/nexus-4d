@@ -490,41 +490,57 @@ const App = {
             let html = `
                 <h2 class="page-title">Posts</h2>
                 <div class="card">
-                <div class="card-header">
-                    <span class="card-title">Posts</span>
-                </div>
-                    ${user && (user.role === 'admin' || user.role === 'boss') ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openPostModal()">Add Post</button></div>' : ''}
-                <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Author</th>
-                                    <th>Published</th>
-                                    ${user && (user.role === 'admin' || user.role === 'boss') ? '<th>Actions</th>' : ''}
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <div class="card-header">
+                            <span class="card-title">Posts Feed</span>
+                        </div>
+                            ${
+                                user && (user.role === 'admin' || user.role === 'boss')
+                                    ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openPostModal()">Add Post</button></div>'
+                                    : ''
+                            }
+                    <div class="feed-container">
             `;
             
             if (data.posts.length === 0) {
-                html += `<tr><td colspan="3" class="empty-state">No posts found</td></tr>`;
+                html += `
+                    <div class="empty-state">
+                        No posts found
+                    </div>
+                `;
             } else {
                 data.posts.forEach(post => {
+                    const formattedDate = new Date(post.published_at).toLocaleDateString('de-DE', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    
                     html += `
-                        <tr>
-                            <td>${post.title}</td>
-                            <td>${post.first_name} ${post.last_name}</td>
-                            <td>${new Date(post.published_at).toLocaleDateString()}</td>
-                            ${user && (user.role === 'admin' || user.role === 'boss') ? `<td><button onclick="deletePost(${JSON.stringify(post.id)})" class="btn-secondary" style="color: var(--status-no);"><i class="bi bi-trash"></i></button></td>` : ''}
-                        </tr>
+                        <div class="feed-item">
+                            <div class="feed-header">
+                                <h3 class="feed-title">${post.title}</h3>
+                                <p class="feed-date"><i class="bi bi-calendar-date"></i>&nbsp;&nbsp;${formattedDate}</p>
+                                ${user && (user.role === 'admin' || user.role === 'boss') ? `
+                                    <button class="btn-delete" onclick="deletePost(${post.id})" title="Delete post">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                            
+                            <div class="feed-content">
+                                ${post.content ? `<div class="feed-description">${post.content}</div>` : ''}
+                            </div>
+                            
+                            <div class="feed-footer">
+                                <p class="feed-author">Written by: <b>${post.first_name} ${post.last_name}</b></p>
+                            </div>
+                        </div>
                     `;
                 });
             }
             
             html += `
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             `;
