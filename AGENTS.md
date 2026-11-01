@@ -1,56 +1,185 @@
-# Nexus 4D
+# Nexus 4D - Project Documentation
 
-Nexus 4D is a web tool mainly for the **JugendTeam** Members. they can see their own stats like the review of their customers at the rümli bar, or the actuel events where Rokja:4D is helping or where they have a booth at an event etc... the Adults Team, the 'Bosses' of the youngsters, can write and publish events etc with an adminlike tool.
+## Project Overview
 
-## Accounts
-- there is one **ADMIN** account wich is the first one to create if there isn't one in the database.
-- - admin account has full contoll of all posts, accounts and all...
-- one account for the adults, not three, just one for the entire team. its called '**bosses account**' this one is the first account that the admin has to create if he has first logged in
-- - the boss account can create, manage and remove JugendTeam Member Accounts and can write and publish posts and events. they also can see the stats of the JugendTeam Members.
-- then the last layer: the **JugendTeam Member** Account. this one is mainly created by the boss account. The admin account can also manage them.
-- - the JugendTeam Member Account can see their own reviews from the bosses and from the customers of the bars and events. they can see the posts of the bosses and can vote if they are gonna be there to help rokja or not at the event of the post.
-- last: the **GUEST** Account.
-- - this isn't really an account where you have to log in. you can select the jugendteam member who served you and maybe the event you were when he served you and then you can give a review with stars in 3 main point friendly etc. if they aren't at an Event but in a Rümli (this is a bar of the rokja) you can give also a review. the event selection is only for the data evaluation or the dashbords of the members.
+**ROKJA:4D** (Regionale Offene Kinder- und Jugendarbeit) - A web-based youth work management system for Wünnewil-Flamatt, Schmitten, and Ueberstorf.
 
-## Structure and technologies
-- we will have a database and a webserver. the webserver supports PHP.
-- in the httpdocs folder there is the things put on the webserver. like front and backend etc
-- then, in the main directory (where also AGENTS.md, README.md and opencode.json etc is) we wil have a docker compose and a folder initdb.d with the database for a developer environment.
-- the intire project will only be coded in PHP, HTML, Javascript and CSS.
-- login, authorisation, data requests etc all goes through /api
-- every account has to login except the guests
-- we **WONT DO MESSY THINGS like saving the session in the php session** etc (**save the session in the local storage please!**). ONLY PROFETIONAL WORK!
-- no /includes folder, all php in /api
-- we will use mariadb, phpmyadmin and apache for developer server
-- /api, /assets etc, just everything that needs to be on the webserver is in the /httpdocs folder
+### Team
+- **Kevin Zeh**: Stellenleiter (Jugendräume Wünnewil & Flamatt)
+- **Raphael Kaufmann**: Jugendarbeiter (Schmitten)
+- **Noë Scheidegger**: Neu im Team (seit August 2025)
 
-## infos about Rokja:4D :
+---
 
-ROKJA:4D – Regionale Offene Kinder- und Jugendarbeit
+## Technical Architecture
 
-Wünnewil-Flamatt | Schmitten | Ueberstorf
+### Tech Stack
+- **Backend**: PHP 8.5 (MariaDB/MySQL)
+- **Frontend**: HTML5, CSS3, Vanilla JavaScript (ES6+ modules)
+- **Authentication**: JWT tokens stored in localStorage
+- **Server**: Apache with mod_rewrite
+- **Dev Tools**: Docker Compose, Adminer
 
-Seit August 2025 sind wir als ROKJA:4D unterwegs und organisieren die Jugendarbeit neu in vier Dörfern mit vier Jugendräumen.
+### Project Structure
+```
+nexus-4d/
+├── httpdocs/              # Web server root
+│   ├── api/               # PHP API endpoints
+│   ├── assets/
+│   │   ├── css/          # Stylesheets
+│   │   ├── js/           # JavaScript modules
+│   │   └── img/          # Images
+│   └── config/           # Database configuration
+├── initdb.d/             # Database initialization scripts
+└── docker-compose.yml    # Development environment
+```
 
-Gemeinsam gestalten wir die regionale Jugendarbeit in den Jugendräumen und draussen im öffentlichen Raum. Wir führen Gespräche, organisieren Projekte und unterstützen Kinder & Jugendliche in ihren Ideen.
+---
 
-Unser Team
+## Account Roles & Permissions
 
-Kevin Zeh – Stellenleiter, weiterhin verantwortlich für die Jugendräume Wünnewil & Flamatt
-Raphael Kaufmann – bisher Jugendarbeiter in Schmitten
-Noë Scheidegger – seit August neu im Team der ROKJA:4D
+| Feature | Admin | Boss | Member | Guest |
+|---------|-------|------|--------|-------|
+| Create/Delete Users | ✓ | ✗ | ✗ | ✗ |
+| Manage Users | ✓ | ✓ | ✗ | ✗ |
+| Create/Delete Events | ✓ | ✓ | ✗ | ✗ |
+| Create/Delete Posts | ✓ | ✓ | ✗ | ✗ |
+| Create/Delete Bars | ✓ | ✓ | ✗ | ✗ |
+| View Member Stats | ✓ | ✓ | ✗ | ✗ |
+| View All Reviews | ✓ | ✓ | ✗ | ✗ |
+| Give Reviews | ✓ | ✓ | ✓ | ✓ |
+| View Own Reviews | ✓ | ✓ | ✓ | ✓ |
+| Vote on Events | ✓ | ✓ | ✓ | ✗ |
 
-## infos about JugendTeam:
+and more i've not documented here yet
 
-Jugendteam
-Jugendliche die sich engagieren
-Jugendliche des Jugendteams tragen dazu bei, die Jugendarbeit – ROKJA :4D –  stark zu machen und etwas zu bewegen. Jugendliche der 7.-9. Klasse aus Wünnewil-Flamatt, Schmitten & Ueberstorf können sich allen Jugendräumen engagieren. Das Jugendteam ist von grosser Wichtigkeit und Pfeiler der Arbeit mit den Jugendlichen in der Region.
+### Role Descriptions
 
-## color scheme
-- the logo of Rokja:4D is colorful, 'R' is #2e63a8, 'O' is #30a3db, 'K' is #3eb074, 'J' is #ecd057, 'A' is #eb576b and ':4D' is black
-- the webtool should be clean and modern
-- also please add a Dark mode.
-- primary and secondary color need to be determined.
+1. **ADMIN Account**
+   - First account created in database
+   - Full control over all system features
+   - Can create/manage all other accounts
+   - Access to all statistics and reviews
 
-## Current state
-- nothing started yet, agents.md is written
+2. **BOSS Account** (Jugendteam)
+   - Single team account for all adults
+   - Create/edit/delete events, posts, bars
+   - Manage JugendTeam member accounts
+   - View member statistics and all reviews
+
+3. **JUGENDTEAM Member Account**
+   - Created by boss/admin accounts
+   - For 7th-9th grade youth from Wünnewil-Flamatt, Schmitten, Ueberstorf
+   - View own reviews from bosses and customers
+   - See boss posts and vote on event participation
+   - Give reviews at events or at Rümli (bar)
+
+4. **GUEST Account**
+   - No login required
+   - Select JugendTeam member who served you
+   - Select event or Rümli location
+   - Rate service with 3 main criteria: friendly, professional, overall
+
+---
+
+## API Endpoints
+
+### Authentication
+- `POST /api/login.php` - User login
+- `POST /api/logout.php` - User logout
+- `GET /api/refresh.php` - Token refresh
+
+### Users Management
+- `GET /api/users.php` - List all users
+- `POST /api/users_create.php` - Create new user
+- `PUT /api/users_update.php` - Update user
+- `DELETE /api/users_delete.php` - Delete user
+- `GET /api/check_admin.php` - Check if admin exists
+
+### Events
+- `GET /api/events.php` - List events with participation stats
+- `POST /api/events_create.php` - Create event
+- `PUT /api/events_update.php` - Update event
+- `DELETE /api/events_delete.php` - Delete event
+- `POST /api/events.php` - Vote on event participation
+
+### Posts
+- `GET /api/posts.php` - List posts
+- `POST /api/posts_create.php` - Create post
+- `PUT /api/posts_update.php` - Update post
+- `DELETE /api/posts_delete.php` - Delete post
+
+### Reviews
+- `GET /api/reviews.php?user_id=X` - Get reviews for specific user
+- `GET /api/reviews_all.php` - Get all reviews
+- `POST /api/reviews_create.php` - Create review
+- `DELETE /api/reviews_delete.php` - Delete review
+
+### Bars (Rümli)
+- `GET /api/bars.php` - List bars
+- `POST /api/bars_create.php` - Create bar
+
+### Guest Features
+- `GET /api/guest_members.php` - List JugendTeam members
+- `GET /api/guest_events.php` - List upcoming events
+- `GET /api/guest_bars.php` - List bars
+
+---
+
+## Database Schema
+
+### Tables
+- **users**: User accounts (id, email, password_hash, role, first_name, last_name, created_at)
+- **sessions**: JWT token storage (token, user_id, expires_at)
+- **events**: Event information (id, title, description, event_date, location, boss_id)
+- **posts**: Team posts (id, title, content, published_at, author_id)
+- **bars**: Rümli locations (id, name, location)
+- **reviews**: Feedback system (id, target_user_id, reviewer_id, rating_friendly, rating_professional, rating_overall, comment, event_id, bar_id)
+- **event_participation**: Event participation tracking (event_id, member_id, status: yes/maybe/no)
+
+---
+
+## Development Setup
+
+### Docker Compose
+```yaml
+services:
+  apache:    # PHP 8.5 Apache server
+  db:        # MariaDB database
+  adminer:   # Database management
+```
+
+### Environment Variables
+- `ENV=dev` (development) or `ENV=prod` (production)
+- Database config in `/httpdocs/config/database.php`
+
+### Key Configuration
+- API base URL: `/api`
+- Session storage: localStorage (not PHP sessions)
+- Theme support: Light/Dark mode
+
+---
+
+## Color Scheme & Design
+
+### Primary Colors
+- **R**: #2e63a8 (blue)
+- **O**: #30a3db (light blue)
+- **K**: #3eb074 (green)
+- **J**: #ecd057 (yellow)
+- **A**: #eb576b (red)
+- **4D**: #000000 (black)
+
+### Theme System
+- Light mode (default)
+- Dark mode (toggle via UI)
+- CSS variables for easy customization
+
+---
+
+## Current Status
+
+**Version**: 0.5.2 - ALPHA  
+**Status**: Active development  
+**Features**: Complete authentication, CRUD operations for users/events/posts/bars, review system, member statistics
+**Last Update**: 01.11.2026

@@ -44,6 +44,9 @@ Guests can easely Rewiev your youth-team members and leave a comment on what the
 | See all Reviews        | `YES` | `YES` | NO | NO |
 | Create/Delete/Update `DummyData`        | `YES` | NO | NO | NO |
 
+
+and more i've not documented here yet
+
 ## What's next?
 
 In future, much more will be added to this project. but for now, this is what sits on my to do list:
