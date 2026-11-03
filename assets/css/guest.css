@@ -254,3 +254,28 @@ body.dark-mode #login-page .btn-secondary:hover {
 }
 
 
+
+/* Tertiary Button */
+#login-page .btn-tertiary {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+#login-page .btn-tertiary:hover {
+    background-color: var(--bg-tertiary);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* Card Sub Button Container */
+.card-sub-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
