@@ -238,7 +238,7 @@ const App = {
                     </div>
                         ${user.role === 'admin' || user.role === 'boss' ? 
                             `<div class="card-sub-btn">
-                                <button class="btn-tertiary" onclick="openUserModal()">Add User</button>
+                                <button class="btn-tertiary" onclick="openUserModal()"><i class="bi bi-person-add"></i>Add User</button>
                                 </div>` : ''}
                     <div class="table-container">
                         <table>
@@ -303,7 +303,7 @@ const App = {
                     </div>
                         ${
                             user && (user.role === 'admin' || user.role === 'boss')
-                                ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openEventModal()">Add Event</button></div>'
+                                ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openEventModal()"><i class="bi bi-calendar-plus"></i>&nbsp;Add Event</button></div>'
                                 : ''
                         }
 
@@ -495,7 +495,7 @@ const App = {
                         </div>
                             ${
                                 user && (user.role === 'admin' || user.role === 'boss')
-                                    ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openPostModal()">Add Post</button></div>'
+                                    ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openPostModal()"><i class="bi bi-pencil"></i>&nbsp;Add Post</button></div>'
                                     : ''
                             }
                     <div class="feed-container">
@@ -769,7 +769,7 @@ const App = {
                         <span class="card-title">Bar List</span>
                     </div>
                     <div class="card-sub-btn">
-                        <button class="btn-tertiary" onclick="openBarModal()">Add Bar</button>
+                        <button class="btn-tertiary" onclick="openBarModal()"><i class="bi bi-cup-straw"></i>&nbsp;Add Bar</button>
                     </div>
                     <div class="table-container">
                         <table>
