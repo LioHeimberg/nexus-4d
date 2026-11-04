@@ -15,11 +15,19 @@ function openUserModal() {
             </div>
             <form id="add-user-form">
                 <div class="form-row">
-                    <div class="form-group-full">
+                    <div>
+                        <label for="user-firstname">First Name</label>
+                        <input type="text" id="user-firstname" required>
+                    </div>
+                    <div>
+                        <label for="user-lastname">Last Name</label>
+                        <input type="text" id="user-lastname" required>
+                    </div>
+                    <div>
                         <label for="user-email">Email</label>
                         <input type="email" id="user-email" required>
                     </div>
-                    <div class="form-group-full">
+                    <div>
                         <label for="user-password">Password</label>
                         <input type="password" id="user-password" required>
                     </div>
@@ -30,14 +38,6 @@ function openUserModal() {
                             <option value="member">Member</option>
                             <option value="boss">Boss</option>
                         </select>
-                    </div>
-                    <div>
-                        <label for="user-firstname">First Name</label>
-                        <input type="text" id="user-firstname" required>
-                    </div>
-                    <div>
-                        <label for="user-lastname">Last Name</label>
-                        <input type="text" id="user-lastname" required>
                     </div>
                 </div>
                 <div class="form-row" style="margin-top: 1rem;">
@@ -90,17 +90,17 @@ function openEventModal() {
             </div>
             <form id="add-event-form">
                 <div class="form-row">
-                    <div class="form-group-full">
+                    <div>
                         <label for="event-title">Title</label>
                         <input type="text" id="event-title" required>
+                    </div>
+                    <div>
+                        <label for="event-location">Location</label>
+                        <input type="text" id="event-location" required>
                     </div>
                     <div class="form-group-full">
                         <label for="event-date">Date</label>
                         <input type="date" id="event-date" required>
-                    </div>
-                    <div class="form-group-full">
-                        <label for="event-location">Location</label>
-                        <input type="text" id="event-location" required>
                     </div>
                     <div class="form-group-full">
                         <label for="event-description">Description</label>
@@ -149,7 +149,7 @@ function openPostModal() {
             </div>
             <form id="add-post-form">
                 <div class="form-row">
-                    <div class="form-group-full">
+                    <div>
                         <label for="post-title">Title</label>
                         <input type="text" id="post-title" required>
                     </div>
@@ -198,11 +198,11 @@ function openBarModal() {
             </div>
             <form id="add-bar-form">
                 <div class="form-row">
-                    <div class="form-group-full">
+                    <div>
                         <label for="bar-name">Name</label>
                         <input type="text" id="bar-name" required>
                     </div>
-                    <div class="form-group-full">
+                    <div>
                         <label for="bar-location">Location</label>
                         <input type="text" id="bar-location" required>
                     </div>
@@ -260,7 +260,7 @@ function openDummyModal() {
                         </blockquote>
                     </div>
 
-                    <div class="form-group-full">
+                    <div>
                         <label for="dummy-admin-password">Password</label>
                         <input
                             type="password"
@@ -501,7 +501,7 @@ function openDummyRemoveModal() {
                         </blockquote>
                     </div>
 
-                    <div class="form-group-full">
+                    <div>
                         <label for="dummy-admin-password">Password</label>
                         <input
                             type="password"
@@ -671,18 +671,6 @@ async function editUser(id) {
                 </div>
                 <form id="edit-user-form">
                     <div class="form-row">
-                        <div class="form-group-full">
-                            <label for="edit-user-email">Email</label>
-                            <input type="email" id="edit-user-email" value="${user.email}" required>
-                        </div>
-                        <div>
-                            <label for="edit-user-role">Role</label>
-                        <select id="edit-user-role" required>
-                            <option value="member" ${user.role === 'member' ? 'selected' : ''}>Member</option>
-                            <option value="boss" ${user.role === 'boss' ? 'selected' : ''}>Boss</option>
-                            ${AuthManager.getUser().role === 'admin' ? '<option value="admin" ' + (user.role === 'admin' ? 'selected' : '') + '>Admin</option>' : ''}
-                        </select>
-                        </div>
                         <div>
                             <label for="edit-user-firstname">First Name</label>
                             <input type="text" id="edit-user-firstname" value="${user.first_name}" required>
@@ -690,6 +678,18 @@ async function editUser(id) {
                         <div>
                             <label for="edit-user-lastname">Last Name</label>
                             <input type="text" id="edit-user-lastname" value="${user.last_name}" required>
+                        </div>
+                        <div>
+                            <label for="edit-user-email">Email</label>
+                            <input type="email" id="edit-user-email" value="${user.email}" required>
+                        </div>
+                        <div>
+                            <label for="edit-user-role">Role</label>
+                            <select id="edit-user-role" required>
+                                <option value="member" ${user.role === 'member' ? 'selected' : ''}>Member</option>
+                                <option value="boss" ${user.role === 'boss' ? 'selected' : ''}>Boss</option>
+                                ${AuthManager.getUser().role === 'admin' ? '<option value="admin" ' + (user.role === 'admin' ? 'selected' : '') + '>Admin</option>' : ''}
+                            </select>
                         </div>
                     </div>
                     <div class="form-row" style="margin-top: 1rem;">
