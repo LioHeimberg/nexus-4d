@@ -609,9 +609,9 @@ const App = {
                         <tr>
                             <td>${review.reviewer_name ? review.reviewer_name : (review.reviewer_first_name ? `${review.reviewer_first_name} ${review.reviewer_last_name}` : 'Guest')}</td>
                             <td>${location}</td>
-                            <td>${'★'.repeat(review.rating_friendly)}</td>
-                            <td>${'★'.repeat(review.rating_professional)}</td>
-                            <td>${'★'.repeat(review.rating_overall)}</td>
+                            <td>${'<i class="bi bi-star-fill"></i>'.repeat(review.rating_friendly)}</td>
+                            <td>${'<i class="bi bi-star-fill"></i>'.repeat(review.rating_professional)}</td>
+                            <td>${'<i class="bi bi-star-fill"></i>'.repeat(review.rating_overall)}</td>
                             <td>${review.comment || '-'}</td>
                             <td>${new Date(review.created_at).toLocaleDateString()}</td>
                         </tr>
@@ -676,9 +676,9 @@ const App = {
                             <td>${review.reviewer_name ? review.reviewer_name : (review.reviewer_first_name ? `${review.reviewer_first_name} ${review.reviewer_last_name}` : 'Guest')}</td>
                             <td>${review.target_first_name ? `${review.target_first_name} ${review.target_last_name}` : 'Unknown'}</td>
                             <td>${location}</td>
-                            <td>${'★'.repeat(review.rating_friendly)}</td>
-                            <td>${'★'.repeat(review.rating_professional)}</td>
-                            <td>${'★'.repeat(review.rating_overall)}</td>
+                            <td>${'<i class="bi bi-star-fill"></i>'.repeat(review.rating_friendly)}</td>
+                            <td>${'<i class="bi bi-star-fill"></i>'.repeat(review.rating_professional)}</td>
+                            <td>${'<i class="bi bi-star-fill"></i>'.repeat(review.rating_overall)}</td>
                             <td>${review.comment || '-'}</td>
                             <td>${new Date(review.created_at).toLocaleDateString()}</td>
                             <td>
