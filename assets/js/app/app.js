@@ -362,9 +362,10 @@ const App = {
 
                             <div class="feed-content">
 
-                                <p class="feed-location">
-                                    <i class="bi bi-geo-fill"></i>
-                                    ${event.location}
+                                <canvas id="eventCanvas-${event.id}" class="feed-image-placeholder" width="300" height="100"></canvas> 
+
+                                <p class="feed-location"> 
+                                    <i class="bi bi-geo-fill"></i> ${event.location} 
                                 </p>
 
                                 ${
@@ -456,6 +457,20 @@ const App = {
             `;
 
             contentArea.innerHTML = html;
+            const colors = [
+            '#eb576b',
+            '#ecd057',
+            '#3eb074',
+            '#30a3db',
+            '#2e63a8'
+            ];
+            const elements = document.querySelectorAll('.feed-image-placeholder');
+
+            elements.forEach(element => {
+            const randomIndex = Math.floor(Math.random() * colors.length);
+            element.style.backgroundColor = colors[randomIndex];
+            });
+
 
         } catch (error) {
             Notification.show(error.message, 'error');
