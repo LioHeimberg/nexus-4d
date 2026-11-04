@@ -354,9 +354,7 @@ const App = {
                                                 class="btn-delete"
                                                 onclick="deleteEvent(${event.id})"
                                                 title="Delete event"
-                                            >
-                                                <i class="bi bi-trash"></i>
-                                            </button>
+                                            ><i class="bi bi-trash"></i></button>
                                         `
                                         : ''
                                 }
