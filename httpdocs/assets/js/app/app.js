@@ -469,7 +469,7 @@ const App = {
                 canvas.style.backgroundColor = color;
 
                 const ctx = canvas.getContext('2d');
-                ctx.font = 'bold 20px Arial';
+                ctx.font = 'bold 20px Segoe UI, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillStyle = '#ffffff';
