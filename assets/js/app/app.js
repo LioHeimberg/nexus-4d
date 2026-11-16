@@ -453,17 +453,28 @@ const App = {
 
             contentArea.innerHTML = html;
             const colors = [
-            '#eb576b',
-            '#ecd057',
-            '#3eb074',
-            '#30a3db',
-            '#2e63a8'
+                '#eb576b',
+                '#ecd057',
+                '#3eb074',
+                '#30a3db',
+                '#2e63a8'
             ];
-            const elements = document.querySelectorAll('.feed-image-placeholder');
 
-            elements.forEach(element => {
-            const randomIndex = Math.floor(Math.random() * colors.length);
-            element.style.backgroundColor = colors[randomIndex];
+            data.events.forEach(event => {
+                const canvas = document.getElementById(`eventCanvas-${event.id}`);
+                if (!canvas) return;
+
+                const color = colors[Math.floor(Math.random() * colors.length)];
+
+                canvas.style.backgroundColor = color;
+
+                const ctx = canvas.getContext('2d');
+                ctx.font = 'bold 20px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#ffffff';
+
+                ctx.fillText(event.title, canvas.width / 2, canvas.height / 2, canvas.width - 20);
             });
 
 
