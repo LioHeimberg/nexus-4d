@@ -296,15 +296,12 @@ const App = {
             const data = await ApiClient.get('events.php');
 
             let html = `
-                <h2 class="page-title">Events</h2>
-                    <div class="card-header">
-                        <span class="card-title">Event Feed</span>
-                    </div>
-                        ${
-                            user && (user.role === 'admin' || user.role === 'boss')
-                                ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openEventModal()"><i class="bi bi-calendar-plus"></i>&nbsp;Add Event</button></div>'
-                                : ''
-                        }
+                <h2 class="page-title">Event Feed</h2> 
+                ${
+                    user && (user.role === 'admin' || user.role === 'boss')
+                        ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openEventModal()"><i class="bi bi-calendar-plus"></i>&nbsp;Add Event</button></div>'
+                        : ''
+                }
 
                     <div class="feed-container">
             `;
