@@ -297,7 +297,6 @@ const App = {
 
             let html = `
                 <h2 class="page-title">Events</h2>
-                <div class="card">
                     <div class="card-header">
                         <span class="card-title">Event Feed</span>
                     </div>
@@ -452,7 +451,6 @@ const App = {
             }
 
             html += `
-                    </div>
                 </div>
             `;
 
