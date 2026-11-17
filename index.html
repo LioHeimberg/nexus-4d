@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus 4D - Unter Entwicklung</title>
+    <title>Nexus 4D</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- Favicon and Apple Touch Icons -->
     <link rel="icon" type="image/x-icon" href="/assets/favicon/favicon.ico">
@@ -31,29 +31,30 @@
     <link rel="msapplication-TileImage" href="/assets/favicon/ms-icon-150x150.png">
     <link rel="msapplication-TileImage" href="/assets/favicon/ms-icon-310x310.png">
     <link rel="msapplication-TileImage" href="/assets/favicon/ms-icon-70x70.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
     <!-- HTML Meta Tags -->
-    <meta name="description" content="Seite im Moment in arbeit. Updates folgen.">
+    <meta name="description" content="JugendTeam WebTool der Rokja:4D">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:url" content="https://nexus4d.liolp.ch/">
+    <meta property="og:url" content="https://nexus4d.liolp.ch">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Nexus 4D - Coming Soon">
-    <meta property="og:description" content="Seite im Moment in arbeit. Updates folgen.">
+    <meta property="og:title" content="Nexus 4D">
+    <meta property="og:description" content="JugendTeam WebTool der Rokja:4D">
     <meta property="og:image" content="https://nexus4d.liolp.ch/assets/img/openGraph.png"><!-- Load error, please check URL -->
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="nexus4d.liolp.ch">
-    <meta property="twitter:url" content="https://nexus4d.liolp.ch/">
-    <meta name="twitter:title" content="Nexus 4D - Coming Soon">
-    <meta name="twitter:description" content="Seite im Moment in arbeit. Updates folgen.">
+    <meta property="twitter:url" content="https://nexus4d.liolp.ch">
+    <meta name="twitter:title" content="Nexus 4D">
+    <meta name="twitter:description" content="JugendTeam WebTool der Rokja:4D">
     <meta name="twitter:image" content="https://nexus4d.liolp.ch/assets/img/openGraph.png">
 </head>
 <body>
     <div id="app">
-        <!-- Under Construction Page -->
-        <div id="under-construction" class="page active">
+        <!-- Setup Wizard (shown if no admin exists) -->
+        <div id="setup-page" class="page">
             <div class="setup-container">
                 <div class="logo">
                     <span class="letter" style="--color: #2e63a8">R</span>
@@ -64,12 +65,101 @@
                     <span class="colon">:</span>
                     <span class="four-d">4D</span>
                 </div>
-                <h1>Unter Entwicklung</h1>
-                <p class="subtitle">Wir arbeiten gerade an der Verbesserung unserer Plattform.</p>
-                <div class="construction-message">
-                    <p>Die Website ist derzeit in der Entwicklung und nicht für den Zugriff verfügbar.</p>
-                    <p>Bitte besuchen Sie uns später wieder.</p>
+                <h1>Setup Wizard</h1>
+                <p class="subtitle">Create your admin account</p>
+                
+                <form id="setup-form" class="setup-form">
+                    <div class="form-group">
+                        <label for="admin-email">E-Mail</label>
+                        <input type="email" id="admin-email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin-password">Passwort</label>
+                        <input type="password" id="admin-password" name="password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin-firstname">Vorname</label>
+                        <input type="text" id="admin-firstname" name="first_name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin-lastname">Nachname</label>
+                        <input type="text" id="admin-lastname" name="last_name" required>
+                    </div>
+                    
+                    <div id="setup-error-message" class="error-message"></div>
+                    
+                    <button type="submit" class="btn-primary">Admin erstellen & Login</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page active">
+            <div class="login-container">
+                <div class="logo">
+                    <span class="letter" style="--color: #2e63a8">R</span>
+                    <span class="letter" style="--color: #30a3db">O</span>
+                    <span class="letter" style="--color: #3eb074">K</span>
+                    <span class="letter" style="--color: #ecd057">J</span>
+                    <span class="letter" style="--color: #eb576b">A</span>
+                    <span class="colon">:</span>
+                    <span class="four-d">4D</span>
                 </div>
+                <!--<h1>Nexus 4D</h1>
+                <p class="subtitle">Regionale Offene Kinder- und Jugendarbeit</p>-->
+
+                <div class="alerts">
+                    <div class="alert alert-info">
+                        <span class="alert-icon"><i class="bi bi-code-slash"></i></span>
+                        <div class="alert-body">
+                        <strong>Unter Entwicklung</strong>
+                        Wir arbeiten gerade an der Verbesserung unserer Plattform.
+                        </div>
+                    </div><!--
+                    <div class="alert alert-success">
+                        <span class="alert-icon">✓</span>
+                        <div class="alert-body">
+                        <strong>Success</strong>
+                        Your profile was updated successfully.
+                        </div>
+                    </div>
+                    <div class="alert alert-warning">
+                        <span class="alert-icon">⚠</span>
+                        <div class="alert-body">
+                        <strong>Warning</strong>
+                        You have unsaved changes on this page.
+                        </div>
+                    </div>
+
+                    <input type="checkbox" id="dismiss-1" class="alert-dismiss-input">
+                    <div class="alert alert-error alert-dismissible">
+                        <span class="alert-icon">✕</span>
+                        <div class="alert-body">
+                        <strong>Error</strong>
+                        Failed to connect. Check your network.
+                        </div>
+                        <label for="dismiss-1" class="alert-close">✕</label>
+                    </div>-->
+                </div>
+                
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="email">E-Mail</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Passwort</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    
+                    <div id="error-message" class="error-message"></div>
+                    
+                    <button type="submit" class="btn-primary">Anmelden</button>
+                </form>
                 
                 <div class="button-group">
                     <div class="theme-toggle">
@@ -77,12 +167,55 @@
                             <span id="theme-icon">☀</span>
                         </button>
                     </div>
+                    <div class="guest-button">
+                        <a href="/guest-review.html" class="btn-secondary">Feedback geben</a>
+                    </div>
                 </div>
                 
                 <div class="footer">
                     <p>© 2026 ROKJA:4D</p>
                     <p id="version"></p>
                 </div>
+            </div>
+        </div>
+
+        <!-- Setup Footer -->
+        <div class="setup-footer">
+            <p>© 2026 ROKJA:4D | Wünnewil-Flamatt | Schmitten | Ueberstorf</p>
+            <p id="version"></p>
+        </div>
+
+        <!-- Dashboard Container (hidden by default) -->
+        <div id="dashboard" class="dashboard hidden">
+            <header class="dashboard-header">
+                <div class="logo">
+                    <span class="letter" style="--color: #2e63a8">R</span>
+                    <span class="letter" style="--color: #30a3db">O</span>
+                    <span class="letter" style="--color: #3eb074">K</span>
+                    <span class="letter" style="--color: #ecd057">J</span>
+                    <span class="letter" style="--color: #eb576b">A</span>
+                    <span class="colon">:</span>
+                    <span class="four-d">4D</span>
+                </div>
+                <nav class="main-nav">
+                    <ul id="nav-menu"></ul>
+                </nav>
+                <div class="header-actions">
+                    <div class="user-info">
+                        <span id="user-name"></span>
+                        <span id="user-role" class="role-badge"></span>
+                    </div>
+                    <button type="button" id="logout-btn" class="btn-secondary">Abmelden</button>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <!-- Dynamic content will be loaded here -->
+                <div id="content-area"></div>
+            </main>
+            <div class="setup-footer">
+                <p>© 2026 ROKJA:4D | Wünnewil-Flamatt | Schmitten | Ueberstorf</p>
+                <p id="version"></p>
             </div>
         </div>
     </div>
