@@ -80,7 +80,41 @@ const App = {
         console.log('After - Dashboard hidden:', dashboard.classList.contains('hidden'));
         
         const user = AuthManager.getUser();
-        document.getElementById('user-name').textContent = `${user.first_name} ${user.last_name}`;
+
+        const userMenuRoot = document.getElementById('user-menu-root');
+        if (!userMenuRoot) return;
+        const textPfpColors = [
+            '#eb576b',
+            '#ecd057',
+            '#3eb074',
+            '#30a3db',
+            '#2e63a8'
+        ];
+        const textPfpColor = textPfpColors[Math.floor(Math.random() * textPfpColors.length)];
+        const defaultPfpSvg = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+            <rect width="200" height="200" fill="${textPfpColor}" />
+            <circle cx="30" cy="30" r="85" fill="#ffffff" fill-opacity="0.1" />
+            <circle cx="180" cy="180" r="60" fill="#000000" fill-opacity="0.08" />
+            <circle cx="162" cy="38" r="8" fill="#ffffff" fill-opacity="0.85" />
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="'Outfit', sans-serif" font-weight="900" font-size="92" letter-spacing="5">${user.first_name.substring(0,1).toUpperCase()}${user.last_name.substring(0,1).toUpperCase()}</text>
+            </svg>
+        `;
+
+        userMenuRoot.innerHTML = `
+            <button type="button" class="pfp" id="profile-toggle" aria-label="Profile menu" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown">
+                ${defaultPfpSvg}
+            </button>
+            <div class="profile-dropdown" id="profileDropdown">
+                <div class="user-info">
+                    <span id="user-name"></span>
+                    <span id="user-role" class="role-badge"></span>
+                </div>
+                <a href="under-construction.html">Einstellungen</a>
+                <button type="button" id="logout-btn">Abmelden</button>
+            </div>
+        `;
+        document.getElementById('user-name').textContent = `${user.first_name.charAt(0).toUpperCase() + user.first_name.slice(1)} ${user.last_name.charAt(0).toUpperCase() + user.last_name.slice(1)}`;
         
         const roleBadge = document.getElementById('user-role');
         roleBadge.textContent = user.role.toUpperCase();
@@ -200,11 +234,39 @@ const App = {
             });
         }
         
-        document.getElementById('logout-btn').addEventListener('click', async () => {
-            await AuthManager.logout();
-            this.showLogin();
+        document.addEventListener('click', async (e) => {
+            const dropdown = document.getElementById('profileDropdown');
+            const toggle = document.getElementById('profile-toggle');
+
+            if (e.target.closest('#profile-toggle')) {
+                const isOpen = dropdown.classList.toggle('active');
+                toggle.setAttribute('aria-expanded', String(isOpen));
+                return;
+            }
+
+            if (e.target.closest('#logout-btn')) {
+                await AuthManager.logout();
+                this.showLogin();
+                return;
+            }
+
+            if (dropdown && dropdown.classList.contains('active') && !e.target.closest('#profileDropdown')) {
+                dropdown.classList.remove('active');
+                toggle.setAttribute('aria-expanded', 'false');
+            }
         });
-        
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Escape') return;
+            const dropdown = document.getElementById('profileDropdown');
+            const toggle = document.getElementById('profile-toggle');
+            if (dropdown && dropdown.classList.contains('active')) {
+                dropdown.classList.remove('active');
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.focus();
+            }
+        });
+
         document.getElementById('setup-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             

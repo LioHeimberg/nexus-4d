@@ -22,7 +22,6 @@ window.deletePost = App.deletePost;
 // Initialize the application
 App.init();
 
-
 const versionTags = document.querySelectorAll('[id="version"]');
 
 versionTags.forEach(tag => {
