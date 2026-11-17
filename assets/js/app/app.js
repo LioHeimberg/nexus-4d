@@ -469,7 +469,7 @@ const App = {
                 canvas.style.backgroundColor = color;
 
                 const ctx = canvas.getContext('2d');
-                ctx.font = 'bold 20px Segoe UI, sans-serif';
+                ctx.font = 'bold 20px Outfit, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillStyle = '#ffffff';
@@ -507,16 +507,12 @@ const App = {
             const data = await ApiClient.get('posts.php');
             
             let html = `
-                <h2 class="page-title">Posts</h2>
-                <div class="card">
-                    <div class="card-header">
-                            <span class="card-title">Posts Feed</span>
-                        </div>
-                            ${
-                                user && (user.role === 'admin' || user.role === 'boss')
-                                    ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openPostModal()"><i class="bi bi-pencil"></i>&nbsp;Add Post</button></div>'
-                                    : ''
-                            }
+                <h2 class="page-title">Post Feed</h2>
+                ${
+                    user && (user.role === 'admin' || user.role === 'boss')
+                        ? '<div class="card-sub-btn"><button class="btn-tertiary" onclick="openPostModal()"><i class="bi bi-pencil"></i>&nbsp;Add Post</button></div>'
+                        : ''
+                }
                     <div class="feed-container">
             `;
             
@@ -561,7 +557,6 @@ const App = {
             
             html += `
                     </div>
-                </div>
             `;
             
             contentArea.innerHTML = html;
