@@ -13,10 +13,9 @@ window.mobileCheck = function() {
   return check;
 };
 
-if (mobileCheck()) {
-    window.open("/mobile/","_self")
+if (window.mobileCheck()) {
+  window.location.href = "/mobile/";
 }
-
 
 // Make modal functions and deleteUser available globally for onclick handlers in HTML
 window.openUserModal = openUserModal;
