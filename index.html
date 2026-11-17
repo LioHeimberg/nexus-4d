@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Nexus 4D</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- Favicon and Apple Touch Icons -->
@@ -52,6 +56,12 @@
     <meta name="twitter:image" content="https://nexus4d.liolp.ch/assets/img/openGraph.png">
 </head>
 <body>
+    <script>
+        const version = Date.now();
+
+        document.querySelector('link[href*="assets/css/styles.css"]')
+            .href = 'assets/css/styles.css?v=' + version;
+    </script>
     <div id="app">
         <!-- Setup Wizard (shown if no admin exists) -->
         <div id="setup-page" class="page">
@@ -217,5 +227,9 @@
     </div>
 
     <script type="module" src="assets/js/main.js"></script>
+    <script>
+        document.querySelector('script[src*="assets/js/main.js"]')
+            .src = 'assets/js/main.js?v=' + version;
+    </script>
 </body>
 </html>
