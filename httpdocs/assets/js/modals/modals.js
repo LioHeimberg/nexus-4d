@@ -385,7 +385,7 @@ function openDummyModal() {
                             <li>${posts} posts</li>
                             <li>${bars} bars</li>
                             <li>${reviews} reviews</li>
-                            <li>${participations} reviews</li>
+                            <li>${participations} Participations</li>
                         </ul>
                     </div>
                 </div>
