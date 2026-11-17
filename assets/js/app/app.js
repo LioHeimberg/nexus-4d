@@ -844,111 +844,131 @@ const App = {
                         </div>
                     </div>
 
-                    <div class="dummy-data-grid">
-
+                    <div class="form-row">
                         <div class="dummy-data-field">
                             <label for="dummy-bosses">
                                 <span class="dummy-data-label">Bosse</span>
-                                <span class="dummy-data-hint">Users with boss role</span>
+                                <blockquote class="dummy-data-hint">Users with boss role</blockquote>
                             </label>
 
-                            <input
+                            <div class="number-input">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepDown()">−</button>
+                                <input 
                                 type="number"
                                 id="dummy-bosses"
                                 min="0"
                                 max="1000"
-                                value="3"
-                            >
+                                value="3">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepUp()">+</button>
+                            </div>
                         </div>
 
                         <div class="dummy-data-field">
                             <label for="dummy-members">
                                 <span class="dummy-data-label">Member</span>
-                                <span class="dummy-data-hint">Users with member role</span>
+                                <blockquote class="dummy-data-hint">Users with member role</blockquote>
                             </label>
 
-                            <input
+                            <div class="number-input">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepDown()">−</button>
+                                <input 
                                 type="number"
                                 id="dummy-members"
                                 min="0"
                                 max="1000"
-                                value="8"
-                            >
+                                value="3">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepUp()">+</button>
+                            </div>
                         </div>
 
                         <div class="dummy-data-field">
                             <label for="dummy-events">
                                 <span class="dummy-data-label">Events</span>
-                                <span class="dummy-data-hint">Dummy events</span>
+                                <blockquote class="dummy-data-hint">Dummy events</blockquote>
                             </label>
 
-                            <input
+                            <div class="number-input">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepDown()">−</button>
+                                <input 
                                 type="number"
                                 id="dummy-events"
                                 min="0"
                                 max="1000"
-                                value="3"
-                            >
+                                value="3">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepUp()">+</button>
+                            </div>
                         </div>
 
                         <div class="dummy-data-field">
                             <label for="dummy-posts">
                                 <span class="dummy-data-label">Posts</span>
-                                <span class="dummy-data-hint">Dummy posts</span>
+                                <blockquote class="dummy-data-hint">Dummy posts</blockquote>
                             </label>
 
-                            <input
+                            <div class="number-input">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepDown()">−</button>
+                                <input 
                                 type="number"
                                 id="dummy-posts"
                                 min="0"
                                 max="1000"
-                                value="5"
-                            >
+                                value="3">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepUp()">+</button>
+                            </div>
                         </div>
 
                         <div class="dummy-data-field">
                             <label for="dummy-bars">
                                 <span class="dummy-data-label">Bars</span>
-                                <span class="dummy-data-hint">Rümli / bars</span>
+                                <blockquote class="dummy-data-hint">Rümli / bars</blockquote>
                             </label>
 
-                            <input
+                            <div class="number-input">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepDown()">−</button>
+                                <input 
                                 type="number"
                                 id="dummy-bars"
                                 min="0"
                                 max="1000"
-                                value="4"
-                            >
+                                value="3">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepUp()">+</button>
+                            </div>
                         </div>
 
                         <div class="dummy-data-field">
                             <label for="dummy-reviews">
                                 <span class="dummy-data-label">Reviews</span>
-                                <span class="dummy-data-hint">Guest reviews</span>
+                                <blockquote class="dummy-data-hint">Guest reviews</blockquote>
                             </label>
 
-                            <input
+                            <div class="number-input">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepDown()">−</button>
+                                <input 
                                 type="number"
                                 id="dummy-reviews"
                                 min="0"
                                 max="1000"
-                                value="14"
-                            >
+                                value="3">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepUp()">+</button>
+                            </div>
                         </div>
 
                         <div class="dummy-data-field">
                             <label for="dummy-participations">
                                 <span class="dummy-data-label">Participations</span>
-                                <span class="dummy-data-hint">Event Participations</span>
+                                <blockquote class="dummy-data-hint">Event Participations</blockquote>
                             </label>
 
-                            <input
+                            <div class="number-input">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepDown()">−</button>
+                                <input 
                                 type="number"
                                 id="dummy-participations"
                                 min="0"
                                 max="1000"
-                                value="32"
-                            >
+                                value="3">
+                                <button type="button" onclick="this.parentNode.querySelector('input').stepUp()">+</button>
+                            </div>
                         </div>
 
                     </div>
