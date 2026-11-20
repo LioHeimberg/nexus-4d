@@ -97,7 +97,7 @@ const App = {
             <circle cx="30" cy="30" r="85" fill="#ffffff" fill-opacity="0.1" />
             <circle cx="180" cy="180" r="60" fill="#000000" fill-opacity="0.08" />
             <circle cx="162" cy="38" r="8" fill="#ffffff" fill-opacity="0.85" />
-            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="'Outfit', sans-serif" font-weight="900" font-size="110" letter-spacing="5">${user.first_name.substring(0,1).toUpperCase()}<!--${user.last_name.substring(0,1).toUpperCase()}--></text>
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="'Outfit', sans-serif" font-weight="900" font-size="150" letter-spacing="5">${user.first_name.substring(0,1).toUpperCase()}<!--${user.last_name.substring(0,1).toUpperCase()}--></text>
             </svg>
         `;
 
